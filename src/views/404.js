@@ -15,13 +15,15 @@ export default class Error extends React.Component{
         })
     }
     render(){
+        const {errorMessage} = this.props
         return (
             <div>
                 <Typography
                     
                     >
                     <h1>
-                    Error !!! Login Failed
+                    Error !!! {errorMessage}
+                    
                     </h1>
                     </Typography>
                     <Button color = "inherit" onClick = {this.handleHome.bind(this)}>

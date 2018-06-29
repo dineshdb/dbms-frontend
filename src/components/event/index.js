@@ -42,6 +42,9 @@ class EventForm extends React.Component{
             
         }
     }
+        componentDidMount(){
+            
+        }
     
         
         handleEventName(event){
