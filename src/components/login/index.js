@@ -107,7 +107,13 @@ class LoginForm extends React.Component{
             {crossDomain: true})
             .then(response => {
                 if(response.data != ""){
-                localStorage.setItem(USER_TOKEN,JSON.stringify({isOnline: true,id: response.data.userId}))
+                localStorage.setItem(USER_TOKEN,JSON.stringify({
+                    isOnline: true,
+                    id: response.data.userId,
+                    userName: response.data.userName,
+                    userPassword: response.data.userPassword,
+                    userRole: response.data.userRole
+                }))
                 this.setState({
                     loginFailed: false
                 })

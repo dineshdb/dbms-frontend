@@ -1,6 +1,7 @@
 import React from 'react'
 import {withStyles} from '@material-ui/core/styles'
 import PropTypes from 'prop-types'
+import {Link } from 'react-router-dom'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import Paper from '@material-ui/core/Paper'
@@ -13,20 +14,20 @@ class SignUpForm extends React.Component{
     constructor(props){
         super(props)
         this.state={
-                firstName: "",
-                lastName: "",
+                userName: "",
+                organizerName: "",
                 email: "",
                 password: "",
                 phone: "",
                 address:"",
-                firstNameValid: true,
-                lastNameValid: true,
+                userNameValid: true,
+                organizerNameValid: true,
                 emailValid: true,
                 passwordValid: true,
                 phoneValid: true,
                 addressValid: true,
-                firstNameLabel: "First Name",
-                lastNameLabel: "Last Name",
+                userNameLabel: "Username",
+                organizerNameLabel: "Organizer Name",
                 emailLabel: "Email",
                 passwordLabel: "Password",
                 phoneLabel: "Phone",
@@ -39,24 +40,24 @@ class SignUpForm extends React.Component{
     
         validateSubmit(){
      
-            const {firstNameValid,lastNameValid,emailValid,passwordValid,phoneValid,addressValid} = this.state
-            return !(firstNameValid && lastNameValid && emailValid && passwordValid && phoneValid && addressValid)
+            const {userNameValid,organizerNameValid,emailValid,passwordValid,phoneValid,addressValid} = this.state
+            return !(userNameValid && organizerNameValid && emailValid && passwordValid && phoneValid && addressValid)
             
              
         }
-        handlefirstName(event){
+        handleUserName(event){
            
             this.setState({
-                firstName: event.target.value
+                userName: event.target.value
             })
-            this.validateFirstName()
+            this.validateUserName()
            
         }
-        handleLastName(event){
+        handleOrganizerName(event){
             this.setState({
-                lastName: event.target.value
+                organizerName: event.target.value
             })
-            this.validateLastName()
+            this.validateOrganizerName()
            
         }
         handleEmail(event){
@@ -87,33 +88,33 @@ class SignUpForm extends React.Component{
             this.validateAddress()
             
         }
-        validateFirstName(){
-            const {firstName} = this.state
-            if(firstName.length > 0){
+        validateUserName(){
+            const {userName} = this.state
+            if(userName.length > 0){
                 this.setState({
-                    firstNameValid: true,
-                    firstNameLabel: "First Name"
+                    userNameValid: true,
+                    userNameLabel: "Username"
                 })
             }
             else{
                 this.setState({
-                    firstNameValid: false,
-                    firstNameLabel: "Invalid"
+                    userNameValid: false,
+                    userNameLabel: "Invalid"
                 })
             }
         }
-        validateLastName(){
-            const {lastName} = this.state
-            if(lastName.length > 0){
+        validateOrganizerName(){
+            const {organizerName} = this.state
+            if(organizerName.length > 0){
                 this.setState({
-                    lastNameValid: true,
-                    lastNameLabel: "Last Name"
+                    organizerNameValid: true,
+                    organizerNameLabel: "Organizer Name"
                 })
             }
             else{
                 this.setState({
-                    lastNameValid: false,
-                    lastNameLabel: "Invalid"
+                    organizerNameValid: false,
+                    organizerNameLabel: "Invalid"
                 })
             }
         }
@@ -185,13 +186,18 @@ class SignUpForm extends React.Component{
        
        
         handleSubmit(event){
-           
-            console.log(this.state)
-            const userObject = this.state
-            this.props.dispatch(addUser(userObject))
             event.preventDefault()
-            axios.post('http://localhost:8080/users/'
-            ,{crossDomain: true})
+            const {userName,organizerName,password,email,phone,address} = this.state
+            const signUpObject = {
+                userName: userName,
+                organizerName: organizerName,
+                userPassword: password,
+                userEmail: email,
+                userPhone: phone,
+                userAddress: address
+            }
+            axios.post('http://localhost:8080/organizers/'
+            ,(signUpObject),{crossDomain: true})
             .then(response => {
                 console.log("The response got is ",response)
             })
@@ -211,29 +217,25 @@ class SignUpForm extends React.Component{
                     <form onSubmit={this.handleSubmit.bind(this)} style={{marginLeft:20,marginRight: 20,marginTop: 20,marginBottom: 20}}>
                     <div>
                     <TextField
-                            name="firstName"
                             margin="dense"
-                            id="firstName"
                             type="text"
-                            error={!this.state.firstNameValid}
-                            placeholder="First Name"
-                            label= {this.state.firstNameLabel}
-                            onChange={this.handlefirstName.bind(this)}
-                            onBlur = {this.validateFirstName.bind(this)}
-                            
+                            error={!this.state.userNameValid}
+                            placeholder="Username"
+                            label= {this.state.userNameLabel}
+                            onChange={this.handleUserName.bind(this)}
+                            onBlur = {this.validateUserName.bind(this)}
                             fullWidth
                         />
                         </div>
                         <div>
                     <TextField
-                            error={!this.state.lastNameValid}
+                            error={!this.state.organizerNameValid}
                             margin="dense"
-                            id="lastName"
                             type="text"
-                            placeholder="Last Name"
-                            label={this.state.lastNameLabel}
-                            onChange={this.handleLastName.bind(this)}
-                            onBlur = {this.validateLastName.bind(this)}
+                            placeholder="Organizer Name"
+                            label={this.state.organizerNameLabel}
+                            onChange={this.handleOrganizerName.bind(this)}
+                            onBlur = {this.validateOrganizerName.bind(this)}
                             fullWidth
                           
                         />
@@ -300,9 +302,16 @@ class SignUpForm extends React.Component{
                     
                     <Grid container spacing={24} style={{marginTop: 10}}
                         >
-                        <Grid item xs={9}>
+                        <Grid item xs={6}>
                         </Grid>
-                        <Button 
+                        <Grid item xs = {3}>
+                        <Link to = "/">
+                            <Button>
+                                Cancel
+                                </Button>
+                        </Link>
+                        </Grid>
+                        <Button
                         disabled = {this.validateSubmit()}
                         variant = "contained" 
                         type="submit" 

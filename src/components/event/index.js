@@ -12,6 +12,8 @@ import {connect} from 'react-redux'
 import axios from 'axios'
 import {USER_TOKEN} from '../../definitions/index'
 import {Redirect } from 'react-router-dom'
+import Calendar from '../calendar/index'
+import MultipleDatePicker from 'react-multiple-datepicker'
 
 const styles = theme => ({
     root: {
@@ -26,34 +28,39 @@ class EventForm extends React.Component{
         super(props)
         this.state={
           eventName: "",
-          category: [],
-          days: 0,
-          participants: 0,
-          eventNameValid: true,
-          categoryValid: true,
-          daysValid: true,
-          participantsvalid: true,
-          eventNameLabel: "Event Name",
-          categoryLabel: "Category",
-          daysLabel: "Days",
-          participantsLabel: "Participant",
-          submitValid: false
-
-            
+          eventDescription: "",
+          dates: [],
+          participants: "",
+          submit: false,
+          fireCalendar: false
         }
     }
-        componentDidMount(){
-            
-        }
-    
         
         handleEventName(event){
            
             this.setState({
                 eventName: event.target.value
             })
-           
+            console.log(this.state.dates,"dates")
         }
+        handleEventDescription(event){
+           
+            this.setState({
+                eventDescription: event.target.value
+            }) 
+        }
+       
+        handleDates(){
+
+        }
+        handleParticipants(event){
+           
+            this.setState({
+                participants: event.target.value
+            }) 
+        }
+        
+        
   
            
 
@@ -76,16 +83,26 @@ class EventForm extends React.Component{
                     <TextField
                             name="EventName"
                             margin="dense"
-                            id="EventName"
                             type="text"
-                            
                             placeholder="EventName"
-                            
-                            
-                            
+                            onChange={this.handleEventName.bind(this)}
                             fullWidth
                         />
                     </div>
+                    <div>
+                    <TextField
+                            name="Event Description"
+                            margin="dense"
+                            type="text"
+                            placeholder="Description"
+                            onChange={this.handleEventDescription.bind(this)}
+                            fullWidth
+                        />
+                    </div>
+                
+                    <MultipleDatePicker
+                        onSubmit={dates => console.log("selected dates",dates)}
+                    />
                    
                     </form> 
                     </Paper>

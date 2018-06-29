@@ -9,6 +9,7 @@ import {Redirect} from 'react-router-dom'
 import NewEvent from './views/newEvent'
 import PageNotFound from './views/404'
 import {USER_TOKEN} from './definitions/index'
+import AdminHome from './views/admin/index'
 
 class App extends React.Component {
     constructor(props){
@@ -25,8 +26,21 @@ class App extends React.Component {
                         if(!userToken){
                             return <PublicHome/>
                         }
+                        /* toDO
+                            ***
+                            If userToken is available, then parse the userToken
+                            to get the type of user.
+                            If the user is admin then render the admin home view
+                            else
+                            render the organiser view
+                        */
                         else{
-                            return <Home/>
+                            if(userToken.userRole = "ADMIN"){
+                                return <AdminHome/>
+                            }
+                            else{
+                                return <Home/>
+                            }
                         }
                     }
                 }
