@@ -189,6 +189,11 @@ class EventForm extends React.Component{
                     </div>
                     <div>
                         <br/>
+                        <br/>
+                    </div>
+                    <div>
+                    <Divider
+                    />
                     </div>
                     <Grid container spacing={24} style={{marginTop: 10}}
                         >

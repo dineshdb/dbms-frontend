@@ -10,6 +10,7 @@ import {connect} from 'react-redux'
 import {addUser} from './action'
 import axios from 'axios'
 import Typography from '@material-ui/core/Typography'
+import {Redirect} from 'react-router-dom'
 
 class SignUpForm extends React.Component{
     constructor(props){
@@ -33,7 +34,8 @@ class SignUpForm extends React.Component{
                 passwordLabel: "Password",
                 phoneLabel: "Phone",
                 addressLabel: "Address",
-                submitValid: false
+                submitValid: false,
+                triggerSubmit: false
 
             
         }
@@ -193,14 +195,17 @@ class SignUpForm extends React.Component{
                 userName: userName,
                 organizerName: organizerName,
                 userPassword: password,
-                userEmail: email,
-                userPhone: phone,
-                userAddress: address
+                organizerEmail: email,
+                organizerPhone: phone,
+                organizerAddress: address
             }
-            axios.post('http://localhost:8080/organizers/'
+            axios.post('http://localhost:8080/organizers'
             ,(signUpObject),{crossDomain: true})
             .then(response => {
                 console.log("The response got is ",response)
+            })
+            this.setState({
+                triggerSubmit: true
             })
             
 
@@ -346,6 +351,9 @@ class SignUpForm extends React.Component{
                     <Grid item xs={3}>
                     </Grid>
                     </Grid>  
+                    {
+                        this.state.triggerSubmit && <Redirect to = "/login" />
+                    }
                 </div>
 
             )

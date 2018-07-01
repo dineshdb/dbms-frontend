@@ -63,6 +63,31 @@ class App extends React.Component {
 
                         }
                     />
+                      <Route path = "/admin" exact strict render = {() => {
+
+                            return (
+                                <AdminHome/>
+                            )
+                      }
+                    
+                    }
+                    //      var userToken = JSON.parse(sessionStorage.getItem(USER_TOKEN))
+                    //     /***** 
+                    //         ****
+                    //         ***
+                    //         Hey watch out this !!!.. This is little bit naive. after the
+                    //         user has logged in, the userToken is not null .. 
+                    //     ****/
+                    //      if(!userToken){
+                    //         return <Login/>
+                    //     }
+                    //     else{
+                    //         return <Redirect to = "/" />
+                    //     }
+                    // }
+
+                    //     }
+                    />
                     <Route path = "/signup" exact strict render = {() => {
                         var userToken = JSON.parse(sessionStorage.getItem(USER_TOKEN))
                         if(!userToken){
