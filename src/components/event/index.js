@@ -9,12 +9,14 @@ import Typography from '@material-ui/core/Typography'
 import {withStyles} from '@material-ui/core/styles'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
 import axios from 'axios'
 import {USER_TOKEN} from '../../definitions/index'
 import {Redirect } from 'react-router-dom'
 import Calendar from '../calendar/index'
+import Divider from '@material-ui/core/Divider'
 import MultipleDatePicker from 'react-multiple-datepicker'
-
+import {DATES} from '../../definitions/index'
 const styles = theme => ({
     root: {
       ...theme.mixins.gutters(),
@@ -30,9 +32,10 @@ class EventForm extends React.Component{
           eventName: "",
           eventDescription: "",
           dates: [],
+          days: 0,
           participants: "",
           submit: false,
-          fireCalendar: false
+          fireCalendar: false,
         }
     }
         
@@ -41,7 +44,6 @@ class EventForm extends React.Component{
             this.setState({
                 eventName: event.target.value
             })
-            console.log(this.state.dates,"dates")
         }
         handleEventDescription(event){
            
@@ -49,15 +51,41 @@ class EventForm extends React.Component{
                 eventDescription: event.target.value
             }) 
         }
-       
-        handleDates(){
-
+        handleDays(event){
+            this.setState({
+                days: Number(event.target.value)
+            }
+            )
         }
+    
+           
         handleParticipants(event){
            
             this.setState({
                 participants: event.target.value
             }) 
+        }
+        handleSubmit(event){
+            event.preventDefault()
+            const {eventName,eventDescription,participants,dates} = this.state
+            var data = localStorage.getItem(DATES)
+            console.log("DATA",data)
+            if(data){
+                var temp = JSON.parse(data)
+                this.setState({
+                    dates: temp
+                })
+            }
+            if(eventName.length > 5 && eventDescription.length > 5 ){
+                var postingData = {
+                    eventName: eventName,
+                    eventDescription: eventDescription,
+                    expectedNumberOfParticipants: participants,
+                    dates: dates
+                }
+                console.log("POSITING DATA",postingData)
+            }
+           
         }
         
         
@@ -75,18 +103,20 @@ class EventForm extends React.Component{
                     <Grid item xs={5}>
                     <Paper className = {classes.root} elevation={6} square>
                     <Typography
-                        variant = "headline" component = "h3">
-                        Create Event
+                        variant = "display1" component = "h6">
+                        Create Event<br/><br/>
+
                         </Typography>
-                    <form  >
+                    <form  onSubmit={this.handleSubmit.bind(this)}>
                     <div>
                     <TextField
                             name="EventName"
                             margin="dense"
                             type="text"
-                            placeholder="EventName"
+                            placeholder="Event Name"
                             onChange={this.handleEventName.bind(this)}
                             fullWidth
+                            label="Event Name"
                         />
                     </div>
                     <div>
@@ -97,23 +127,119 @@ class EventForm extends React.Component{
                             placeholder="Description"
                             onChange={this.handleEventDescription.bind(this)}
                             fullWidth
+                            label="Description"
+                        />
+                    </div>
+                    <div>
+                    <TextField
+                            name="Participants"
+                            margin="dense"
+                            type="text"
+                            placeholder="Participants"
+                            onChange={this.handleParticipants.bind(this)}
+                            fullWidth
+                            label="Participants"
+                        />
+                    </div>
+                    <div>
+                    <TextField
+                            name="Total Days"
+                            margin="dense"
+                            type="text"
+                            placeholder="Total Days"
+                            onChange={this.handleDays.bind(this)}
+                            fullWidth
+                            label="Total days"
                         />
                     </div>
                 
-                    <MultipleDatePicker
-                        onSubmit={dates => console.log("selected dates",dates)}
+            
+                    <div>
+                        <br/>
+                    </div>
+                    <Grid container spacing = {24}>
+                    <Grid item xs = {7}>
+                     <Typography
+                        variant = "button" component = "h7">
+                        Date And Time
+                        </Typography>
+                    </Grid>
+                    
+                    <Grid item xs = {3}>
+                        <Typography
+                        variant = "button" component = "h7">
+                        Duration
+                        </Typography>
+                    </Grid>
+                    <Grid item xs = {2}>
+                        <Typography
+                            variant = "caption"
+                            >
+                            (in hr)</Typography>
+                    </Grid>
+                    
+                    </Grid>
+                    <div>
+                        <br/>
+                    </div>
+                    <Divider
                     />
-                   
+                    <div style = {{marginTop: 20}}>
+                    <Calendar days = {this.state.days} />
+                    </div>
+                    <div>
+                        <br/>
+                    </div>
+                    <Grid container spacing={24} style={{marginTop: 10}}
+                        >
+                        <Grid item xs={5}>
+                        </Grid>
+                        <Grid item xs = {3}>
+                            <Link to = "/">
+                            <Button  
+                            type="cancel" 
+                            color="inherit" 
+                        
+                            style = {{marginBottom: 15,marginTop: 5}}
+            
+                            >
+                            Cancel
+                            
+                            </Button>
+                            </Link>
+                       
+                        </Grid>
+                        <Grid item xs={4}>
+                            <Button 
+                            variant = "contained" 
+                            type="submit" 
+                            color="inherit" 
+                        
+                            style = {{marginBottom: 15,marginTop: 5}}
+            
+                            >
+                            Submit
+                            
+                            </Button>
+                        
+                        <Grid>
+                    </Grid>
+                </Grid>
+                </Grid>
                     </form> 
+                   
+               
                     </Paper>
                     </Grid>
                     <Grid item xs={3}>
                     </Grid>
+                    
                     </Grid>  
                 
                 {this.state.fireRedirect && (
                     <Redirect to = "/" />
                 )}
+               
                 </div>
 
             )

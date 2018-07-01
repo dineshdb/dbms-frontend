@@ -14,8 +14,10 @@ import {Redirect} from 'react-router-dom'
 
 
 const styles = {
+
     root: {
         flexGrow: 1,
+        backgroundColor: "#5b5a42"
     },
     flex: {
         flex: 1,
@@ -81,7 +83,7 @@ class HomeBar extends React.Component {
                     {
                     (this.state.fireHome) && (<Redirect to = "/" />)
                      }
-                    <AppBar position="static">
+                    <AppBar position="static" className={classes.root}>
                         <Toolbar>
                             <Grid container spacing = {24}>
                                 <Grid item xs={1}>
@@ -97,7 +99,10 @@ class HomeBar extends React.Component {
                                 </Grid>
                                 <Grid item xs={1}>
                                 <Link to="/signup" className={classes.pad}>
-                                    <Button color="inherit">
+                                    <Button 
+                                    color="inherit"
+                                    variant="contained"
+                                    >
                                     SignUp
                                     </Button>
                                 </Link>

@@ -17,6 +17,7 @@ const styles = theme => ({
       ...theme.mixins.gutters(),
       paddingTop: theme.spacing.unit * 2,
       paddingBottom: theme.spacing.unit * 2,
+      
     },
   });
 
@@ -151,11 +152,19 @@ class LoginForm extends React.Component{
                     <Grid item xs={4}>
                     </Grid>
                     <Grid item xs={5}>
-                    <Paper className = {classes.root} elevation={6} square>
-                    <Typography
-                        variant = "headline" component = "h3">
-                        Login
-                        </Typography>
+                    <Paper 
+                    className = {classes.root} 
+                    elevation={6} 
+                    square>
+                    <br/>
+                    <Typography 
+                        align="center"
+                        variant = "display1"
+                        
+                    >
+                    Login 
+                    </Typography>
+                    <br/>
                     <form onSubmit={this.handleSubmit.bind(this)} >
                     <div>
                     <TextField

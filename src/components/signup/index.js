@@ -9,6 +9,7 @@ import TextField from '@material-ui/core/TextField'
 import {connect} from 'react-redux'
 import {addUser} from './action'
 import axios from 'axios'
+import Typography from '@material-ui/core/Typography'
 
 class SignUpForm extends React.Component{
     constructor(props){
@@ -210,10 +211,25 @@ class SignUpForm extends React.Component{
             return(
                 <div style={{marginTop: 40}}>
                     <Grid container spacing = {24}>
-                    <Grid item xs={4}>
+                    <Grid item xs={3}>
                     </Grid>
-                    <Grid item xs={5}>
+                    <Grid item xs={6}>
                     <Paper elevation={6} square>
+                    <br/>
+                    <Typography 
+                        align="center"
+                        variant = "display1"
+                    >
+                    Welcome To ICT 
+                    </Typography>
+                   
+                    <Typography 
+                        align="center"
+                        variant = "body1"
+                        
+                    >
+                    Create your id to register event 
+                    </Typography>
                     <form onSubmit={this.handleSubmit.bind(this)} style={{marginLeft:20,marginRight: 20,marginTop: 20,marginBottom: 20}}>
                     <div>
                     <TextField
