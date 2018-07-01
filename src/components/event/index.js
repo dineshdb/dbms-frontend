@@ -166,16 +166,10 @@ class EventForm extends React.Component{
                     </Grid>
                     
                     <Grid item xs = {3}>
-                        <Typography
-                        variant = "button" component = "h7">
-                        Duration
-                        </Typography>
+                       
                     </Grid>
                     <Grid item xs = {2}>
-                        <Typography
-                            variant = "caption"
-                            >
-                            (in hr)</Typography>
+                      
                     </Grid>
                     
                     </Grid>

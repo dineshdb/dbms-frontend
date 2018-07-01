@@ -1,14 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {withStyles} from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Button from '@material-ui/core/Button';
+import React from 'react'
+import PropTypes from 'prop-types'
+import {withStyles} from '@material-ui/core/styles'
+import AppBar from '@material-ui/core/AppBar'
+import Toolbar from '@material-ui/core/Toolbar'
+import Button from '@material-ui/core/Button'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import Grid from '@material-ui/core/Grid'
 import {USER_TOKEN} from '../../definitions/index'
 import {Redirect} from 'react-router-dom'
+
 
 
 
@@ -39,7 +40,8 @@ class HomeBar extends React.Component {
         this.state = {
             isOnline: false,
             userId: "",
-            fireHome: false
+            fireHome: false,
+            userName: ""
         }
     }
     componentDidMount(){
@@ -48,7 +50,8 @@ class HomeBar extends React.Component {
         if(userToken){
             this.setState({
                 isOnline: userToken.isOnline,
-                userId: userToken.id
+                userId: userToken.id,
+                userName: userToken.userName
             })
         }
 
@@ -128,7 +131,7 @@ class HomeBar extends React.Component {
            
             return (
                 <div >
-                    <AppBar position="static">
+                    <AppBar position="static" className={classes.root}>
                         <Toolbar>
                             <Grid container spacing = {24} spacing={40}>
                                 <Grid item xs={1}>
@@ -142,13 +145,20 @@ class HomeBar extends React.Component {
                                 <Grid item xs={8}>
                                
                                 </Grid>
-                                <Grid item xs={3}>
+                                <Grid item xs={1}>
                                 
                                     <Button color="inherit" onClick={this.handleLogOut.bind(this)}>
                                     LogOut
                                     </Button>
                                
                                 </Grid>
+                                <Grid item xs={1}>
+                                
+                                <Button color="inherit">
+                                    {this.state.userName}
+                                </Button>
+                           
+                            </Grid>
                             
                                 </Grid>
                                

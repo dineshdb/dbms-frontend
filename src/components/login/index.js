@@ -19,7 +19,44 @@ const styles = theme => ({
       paddingBottom: theme.spacing.unit * 2,
       
     },
-  });
+    bootstrapRoot: {
+        padding: 0,
+        'label + &': {
+        marginTop: theme.spacing.unit * 3,
+        },
+    },
+    bootstrapInput: {
+        borderRadius: 4,
+        backgroundColor: theme.palette.common.white,
+        border: '1px solid #ced4da',
+        fontSize: 16,
+        padding: '10px 12px',
+        width: 'calc(100% - 24px)',
+        transition: theme.transitions.create(['border-color', 'box-shadow']),
+        fontFamily: [
+        '-apple-system',
+        'BlinkMacSystemFont',
+        '"Segoe UI"',
+        'Roboto',
+        '"Helvetica Neue"',
+        'Arial',
+        'sans-serif',
+        '"Apple Color Emoji"',
+        '"Segoe UI Emoji"',
+        '"Segoe UI Symbol"',
+        ].join(','),
+        '&:focus': {
+        borderColor: '#80bdff',
+        boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
+        },
+    },
+    bootstrapFormLabel: {
+        fontSize: 18,
+        color: "white"
+    },
+    });
+
+
 
 class LoginForm extends React.Component{
     constructor(props){
@@ -107,8 +144,9 @@ class LoginForm extends React.Component{
             ,(postingData),
             {crossDomain: true})
             .then(response => {
-                if(response.data != ""){
-                localStorage.setItem(USER_TOKEN,JSON.stringify({
+                if(response.data.responseCode != "404"){
+                    console.log("HEY USER",response.data)
+                    localStorage.setItem(USER_TOKEN,JSON.stringify({
                     isOnline: true,
                     id: response.data.userId,
                     userName: response.data.userName,
@@ -147,38 +185,67 @@ class LoginForm extends React.Component{
         render(){
             const {classes} = this.props
             return(
-                <div style={{marginTop: 40, marginBottom: 40}}>
+                <div style={{marginTop: 40, marginBottom: 40, marginRight: 20, marginLeft: 20}}>
+                    <br/>
+                    <br/>
+
+                   
                     <Grid container spacing = {24}>
-                    <Grid item xs={4}>
+                    <Grid item xs={8}>
                     </Grid>
-                    <Grid item xs={5}>
-                    <Paper 
-                    className = {classes.root} 
-                    elevation={6} 
-                    square>
+                    <Grid item xs={4}>
                     <br/>
                     <Typography 
                         align="center"
-                        variant = "display1"
-                        
-                    >
-                    Login 
+                        variant="display2"
+                        style={{color: "white",fontSize: "30"}}
+                        >
+                        Welcome to ICT
                     </Typography>
                     <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    
+                    <br/>
+                    <Typography 
+                        align="center"
+                        style={{color: "white",fontSize: "20px"}}
+                        
+                        >
+                        Login with your <b>ICT ID</b>
+                    </Typography>
+                    <br/>
+                   
                     <form onSubmit={this.handleSubmit.bind(this)} >
                     <div>
                     <TextField
+                            style={{color: "white"}}
                             name="UserName"
                             margin="dense"
                             id="UserName"
                             type="text"
                             error={!this.state.userNameValid}
                             placeholder="Username"
-                            label= {this.state.userNameLabel}
                             onChange={this.handleUserName.bind(this)}
                             onBlur = {this.validateUserName.bind(this)}
                             
                             fullWidth
+                            InputProps={{
+                                disableUnderline: true,
+                                classes: {
+                                  root: classes.bootstrapRoot,
+                                  input: classes.bootstrapInput,
+                                },
+                              }}
+                              InputLabelProps={{
+                                shrink: true,
+                                className: classes.bootstrapFormLabel,
+                              }}
                         />
                     </div>
                     <div>
@@ -188,18 +255,30 @@ class LoginForm extends React.Component{
                             id="Password"
                             type="password"
                             placeholder="Password"
-                            label={this.state.userPasswordLabel}
                             onChange={this.handleUserPassword.bind(this)}
                             onBlur = {this.validateUserPassword.bind(this)}
                             fullWidth
+                            InputProps={{
+                                disableUnderline: true,
+                                classes: {
+                                  root: classes.bootstrapRoot,
+                                  input: classes.bootstrapInput,
+                                },
+                              }}
+                              InputLabelProps={{
+                                shrink: true,
+                                className: classes.bootstrapFormLabel,
+                              }}
                           
                         />
                     </div>    
                     <Grid container spacing={24} style={{marginTop: 10}}
                         >
-                        <Grid item xs={9}>
+                        <Grid item xs={8}>
                         </Grid>
+                       <Grid item xs = {4}>
                         <Button 
+
                         disabled = {!this.validateSubmit.bind(this)}
                         variant = "contained" 
                         type="submit" 
@@ -210,14 +289,12 @@ class LoginForm extends React.Component{
                         Login
                         
                         </Button>
-                       
+                       </Grid>
 
                     </Grid>
                 
                     </form> 
-                    </Paper>
-                    </Grid>
-                    <Grid item xs={3}>
+                   
                     </Grid>
                     </Grid>  
                 
@@ -234,7 +311,7 @@ class LoginForm extends React.Component{
     
 }
 LoginForm.propTypes = {
-    classes: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired
   };
   
   function mapStateToProps(state){

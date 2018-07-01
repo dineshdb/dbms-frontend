@@ -22,7 +22,8 @@ class App extends React.Component {
             <Router>
                 <div >
                     <Route path = "/" exact strict render = {() => {
-                        var userToken = JSON.parse(sessionStorage.getItem(USER_TOKEN))
+                        var userToken = JSON.parse(localStorage.getItem(USER_TOKEN))
+                        console.log("User token is ",userToken)
                         if(!userToken){
                             return <PublicHome/>
                         }
@@ -35,10 +36,11 @@ class App extends React.Component {
                             render the organiser view
                         */
                         else{
-                            if(userToken.userRole = "ADMIN"){
-                                return <AdminHome/>
+                            if(userToken.userRole = "ORG"){
+                                return <Home/>
                             }
                             else{
+                                console.log("In home")
                                 return <Home/>
                             }
                         }
@@ -46,13 +48,7 @@ class App extends React.Component {
                 }
                     />
                     <Route path = "/login" exact strict render = {() => {
-                         var userToken = JSON.parse(sessionStorage.getItem(USER_TOKEN))
-                        /***** 
-                            ****
-                            ***
-                            Hey watch out this !!!.. This is little bit naive. after the
-                            user has logged in, the userToken is not null .. 
-                        ****/
+                         var userToken = JSON.parse(localStorage.getItem(USER_TOKEN))
                          if(!userToken){
                             return <Login/>
                         }
@@ -89,7 +85,7 @@ class App extends React.Component {
                     //     }
                     />
                     <Route path = "/signup" exact strict render = {() => {
-                        var userToken = JSON.parse(sessionStorage.getItem(USER_TOKEN))
+                        var userToken = JSON.parse(localStorage.getItem(USER_TOKEN))
                         if(!userToken){
                             return <SignUp/>
                         }
@@ -103,7 +99,7 @@ class App extends React.Component {
                     <Route path = "/error" exact strict render = {() => <PageNotFound errorMessage = "Invalid page" />}
                     />
                     <Route path = "/newEvent" render = {() => {
-                        var userToken = JSON.parse(sessionStorage.getItem(USER_TOKEN))
+                        var userToken = JSON.parse(localStorage.getItem(USER_TOKEN))
                         /*
                                 *****
                                 The user can create new event only after getting logged in.

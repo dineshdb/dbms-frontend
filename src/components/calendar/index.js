@@ -5,7 +5,26 @@ import {DATES} from '../../definitions/index'
 import 'react-datepicker/dist/react-datepicker.css';
 import TextField from '@material-ui/core/TextField'
 import Grid from '@material-ui/core/Grid'
-import Typography from '@material-ui/core/Typography'
+import { bindActionCreators } from 'redux';
+import Button from '@material-ui/core/Button'
+import Dialog from '@material-ui/core/Dialog';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItem from '@material-ui/core/ListItem';
+import List from '@material-ui/core/List';
+import Divider from '@material-ui/core/Divider';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
+import CloseIcon from '@material-ui/icons/Close';
+import Slide from '@material-ui/core/Slide';
+import Rooms from '../event/dateInfo'
+import {ROOMS} from '../../definitions/index'
+
+function Transition(props) {
+  return <Slide direction="up" {...props} />;
+}
+var newDates = []
 
 class Calendar extends React.Component {
   constructor (props) {
@@ -14,19 +33,18 @@ class Calendar extends React.Component {
       date: moment(),
       dates: [],
       duration: [],
-      chosenDates: []
-  
+      chosenDates: [],
+      dialogOpen: false,
+      count: 0,
+     
     };
   }
-  componentDidMount(){
-    var temp = []
-
-  
-  }
+ 
 
   handleFinal(){
-    console.log("HELLO")
+      console.log("HELLO")
     console.log(this.state.duration)
+    
     const {dates,duration} = this.state
     var temp = []
     dates.map((date,i)=>{
@@ -35,27 +53,46 @@ class Calendar extends React.Component {
       var month = date.getMonth()
       var day = date.getDate()
       var startTime = date.getHours()
-      temp.push({
+      console.log("HELLO buddy",newDates[i])
+      if(newDates[i] !== undefined){
+        temp.push({
           year: year,
           month: month,
           day: day,
-          startTime: startTime,
-          endTime: startTime+duration[i]
+          timeSlots: newDates[i].chosenTimeSlots,
+          totalCost: newDates[i].totalCost
+        })
+        console.log(temp)
+        localStorage.setItem(DATES,JSON.stringify(temp))
+      }
+      console.log("HELLO temp",temp)
+     
+
           
       }
       )
+    
+   
+    }
+    
+  handleClose = () =>{
+    var temp = JSON.parse(localStorage.getItem(ROOMS))
+    if(temp){
+      newDates.push(temp)
+      localStorage.removeItem(ROOMS)
+    }
+    
+    this.setState({
+      dialogOpen: false
     })
-    console.log(temp)
-    localStorage.setItem(DATES,JSON.stringify(temp))
-  }
-
+   }
   render() {
       var dateComponents = []
       for(var i=0;i< this.props.days;i++){
             
         dateComponents.push(i)
       }
-
+     
       
     
     return <div>
@@ -70,40 +107,58 @@ class Calendar extends React.Component {
                       style = {{marginTop: "50"}}
                       selected={this.state.dates[i]}
                       onChange={(date)=>{
+                      
+                      this.setState({
+                        dialogOpen: true,
+                        count: this.state.count+1
+                        
+                      })
                        var temp = this.state.dates
                        temp[i] = date
                        this.setState({
                          dates: temp
                        })
-
+            
                      }}
-                      showTimeSelect
-                      
-                      timeFormat="HH:mm"
                       dateFormat="LLL"
-                      timeIntervals={60}
-                      timeCaption="time"
-                      placeholderText="Select date and time"
+                      placeholderText="Select date"
                   />  
                   </Grid>
+                 
+                  <Dialog
+                    fullScreen
+                    open={this.state.dialogOpen}
+                    onClose={this.handleClose}
+                    TransitionComponent={Transition}
+                  >
+                     <AppBar>
+                      <Toolbar>
+                        <IconButton color="inherit" onClick={this.handleClose} aria-label="Close">
+                          <CloseIcon />
+                        </IconButton>
+                        <Button 
+                        variant="contained"
+                        onClick={this.handleClose}
+                        >
+                        Save
+                        </Button>
+                        
+                      </Toolbar>
+                    </AppBar>
+                    <br/>
+                    <br/>
+                    <Rooms/>
+                    
+                  </Dialog>
+                    
                   <Grid item xs = {4}>
-                  <TextField
-                      fullWidth
-                      onChange = {
-                        (event)=>{
-                          var temp = this.state.duration
-                          temp[i] = Number(event.target.value)
-                          this.setState({
-                            duration: temp
-                          })
-                          
-                        }
-                      }
-                    />
+                  
                     </Grid>
                     </Grid>
+                    
                     {
-                      this.handleFinal()
+                      (this.state.count === this.props.days) && (this.handleFinal())
+                      
                     }
              </div>
           })}

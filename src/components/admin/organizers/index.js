@@ -65,18 +65,19 @@ class Organizers extends React.Component {
     componentDidMount(){
        const temp = []
        for(var i=0;i<5;i++){
-           temp[i] = organizers[i]
+           temp.push(organizers[i])
        }
        this.setState({
            users: temp
        })
     }
     fetchData(index){
+        index = Number(index)
         const temp = []
-        var count = 0
-       for(var i=index;i<(5+index);i++){
-           temp[count] = organizers[i]
-           count+=1
+        
+       for(var i=5*index;i<5*(index+1);i++){
+           temp.push(organizers[i])
+         
        }
        this.setState({
            users: temp
@@ -116,9 +117,9 @@ class Organizers extends React.Component {
                 })}
                 </TableBody>
             </Table>
-            {/* <Button onClick = {this.fetchData(1)}>
+             {/* <Button onClick = {this.fetchData(1)}>
             Next
-            </Button> */}
+            </Button>  */}
             </Paper>
         );
     }
