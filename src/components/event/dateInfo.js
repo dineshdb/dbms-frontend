@@ -16,6 +16,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import {ROOMS} from '../../definitions/index'
 
+
 const styles = theme => ({
   root: {
     width: '100%',
@@ -165,7 +166,9 @@ class Rooms extends React.Component {
             <Paper className={classes.root}
             
             >
-            Done
+            <Typography 
+              variant="display1"
+              >Done</Typography>
             <Checkbox onChange={this.handleSave.bind(this)}>
               
               </Checkbox>

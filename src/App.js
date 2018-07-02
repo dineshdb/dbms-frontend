@@ -108,13 +108,14 @@ class App extends React.Component {
                                 *****
                         */
 
-                        const login = true
-                        if(login){
+                        console.log("USER",userToken)
+                        if(userToken !== null){
                             return <NewEvent/>
                         }
-                        // if(userToken === null){
-                        //     return <Redirect to = "/error" />
-                        // }
+                        else{
+                            return <PageNotFound errorMessage="Must Be Logged In"/>
+                        }
+                        
                     }
 
                         }

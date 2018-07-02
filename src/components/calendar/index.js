@@ -120,7 +120,7 @@ class Calendar extends React.Component {
                        })
             
                      }}
-                      dateFormat="LLL"
+                      dateFormat="LL"
                       placeholderText="Select date"
                   />  
                   </Grid>
@@ -131,7 +131,7 @@ class Calendar extends React.Component {
                     onClose={this.handleClose}
                     TransitionComponent={Transition}
                   >
-                     <AppBar>
+                     <AppBar style={{backgroundColor: "#5b5a42"}}>
                       <Toolbar>
                         <IconButton color="inherit" onClick={this.handleClose} aria-label="Close">
                           <CloseIcon />

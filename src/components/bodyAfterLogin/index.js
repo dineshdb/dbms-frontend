@@ -6,6 +6,8 @@ import EventForm from '../event/index';
 import {Link } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
 import {STYLES} from '../../definitions/index'
+import Grid from '@material-ui/core/Grid'
+import Typography from '@material-ui/core/Typography'
 
 class Body extends React.Component{
     constructor(props){
@@ -26,6 +28,18 @@ class Body extends React.Component{
         if(!this.state.createEventButton){
             return (
                     <div>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                    <Grid container spacing={24}>
+                    <Grid item xs={8}>
+                   
+                    </Grid>
+                    <Grid item xs={4}>
                     <Link to = "/newEvent">
                         <Button 
                         variant = "contained" 
@@ -36,6 +50,10 @@ class Body extends React.Component{
                         Create New Event
                     </Button>
                     </Link>
+                    </Grid>
+                    <Grid item xs={0}>
+                    </Grid>
+                    </Grid>
                    
 
                 </div>

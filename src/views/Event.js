@@ -11,7 +11,7 @@ class Event extends React.Component
                
             <HomeBar/>
             <NewEvent/>
-            <Footer/>
+            <Footer style={{sticky: bottom}}/>
             </div>
             )
 }

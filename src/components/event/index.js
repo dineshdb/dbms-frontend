@@ -69,21 +69,26 @@ class EventForm extends React.Component{
             event.preventDefault()
             const {eventName,eventDescription,participants,dates} = this.state
             var data = localStorage.getItem(DATES)
-            console.log("DATA",data)
             if(data){
                 var temp = JSON.parse(data)
                 this.setState({
                     dates: temp
                 })
             }
-            if(eventName.length > 5 && eventDescription.length > 5 ){
+            if(eventName.length > 0 && eventDescription.length > 0 ){
                 var postingData = {
                     eventName: eventName,
                     eventDescription: eventDescription,
                     expectedNumberOfParticipants: participants,
                     dates: dates
                 }
-                console.log("POSITING DATA",postingData)
+                /*
+                axios.post('localhost:8080/events)
+                */
+               this.setState({
+                   fireRedirect: true
+               })
+                
             }
            
         }
