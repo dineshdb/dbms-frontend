@@ -13,6 +13,7 @@ import Typography from '@material-ui/core/Typography'
 import Clear from '@material-ui/icons/Clear'
 import Check from '@material-ui/icons/Check'
 import axios from 'axios'
+import {Redirect } from 'react-router-dom'
 
 const styles = theme => ({
   root: {
@@ -50,12 +51,15 @@ class Events extends React.Component {
     constructor(props){
         super(props)
         this.state={
-            events: []
+            events: [],
+            refresh: false
         }
     }
     componentDidMount(){
 
-      
+        this.setState({
+            refresh: false
+        })
         axios.get('http://localhost:8080/events',{crossDomain:true})
         .then(response => {
             this.setState({
@@ -64,6 +68,18 @@ class Events extends React.Component {
         }
 
         )
+    }
+    handleApprove = (id) => {
+        axios.put(`http://localhost:8080/events/$(id)`,{crossDomain: true})
+        this.setState({
+            Redirect: true
+        })
+    }
+    handleDecline = (id) => {
+        axios.put('http://localhost:8080/events/id',{crossDomain: true})
+        this.setState({
+            Redirect: true
+        })
     }
 
   
@@ -109,11 +125,13 @@ class Events extends React.Component {
                                 <Grid item xs={6}>
                                     <IconButton variant="contained" style={{
                                         
-                                        }}  ><Check/></IconButton>
+                                        }}
+                                        onClick={this.handleApprove(n.eventId)}  ><Check/></IconButton>
                                 </Grid>
                                 
                                 <Grid item xs= {6}>
-                                    <IconButton variant="contained" color="secondary"  ><Clear/></IconButton>
+                                    <IconButton variant="contained" color="secondary"  >
+                                    <Clear/></IconButton>
                                 </Grid>
                               
                                 </Grid>
@@ -145,6 +163,9 @@ class Events extends React.Component {
             Next
             </Button>  */}
             </Paper>
+            {
+                this.state.refresh && (<Redirect to="/" />)
+            }
             </div>
         );
     }
