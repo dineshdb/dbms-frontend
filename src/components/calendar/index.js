@@ -131,7 +131,7 @@ class Calendar extends React.Component {
                     onClose={this.handleClose}
                     TransitionComponent={Transition}
                   >
-                     <AppBar style={{backgroundColor: "#5b5a42"}}>
+                     <AppBar style={{backgroundColor: "#b4ce84"}}>
                       <Toolbar>
                         <IconButton color="inherit" onClick={this.handleClose} aria-label="Close">
                           <CloseIcon />

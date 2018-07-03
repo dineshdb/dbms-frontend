@@ -36,12 +36,12 @@ class App extends React.Component {
                             render the organiser view
                         */
                         else{
-                            if(userToken.userRole = "ORG"){
+                            if(userToken.userRole == "ORG"){
                                 return <Home/>
                             }
-                            else{
+                            if(userToken.userRole == "ADMIN"){
                                 console.log("In home")
-                                return <Home/>
+                                return <AdminHome/>
                             }
                         }
                     }

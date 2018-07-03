@@ -153,6 +153,7 @@ class LoginForm extends React.Component{
                     userPassword: response.data.userPassword,
                     userRole: response.data.userRole
                 }))
+                
                 this.setState({
                     loginFailed: false
                 })

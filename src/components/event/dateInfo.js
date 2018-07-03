@@ -22,7 +22,7 @@ const styles = theme => ({
     width: '100%',
     marginTop: theme.spacing.unit * 3,
     overflowX: 'auto',
-    color: "#5b5a42"
+    
   },
   table: {
     minWidth: 700,
@@ -161,7 +161,7 @@ class Rooms extends React.Component {
     "4.00 P.M - 5:00 P.M"
   ]
         return (
-          <div style={{color: "#5b5a42"}}>
+          <div>
             
             <Paper className={classes.root}
             
