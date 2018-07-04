@@ -145,7 +145,7 @@ class LoginForm extends React.Component{
             {crossDomain: true})
             .then(response => {
                 if(response.data.responseCode != "404"){
-                    console.log("HEY USER",response.data)
+                   
                     localStorage.setItem(USER_TOKEN,JSON.stringify({
                     isOnline: true,
                     id: response.data.userId,

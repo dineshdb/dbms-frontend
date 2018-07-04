@@ -202,7 +202,7 @@ class SignUpForm extends React.Component{
             axios.post('http://localhost:8080/organizers'
             ,(signUpObject),{crossDomain: true})
             .then(response => {
-                console.log("The response got is ",response)
+        
             })
             this.setState({
                 triggerSubmit: true

@@ -1,9 +1,8 @@
 import React from 'react'
 import HomeBar from '../../components/appBar/index'
-import Organizers from '../../components/admin/organizers/index'
-import Events from '../../components/admin/events/index'
+import Renderer from '../../components/newUserDetails'
+import Body from '../../components/admin/index'
 import Footer from '../../components/footer/index'
-
 class Home extends React.Component
 {
     
@@ -11,25 +10,27 @@ class Home extends React.Component
         return (
             <div>
             <HomeBar/>
-           
-            <Events/>
+            <Body/>
+            <Renderer/>
             <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-
-           {/*
-           Here should be the admin panel components
-           */}
-           <Footer/>
-
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <Footer/>
+        
         
             </div>
             )

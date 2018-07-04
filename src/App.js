@@ -10,6 +10,8 @@ import NewEvent from './views/newEvent'
 import PageNotFound from './views/404'
 import {USER_TOKEN} from './definitions/index'
 import AdminHome from './views/admin/index'
+import Events from './views/admin/events'
+import Organizers from './views/admin/users'
 
 class App extends React.Component {
     constructor(props){
@@ -27,14 +29,7 @@ class App extends React.Component {
                         if(!userToken){
                             return <PublicHome/>
                         }
-                        /* toDO
-                            ***
-                            If userToken is available, then parse the userToken
-                            to get the type of user.
-                            If the user is admin then render the admin home view
-                            else
-                            render the organiser view
-                        */
+                       
                         else{
                             if(userToken.userRole == "ORG"){
                                 return <Home/>
@@ -67,22 +62,7 @@ class App extends React.Component {
                       }
                     
                     }
-                    //      var userToken = JSON.parse(sessionStorage.getItem(USER_TOKEN))
-                    //     /***** 
-                    //         ****
-                    //         ***
-                    //         Hey watch out this !!!.. This is little bit naive. after the
-                    //         user has logged in, the userToken is not null .. 
-                    //     ****/
-                    //      if(!userToken){
-                    //         return <Login/>
-                    //     }
-                    //     else{
-                    //         return <Redirect to = "/" />
-                    //     }
-                    // }
-
-                    //     }
+                
                     />
                     <Route path = "/signup" exact strict render = {() => {
                         var userToken = JSON.parse(localStorage.getItem(USER_TOKEN))
@@ -100,26 +80,74 @@ class App extends React.Component {
                     />
                     <Route path = "/newEvent" render = {() => {
                         var userToken = JSON.parse(localStorage.getItem(USER_TOKEN))
-                        /*
-                                *****
-                                The user can create new event only after getting logged in.
-                                so down the code, the login = true should be overwritten by userToken 
-                                if token is successful then newevent is created.
-                                *****
-                        */
-
-                        console.log("USER",userToken)
-                        if(userToken !== null){
-                            return <NewEvent/>
+                        if(!userToken){
+                            return <PublicHome/>
                         }
+                       
                         else{
-                            return <PageNotFound errorMessage="Must Be Logged In"/>
+                            if(userToken.userRole == "ORG"){
+                                return <NewEvent/>
+                            }
+                            if(userToken.userRole == "ADMIN"){
+                                console.log("In home")
+                                return  <Redirect to = "/" /> 
+                                                         
+                             }
                         }
-                        
-                    }
 
+                        }} />
+                         <Route path = "/showEvents" render = {() => {
+                        var userToken = JSON.parse(localStorage.getItem(USER_TOKEN))
+                        if(!userToken){
+                            return <PublicHome/>
                         }
-                    />
+                       
+                        else{
+                            if(userToken.userRole == "ORG"){
+                                return <Events/>
+                            }
+                            if(userToken.userRole == "ADMIN"){
+                                console.log("In home")
+                                return  <Redirect to = "/" /> 
+                                                         
+                             }
+                        }
+
+                        }} />
+                          <Route path = "/organizers" render = {() => {
+                        var userToken = JSON.parse(localStorage.getItem(USER_TOKEN))
+                        if(!userToken){
+                            return <PublicHome/>
+                        }
+                       
+                        else{
+                            if(userToken.userRole == "ORG"){
+                                return <PublicHome/>
+                            }
+                            if(userToken.userRole == "ADMIN"){
+                                return <Organizers/>
+                                                         
+                             }
+                        }
+
+                        }} />
+                         <Route path = "/events" render = {() => {
+                        var userToken = JSON.parse(localStorage.getItem(USER_TOKEN))
+                        if(!userToken){
+                            return <PublicHome/>
+                        }
+                       
+                        else{
+                            if(userToken.userRole == "ORG"){
+                                return <PublicHome/>
+                            }
+                            if(userToken.userRole == "ADMIN"){
+                                return <Events/>
+                                                         
+                             }
+                        }
+
+                        }} />
 
                      
                     

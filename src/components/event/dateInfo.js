@@ -9,12 +9,15 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button'
 import Checkbox from '@material-ui/core/Checkbox';
-import Typography from '@material-ui/core/Typography'
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import {ROOMS} from '../../definitions/index'
+import Typography from '@material-ui/core/Typography'
+import Tooltip from '@material-ui/core/Tooltip'
+
+import axios from 'axios'
 
 
 const styles = theme => ({
@@ -40,91 +43,104 @@ class Rooms extends React.Component {
             chosenTimeSlots: [],
             description: [],
             total: 0,
-            costs: []
+            costs: [],
+            rooms:[],
+            names: [],
+            empty: false
         }
+        
     }
     componentDidMount(){
-      /*
-        Fetch get method to get the information of the rooms of that particular day
-        axios.get()
-       */
-      const fetchedData = {
-        /*
-          availability of the rooms for each timeslot
-        */
-        timeSlots: [
-          [false,false,true,false,true],
-          [false,false,true,false,true],
-          [false,false,true,false,true],
-          [false,false,true,false,true],
-          [false,false,true,false,true],
-          [false,false,true,false,true],
-          [false,false,true,false,true],
-          [false,false,true,false,true],
-        ],
-        costs: [
-          "10000",
-          "15000",
-          "15000",
-          "5000",
-          "5000",
-        ],
-        category: [
-          "Computer Lab",
-          "Seminar Hall",
-          "Class",
-          "Class",
-          "Class"
-        ],
-        capacity: [
-          "50",
-          "100",
-          "50",
-          "50",
-          "50"
-        ]
-      }
-      localStorage.setItem('temp',JSON.stringify(fetchedData))
-      const temp = []
-      const {category,capacity,costs} = fetchedData 
-      for(var i=0;i<5;i++){
-        const data = "Category :"+category[i]+" Capacity :"+capacity[i]+"\n\n"+"Cost :Rs. "+costs[i]
-        temp.push(data)
-      }
-    
-      this.setState({
-        initialTimeSlots: fetchedData.timeSlots,
-        chosenTimeSlots: fetchedData.timeSlots,
-        description: temp,
-        costs: costs,
+     
+      var newTemp = []
+      
+        for(let i=0;i<8;i++){
+          var innerTemp = []
+          for(let j=0;j<15;j++){
+            innerTemp.push(false)
+          }
+          newTemp.push(innerTemp)
+        }
+        const fetchedDate = JSON.parse(localStorage.getItem('TEMP_DATE'))
         
-      })
        
-    }
+        axios.get('http://localhost:8080/rooms',{crossDomain: true})
+        .then((response) => {
+          this.setState({
+            rooms: response.data
+          })
+        
+        })
+        .then(()=>{
+          const temp = []
+          const names = []
+          const {rooms} = this.state
+         
+          for(var i=0;i<rooms.length;i++){
+            const data = "Category :"+rooms[i].roomCategory+" Capacity :"+rooms[i].roomCapacity+" Cost Per Hour :Rs. "+rooms[i].costPerHour+" Cost Per Day :Rs. "+rooms[i].costPerDay+" Cost Per Unit :Rs. "+rooms[i].costPerUnit
+            temp.push(data)
+            names.push(rooms[i].roomName)
+            
+          }
+         
+          this.setState({
+            description: temp,
+            names: names
+            
+          })
+         
+           
+        }
+
+        )
+        .then(
+          axios.post('http://localhost:8080/eventSections/findByDate',fetchedDate,{crossDomain: true})
+          .then(((response)=>{
+            this.setState({
+              chosenTimeSlots: response.data
+            })
+            localStorage.setItem("initial",(JSON.stringify({
+              bools: response.data})))
+            }))
+          .catch((err) => {
+          
+          this.setState({
+            chosenTimeSlots: newTemp
+          })
+          localStorage.setItem("initial",JSON.stringify({
+            bools: newTemp}))
+          })
+        )
+          
+        }
+      
+      
+       
+
+        
+
+       
+     
+     
     handleCheckbox = (i,j) => event => {
       var temp1 = this.state.chosenTimeSlots
       var temp2 = this.state.chosenTimeSlots[i]
       temp2[j] = event.target.checked
       temp1[i] = temp2
-      if (temp2[j] === true){
-        const cost = Number(this.state.costs[j])
-        this.setState({
-          total: this.state.total+cost
-        })
-      }
       this.setState({
         chosenTimeSlots: temp1
       })
-      console.log("New checked",temp1)
+
     }
     handleSave(){
-      const {chosenTimeSlots,total} = this.state
-      var initial = JSON.parse(localStorage.getItem('temp'))
-      initial = initial.timeSlots
+      const {chosenTimeSlots} = this.state
+      var initial = JSON.parse(localStorage.getItem('initial')).bools
+    
       const temp1 = []
+     
       for(var i=0;i<8;i++){
         var temp2 = []
-        for(var j=0;j<5;j++){
+        for(var j=0;j<this.state.rooms.length;j++){
           if(chosenTimeSlots[i][j] === initial[i][j]){
             temp2.push(false)
           }
@@ -135,11 +151,11 @@ class Rooms extends React.Component {
         temp1.push(temp2)
       }
       localStorage.removeItem('temp')
-    console.log(temp1)
+  
     localStorage.setItem(ROOMS,JSON.stringify(
       {
         chosenTimeSlots: temp1,
-        totalCost: total
+       
       }
     ))
 
@@ -148,8 +164,8 @@ class Rooms extends React.Component {
 
   render(){
     const { classes } = this.props;
-    const {chosenTimeSlots,initialTimeSlots} = this.state
-    const temp = chosenTimeSlots
+    const {chosenTimeSlots} = this.state
+   
     const timeSlots = [
     "9:00 - 10:00 A.M",
     "10:00 - 11:00 A.M",
@@ -160,6 +176,10 @@ class Rooms extends React.Component {
     "3.00 P.M - 4:00 P.M",
     "4.00 P.M - 5:00 P.M"
   ]
+    
+
+    const temp = chosenTimeSlots
+    
         return (
           <div>
             
@@ -179,9 +199,15 @@ class Rooms extends React.Component {
                       Rooms/Timeslice
                     </TableCell>
                    {
+                     
                      this.state.description.map((x,i) => {
+                      const {names} = this.state
                        return (
-                         <TableCell> {x} </TableCell>
+                       <Tooltip title={x} style={{fontSize: "100px"}}>
+                         <TableCell> 
+                            {names[i]}
+                         </TableCell>
+                         </Tooltip>
                        )
                      })
                    }
@@ -206,12 +232,6 @@ class Rooms extends React.Component {
 
                </TableBody>
                </Table>
-               <Typography
-                variant="display1"
-                >
-                Total: <t/>Rs. 
-                 {this.state.total}
-                 </Typography>
             </Paper>
             </div>
         );

@@ -13,8 +13,8 @@ import Typography from '@material-ui/core/Typography'
 import Clear from '@material-ui/icons/Clear'
 import Check from '@material-ui/icons/Check'
 import axios from 'axios'
-
 import {Redirect } from 'react-router-dom'
+import {USER_TOKEN} from '../../definitions/index'
 
 const styles = theme => ({
   root: {
@@ -28,44 +28,30 @@ const styles = theme => ({
   },
 });
 
+
 class Events extends React.Component {
 
     constructor(props){
         super(props)
         this.state={
             events: [],
-            approvalStatus: []
            
         }
     }
     componentDidMount(){
-        let temp = []
-        axios.get('http://localhost:8080/events',{crossDomain:true})
-        .then(response => {
-       
-            response.data.map((n)=>{
-                temp.push(n.accepted)
-            })
-            this.setState({
-                events: response.data,
-                approvalStatus: temp
-            })
-        }
-        )
-    }
+        let user = JSON.parse(localStorage.getItem(USER_TOKEN))
+        if(user){
+            axios.get(`http://localhost:8080/organizers/${user.id}/events`,{crossDomain:true})
+            .then(response => {
+                this.setState({
+                    events: response.data
+                })
+            }
 
-    handleApprove = (id) => event => {
-   
-        axios.put(`http://localhost:8080/admins/1/events/${id}`)
-        return<Redirect to = "/" />
+            )
+      }
     }
-    handleDelete = (id) => event => {
-     
-        axios.delete(`http://localhost:8080/events/${id}`)
-        return <Redirect to = "/" />
-    }
-   
-
+    
   
 
   render(){
@@ -85,13 +71,12 @@ class Events extends React.Component {
                 <TableHead >
                 <TableRow>
                     <TableCell>Event Name</TableCell>
-                    <TableCell>Action</TableCell>
                     <TableCell >Status</TableCell>
-                    <TableCell >Organizer's Username</TableCell>
-                    <TableCell >Organizer's Email</TableCell>
+                    <TableCell>Organizer's Name</TableCell>
                     <TableCell >StartDate</TableCell>
                     <TableCell >EndDate</TableCell>
                     <TableCell >Duration(days)</TableCell>
+                    <TableCell >Participants</TableCell>
                 </TableRow>
                 </TableHead>
                 <TableBody>
@@ -99,36 +84,6 @@ class Events extends React.Component {
                     return (
                     <TableRow key={i}>
                         <TableCell>{n.eventName}</TableCell>
-                       {(n.accepted == true) && (
-                            <TableCell>
-                                <IconButton variant="contained" color="secondary" 
-                                 onClick={this.handleDelete(n.eventId)} 
-                                   >
-                                    <Clear/>
-                                </IconButton>
-                            
-                            </TableCell>
-                        )}
-                        {(n.accepted ==  false) && (
-                            <TableCell>
-                                <Grid container spacing={24}>
-                              
-                                <Grid item xs={6}>
-                                    <IconButton variant="contained" 
-                                       onClick={this.handleApprove(n.eventId)}  ><Check/></IconButton>
-                                </Grid>
-                                
-                                <Grid item xs= {6}>
-                                    <IconButton variant="contained" color="secondary" 
-                                     onClick={this.handleDelete(n.eventId)}  
-                                   >
-
-                                    <Clear/></IconButton>
-                                </Grid>
-                              
-                                </Grid>
-                            </TableCell>
-                        )}
                         
                         {(n.accepted == true) && (
                             <TableCell>Approved</TableCell>
@@ -136,28 +91,11 @@ class Events extends React.Component {
                         {(n.accepted == false) && (
                             <TableCell>Pending</TableCell>
                         )}
-                        {(n.organizer !== null) && ( 
-                        <TableCell >{n.organizer.organizerName}</TableCell>
-                        )
-                        }
-                        {(n.organizer !== null) && ( 
-                        <TableCell >{n.organizer.organizerEmail}</TableCell>
-                        )
-                        }
-                        {(n.organizer === null) && ( 
-                            
-                        <TableCell ></TableCell>
-                             )
-                        }
-                          {(n.organizer === null) && ( 
-                            
-                            <TableCell ></TableCell>
-                                 )
-                            }
-                       
+                        <TableCell>{n.organizer.organizerName}</TableCell>
                         <TableCell >{n.eventStartDate}</TableCell>
                         <TableCell >{n.eventEndDate}</TableCell>
                         <TableCell >{n.eventDurationInDays}</TableCell>
+                        <TableCell >{n.expectedNumberOfParticipants}</TableCell>
                     </TableRow>
                     
                     );
@@ -184,10 +122,6 @@ class Events extends React.Component {
             <br/>
             <br/>
             <br/>
-            <br/>
-            <br/>
-            <br/>
-            
            
             </div>
         );

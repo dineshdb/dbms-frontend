@@ -42,9 +42,7 @@ class Calendar extends React.Component {
  
 
   handleFinal(){
-      console.log("HELLO")
-    console.log(this.state.duration)
-    
+     
     const {dates,duration} = this.state
     var temp = []
     dates.map((date,i)=>{
@@ -52,20 +50,19 @@ class Calendar extends React.Component {
       var year = date.getFullYear()
       var month = date.getMonth()
       var day = date.getDate()
-      var startTime = date.getHours()
-      console.log("HELLO buddy",newDates[i])
+     
+      
       if(newDates[i] !== undefined){
         temp.push({
           year: year,
           month: month,
           day: day,
-          timeSlots: newDates[i].chosenTimeSlots,
-          totalCost: newDates[i].totalCost
+          matrix: newDates[i].chosenTimeSlots,
         })
-        console.log(temp)
+  
         localStorage.setItem(DATES,JSON.stringify(temp))
       }
-      console.log("HELLO temp",temp)
+   
      
 
           
@@ -77,6 +74,7 @@ class Calendar extends React.Component {
     
   handleClose = () =>{
     var temp = JSON.parse(localStorage.getItem(ROOMS))
+ 
     if(temp){
       newDates.push(temp)
       localStorage.removeItem(ROOMS)
@@ -98,7 +96,7 @@ class Calendar extends React.Component {
     return <div>
          
           {dateComponents.map((x,i)=> {
-            console.log(this.state.dates)
+          
             return <div>
                <Grid container spacing = {24}>
                 <Grid item xs={8}>
@@ -113,6 +111,17 @@ class Calendar extends React.Component {
                         count: this.state.count+1
                         
                       })
+                      let obj = {}
+                      var tempDate = date.toDate()
+                      var year = tempDate.getFullYear()
+                      var month = tempDate.getMonth()
+                      var day = tempDate.getDate()
+                      obj = {
+                        year: year,
+                        month: month,
+                        day: day
+                      }
+                      localStorage.setItem('TEMP_DATE',JSON.stringify(obj))
                        var temp = this.state.dates
                        temp[i] = date
                        this.setState({

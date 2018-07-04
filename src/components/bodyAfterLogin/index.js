@@ -8,6 +8,7 @@ import TextField from '@material-ui/core/TextField';
 import {STYLES} from '../../definitions/index'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
+import Paper from '@material-ui/core/Paper'
 
 class Body extends React.Component{
     constructor(props){
@@ -28,21 +29,19 @@ class Body extends React.Component{
         if(!this.state.createEventButton){
             return (
                     <div>
+                       
                         <br/>
-                        <br/>
-                        <br/>
-                        <br/>
-                        <br/>
-                        <br/>
-                        <br/>
+                    
                     <Grid container spacing={24}>
-                    <Grid item xs={8}>
+                    <Grid item xs={12}>
                    
                     </Grid>
-                    <Grid item xs={4}>
+                   
+                   
+                    <Grid item xs={12}>
                     <Link to = "/newEvent">
                         <Button 
-                        variant = "contained" 
+                         variant = "contained" 
                         size = "large" 
                         className = {classes.button} 
                         onClick = {this.handleNewEvent.bind(this)}
@@ -51,9 +50,28 @@ class Body extends React.Component{
                     </Button>
                     </Link>
                     </Grid>
-                    <Grid item xs={0}>
+                    <Grid item xs={4}>
+                    <Link to = "/showEvents">
+                        <Button 
+                         variant = "contained" 
+                        size = "large" 
+                        className = {classes.button} 
+                        onClick = {this.handleNewEvent.bind(this)}
+                        >
+                        Show Events
+                    </Button>
+                    </Link>
                     </Grid>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                   
                     </Grid>
+                
                    
 
                 </div>

@@ -17,6 +17,7 @@ import Calendar from '../calendar/index'
 import Divider from '@material-ui/core/Divider'
 import MultipleDatePicker from 'react-multiple-datepicker'
 import {DATES} from '../../definitions/index'
+import {ROOMS} from '../../definitions/index'
 const styles = theme => ({
     root: {
       ...theme.mixins.gutters(),
@@ -34,6 +35,8 @@ class EventForm extends React.Component{
           eventDescription: "",
           dates: [],
           days: 0,
+          chosenRooms: {},
+          totalCost: "",
           participants: "",
           submit: false,
           fireCalendar: false,
@@ -69,28 +72,44 @@ class EventForm extends React.Component{
         handleSubmit(event){
             event.preventDefault()
             const {eventName,eventDescription,participants,dates} = this.state
-            var data = localStorage.getItem(DATES)
+            let data = localStorage.getItem(DATES)
+            
             if(data){
-                var temp = JSON.parse(data)
+                let temp = JSON.parse(data)
+            
+          
+                if(eventName.length > 0 && eventDescription.length > 0 ){
+                    let user = JSON.parse(localStorage.getItem(USER_TOKEN))
+                    let rooms = temp
+                    
+                    let postingData = {
+                        event: {
+                            eventName: eventName,
+                            eventDescription: eventDescription,
+                            expectedNumberOfParticipants: participants,
+                            eventDurationInDays: this.state.days,
+                            
+                        },
+                        roomMatrixList: temp
+                       
+                       
+
+                    }
+                 
+                    
+                    console.log("Data is",postingData)
+                    
+                    axios.post(`http://localhost:8080/organizers/${user.id}/eventInfo`,postingData,{crossDomain: true})
+                    .then(response => {
+                        console.log(response,"response")
+                    })
+                    
                 this.setState({
-                    dates: temp
+                    fireRedirect: true
                 })
-            }
-            if(eventName.length > 0 && eventDescription.length > 0 ){
-                var postingData = {
-                    eventName: eventName,
-                    eventDescription: eventDescription,
-                    expectedNumberOfParticipants: participants,
-                    dates: dates
-                }
-                /*
-                axios.post('localhost:8080/events)
-                */
-               this.setState({
-                   fireRedirect: true
-               })
                 
             }
+        }
            
         }
         
