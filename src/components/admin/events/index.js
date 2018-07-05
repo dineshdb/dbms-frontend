@@ -13,6 +13,7 @@ import Typography from '@material-ui/core/Typography'
 import Clear from '@material-ui/icons/Clear'
 import Check from '@material-ui/icons/Check'
 import axios from 'axios'
+import Button from '@material-ui/core/Button'
 
 import {Redirect } from 'react-router-dom'
 
@@ -53,7 +54,9 @@ class Events extends React.Component {
         }
         )
     }
+    handleClick(){
 
+    }
     handleApprove = (id) => event => {
    
         axios.put(`http://localhost:8080/admins/1/events/${id}`)
@@ -73,6 +76,7 @@ class Events extends React.Component {
     const {events} = this.state
         return (
             <div style={{marginLeft: "20px",marginRight: "20px"}}>
+            <form onSubmit={this.handleClick.bind(this)}>
             <Paper className={classes.root}>
             <Typography
                         align="center"
@@ -167,6 +171,7 @@ class Events extends React.Component {
                 <br/>
                 </TableBody>
             </Table>
+            <Button variant="large" variant = "contained" type="Submit" >Submit</Button>
             </Paper>
             <br/>
             <br/>
@@ -188,7 +193,7 @@ class Events extends React.Component {
             <br/>
             <br/>
             
-           
+           </form>
             </div>
         );
     }
