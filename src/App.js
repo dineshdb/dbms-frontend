@@ -11,6 +11,7 @@ import PageNotFound from './views/404'
 import {USER_TOKEN} from './definitions/index'
 import AdminHome from './views/admin/index'
 import Events from './views/admin/events'
+import UserEvent from './views/events'
 import Organizers from './views/admin/users'
 
 class App extends React.Component {
@@ -104,7 +105,7 @@ class App extends React.Component {
                        
                         else{
                             if(userToken.userRole == "ORG"){
-                                return <Events/>
+                                return <UserEvent/>
                             }
                             if(userToken.userRole == "ADMIN"){
                                 console.log("In home")
