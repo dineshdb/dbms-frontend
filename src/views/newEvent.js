@@ -12,7 +12,6 @@ class Event extends React.Component
         return <div>
             <HomeBar/>
             <NewEvent/>
-            <Footer/>
             </div>
 
     }

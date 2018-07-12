@@ -199,7 +199,7 @@ class LoginForm extends React.Component{
                     <Typography 
                         align="center"
                         variant="display2"
-                        style={{color: "white",fontSize: "30"}}
+                        style={{color: "black",fontSize: "30",fontWeight: "lighter"}}
                         >
                         Welcome to ICT
                     </Typography>
@@ -215,7 +215,7 @@ class LoginForm extends React.Component{
                     <br/>
                     <Typography 
                         align="center"
-                        style={{color: "white",fontSize: "20px"}}
+                        style={{color: "black",fontSize: "20px",fontWeight:"lighter"}}
                         
                         >
                         Login with your <b>ICT ID</b>
@@ -225,7 +225,7 @@ class LoginForm extends React.Component{
                     <form onSubmit={this.handleSubmit.bind(this)} >
                     <div>
                     <TextField
-                            style={{color: "white"}}
+                            style={{color: "black",fontSize: "30",fontWeight: "lighter"}}
                             name="UserName"
                             margin="dense"
                             id="UserName"
@@ -259,6 +259,7 @@ class LoginForm extends React.Component{
                             onChange={this.handleUserPassword.bind(this)}
                             onBlur = {this.validateUserPassword.bind(this)}
                             fullWidth
+                            style={{color: "black",fontSize: "30",fontWeight: "lighter"}}
                             InputProps={{
                                 disableUnderline: true,
                                 classes: {

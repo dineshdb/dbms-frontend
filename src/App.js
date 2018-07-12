@@ -25,20 +25,13 @@ class App extends React.Component {
             <Router>
                 <div >
                     <Route path = "/" exact strict render = {() => {
-                        var userToken = JSON.parse(localStorage.getItem(USER_TOKEN))
-                        console.log("User token is ",userToken)
+                        let userToken = JSON.parse(localStorage.getItem(USER_TOKEN))
                         if(!userToken){
                             return <PublicHome/>
                         }
                        
                         else{
-                            if(userToken.userRole == "ORG"){
-                                return <Home/>
-                            }
-                            if(userToken.userRole == "ADMIN"){
-                                console.log("In home")
                                 return <AdminHome/>
-                            }
                         }
                     }
                 }
@@ -47,28 +40,6 @@ class App extends React.Component {
                          var userToken = JSON.parse(localStorage.getItem(USER_TOKEN))
                          if(!userToken){
                             return <Login/>
-                        }
-                        else{
-                            return <Redirect to = "/" />
-                        }
-                    }
-
-                        }
-                    />
-                      <Route path = "/admin" exact strict render = {() => {
-
-                            return (
-                                <AdminHome/>
-                            )
-                      }
-                    
-                    }
-                
-                    />
-                    <Route path = "/signup" exact strict render = {() => {
-                        var userToken = JSON.parse(localStorage.getItem(USER_TOKEN))
-                        if(!userToken){
-                            return <SignUp/>
                         }
                         else{
                             return <Redirect to = "/" />
@@ -86,69 +57,24 @@ class App extends React.Component {
                         }
                        
                         else{
-                            if(userToken.userRole == "ORG"){
-                                return <NewEvent/>
-                            }
-                            if(userToken.userRole == "ADMIN"){
-                                console.log("In home")
-                                return  <Redirect to = "/" /> 
-                                                         
+                            return <NewEvent/>
                              }
-                        }
 
                         }} />
                          <Route path = "/showEvents" render = {() => {
-                        var userToken = JSON.parse(localStorage.getItem(USER_TOKEN))
+                        let userToken = JSON.parse(localStorage.getItem(USER_TOKEN))
                         if(!userToken){
                             return <PublicHome/>
                         }
                        
                         else{
-                            if(userToken.userRole == "ORG"){
-                                return <UserEvent/>
-                            }
-                            if(userToken.userRole == "ADMIN"){
-                                console.log("In home")
-                                return  <Redirect to = "/" /> 
-                                                         
-                             }
+
+                                return  <Events/>
+
                         }
 
                         }} />
-                          <Route path = "/organizers" render = {() => {
-                        var userToken = JSON.parse(localStorage.getItem(USER_TOKEN))
-                        if(!userToken){
-                            return <PublicHome/>
-                        }
-                       
-                        else{
-                            if(userToken.userRole == "ORG"){
-                                return <PublicHome/>
-                            }
-                            if(userToken.userRole == "ADMIN"){
-                                return <Organizers/>
-                                                         
-                             }
-                        }
 
-                        }} />
-                         <Route path = "/events" render = {() => {
-                        var userToken = JSON.parse(localStorage.getItem(USER_TOKEN))
-                        if(!userToken){
-                            return <PublicHome/>
-                        }
-                       
-                        else{
-                            if(userToken.userRole == "ORG"){
-                                return <PublicHome/>
-                            }
-                            if(userToken.userRole == "ADMIN"){
-                                return <Events/>
-                                                         
-                             }
-                        }
-
-                        }} />
 
                      
                     

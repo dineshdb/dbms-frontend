@@ -11,7 +11,6 @@ class Login extends React.Component
                
             <HomeBar/>
             <LoginBar/>
-            <Footer/>
             </div>
             )
 }
