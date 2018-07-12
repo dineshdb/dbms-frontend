@@ -13,18 +13,19 @@ import {Link} from 'react-router-dom'
 import axios from 'axios'
 import {USER_TOKEN} from '../../definitions/index'
 import {Redirect } from 'react-router-dom'
-import Calendar from '../calendar/index'
-import Divider from '@material-ui/core/Divider'
-import MultipleDatePicker from 'react-multiple-datepicker'
+import DatePicker from 'react-datepicker'
 import {DATES} from '../../definitions/index'
-import {ROOMS} from '../../definitions/index'
 import ToolBar from '@material-ui/core/Toolbar'
+import moment from 'moment'
+import 'react-datepicker/dist/react-datepicker-cssmodules.css'
+import Collapse from '@material-ui/core/Collapse'
+import RoomTable from '../rooms/index'
+import rooms from "../../reducers/rooms";
 const styles = theme => ({
     root: {
       ...theme.mixins.gutters(),
       paddingTop: theme.spacing.unit * 2,
       paddingBottom: theme.spacing.unit * 2,
-      color: "#b4ce84"
     },
     innerPaper:{
       marginLeft: "20px",
@@ -45,6 +46,12 @@ const styles = theme => ({
     typo: {
         marginTop: "22px",
         fontSize: "20px",
+        fontWeight: "lighter",
+        marginRight: "5px"
+    },
+    typoButton: {
+        marginTop: "10px",
+        fontSize: "24px",
         fontWeight: "lighter",
         marginRight: "5px"
     },
@@ -89,115 +96,124 @@ class EventForm extends React.Component{
     constructor(props){
         super(props)
         this.state={
-          eventName: "",
-          eventDescription: "",
-          dates: [],
-          days: 0,
-          chosenRooms: {},
-          totalCost: "",
-          participants: "",
-          submit: false,
-          fireCalendar: false,
-            dateSlot: {
-              date: "",
-                startTime: new Date(),
-                endTime: new Date(),
-                rooms: []
-            }
+            organizerName: "",
+            organizerEmail: "",
+            organizerAddress: "",
+            organizerPhone: "",
+            eventName: "",
+            eventDescription: "",
+            eventDays: 0,
+            dates: [],
+            starting: [],
+            ending: [],
+              submit: false,
+              fireCalendar: false,
+            open: []
+
         }
     }
-        handleOrganizerEmail(event){
+    handleOrganizerName(event){
+        this.setState({
+            organizerName: event.target.value
+        })
+
+        }
+    handleOrganizerEmail(event){
+        this.setState({
+            organizerEmail: event.target.value
+        })
+    }
+    handleOrganizerPhone(event){
+        this.setState({
+            organizerPhone: event.target.value
+        })
+
+        }
+    handleOrganizerAddress(event){
+        this.setState({
+            organizerAddress: event.target.value
+        })
 
         }
 
-
-        handleEventName(event){
+    handleEventName(event){
            
-            this.setState({
-                eventName: event.target.value
-            })
+        this.setState({
+            eventName: event.target.value
+        })
+    }
+    handleEventDescription(event){
+
+        this.setState({
+            eventDescription: event.target.value
+        })
+    }
+    handleEventDays(event){
+        let temp = []
+        let temp2 = []
+        let temp3 = []
+        let temp4 = []
+        for(let i=0;i<event.target.value;i++){
+            temp.push(moment())
+            temp2.push("8:00")
+            temp3.push("17:00")
+            temp4.push(false)
         }
-        handleEventDescription(event){
-           
             this.setState({
-                eventDescription: event.target.value
-            }) 
-        }
-        handleDays(event){
-            this.setState({
-                days: Number(event.target.value)
+                eventDays: Number(event.target.value),
+                dates: temp,
+                starting: temp2,
+                ending: temp3,
+                open: temp4
+
             }
             )
         }
-    
-           
-        handleParticipants(event){
-           
-            this.setState({
-                participants: event.target.value
-            }) 
-        }
-        handleOrganizerName(event){
-
-        }
-        handleOrganizerPhone(event){
-
-        }
-        handleOrganizerAddress(event){
-
-        }
-        handleAddDay(){
-
-        }
         handleSubmit(event){
             event.preventDefault()
-            const {eventName,eventDescription,participants,dates} = this.state
-            let data = localStorage.getItem(DATES)
-            
-            if(data){
-                let temp = JSON.parse(data)
-            
-          
-                if(eventName.length > 0 && eventDescription.length > 0 ){
-                    let user = JSON.parse(localStorage.getItem(USER_TOKEN))
-                    let rooms = temp
-                    
-                    let postingData = {
-                        event: {
-                            eventName: eventName,
-                            eventDescription: eventDescription,
-                            expectedNumberOfParticipants: participants,
-                            eventDurationInDays: this.state.days,
-                            
-                        },
-                        roomMatrixList: temp
-                       
-                       
+            const {organizerName,
+                organizerAddress,
+                organizerEmail,
+                organizerPhone,
+                eventDescription,
+                eventName,
+                eventDays,dates,starting,ending} = this.state
+            const {roomsFromReducer} = this.props
+            console.log("ROOMS",roomsFromReducer)
+            let temp = []
+            for(let i=0;i<eventDays;i++){
+                let tempDate = dates[i].toDate()
+                let year = tempDate.getFullYear()
+                let month = tempDate.getMonth()
+                let day = tempDate.getDate()
+                temp.push({
+                    date: {
+                        year: year,
+                        month: month,
+                        day: day
+                    },
+                    starting: starting[i],
+                    ending: ending[i],
+                    rooms: roomsFromReducer.rooms[i]
 
-                    }
-                 
-                    
-                    console.log("Data is",postingData)
-                    
-                    axios.post(`http://localhost:8080/organizers/${user.id}/eventInfo`,postingData,{crossDomain: true})
-                    .then(response => {
-                        console.log(response,"response")
-                    })
-                    
-                this.setState({
-                    fireRedirect: true
                 })
-                
             }
-        }
-           
-        }
-        
-        
-  
-           
+            let postingData = {}
+            postingData = {
+                organizerName: organizerName,
+                organizerPhone: organizerPhone,
+                organizerEmail: organizerEmail,
+                organizerAddress: organizerAddress,
+                eventName: eventName,
+                eventDescription: eventDescription,
+                eventDays: eventDays,
+                dateAndRooms: temp
 
-      
+            }
+            console.log(postingData,"final Data")
+        }
+
+
         render(){
             const {classes} = this.props
             return(
@@ -438,28 +454,159 @@ class EventForm extends React.Component{
                                                     </Grid>
                                                 </Grid>
                                             </ToolBar>
-                                            <Grid container spacing="24">
-                                                <Grid item xs="5">
+                                            <ToolBar>
+                                                <Grid container spacing="24">
+                                                    <Grid item xs="1">
+                                                        <Typography
+                                                            className={classes.typo}>
+                                                            Days*
+                                                        </Typography>
+                                                    </Grid>
+                                                    <Grid item xs="11">
+                                                        <TextField
+                                                            margin="dense"
+                                                            type="text"
+                                                            placeholder="Days"
+                                                            onChange={this.handleEventDays.bind(this)}
+                                                            fullWidth
+                                                            style={{
+                                                                marginBottom: "20px",
+                                                                width: "45%"
+                                                            }}
+                                                            className={classes.text}
+                                                            InputProps={{
+                                                                disableUnderline: true,
+                                                                classes: {
+                                                                    root: classes.bootstrapRoot,
+                                                                    input: classes.bootstrapInput,
+                                                                },
+
+                                                            }}
+                                                            InputLabelProps={{
+                                                                shrink: true,
+                                                                className: classes.bootstrapFormLabel,
+                                                            }}
+
+                                                        />
+                                                    </Grid>
                                                 </Grid>
-                                                <Grid item xs="7">
-                                                    <Button
-                                                        variant="contained"
-                                                        color="primary"
-                                                        style={{
-                                                            marginLeft: "20px",
-                                                            marginTop: "20px"
-                                                        }}
-                                                        onClick = {this.handleAddDay.bind(this)}
-                                                    >
-                                                        Add
-                                                    </Button>
-                                                </Grid>
+                                            </ToolBar>
+                                            {
+                                                this.state.dates.map((date,key)=>{
+                                                    console.log("KEY",key)
+                                                    return(
+                                                        <div>
+                                                        <ToolBar>
 
-                                            </Grid>
+                                                            <Grid container spacing={24}>
+                                                                <Grid item xs={3}>
+                                                                    <Typography
+                                                                        className={classes.typo}
+                                                                    >
+                                                                        Date
+                                                                    </Typography>
+                                                                    <DatePicker
+                                                                        selected={this.state.dates[key]}
+                                                                        onChange={(Date)=>{
+                                                                            let temp = this.state.dates
+                                                                            temp[key] = Date
+                                                                            this.setState({
+                                                                                dates: temp
+                                                                            })
+                                                                        }}
+                                                                    />
+                                                                </Grid>
+                                                                <Grid item xs={3}>
+                                                                    <Typography
+                                                                        className={classes.typo}
+                                                                    >
+                                                                        Starting-Time
+                                                                    </Typography>
+                                                                   <TextField
+                                                                    type="time"
+                                                                    defaultValue="8:00"
+                                                                    onChange={
+                                                                        (event)=> {
+                                                                            let temp = this.state.starting
+                                                                            temp[key] = event.target.value
+                                                                            this.setState({
+                                                                                starting: temp
+                                                                            })
+                                                                        }
+                                                                    }
+                                                                   />
+                                                                </Grid>
+                                                                <Grid item xs={3}>
+                                                                    <Typography
+                                                                        className={classes.typo}
+                                                                    >
+                                                                        Ending-Time
+                                                                    </Typography>
+                                                                    <TextField
+                                                                        type="time"
+                                                                        defaultValue="17:00"
+                                                                        onChange={
+                                                                            (event)=> {
+                                                                                let temp = this.state.ending
+                                                                                temp[key] = event.target.value
+                                                                                this.setState({
+                                                                                    ending: temp
+                                                                                })
+                                                                            }
+                                                                        }
+                                                                    />
+                                                                </Grid>
+                                                                <Grid item xs={3}>
+                                                                    <Button
+                                                                        className={classes.button}
+                                                                        variant="contained"
+                                                                        color="primary"
+                                                                        onClick = {
+                                                                            ()=>{
+                                                                                const {dates,starting,ending}=this.state
+                                                                                let tempDate = dates[key].toDate()
+                                                                                let year = tempDate.getFullYear()
+                                                                                let month = tempDate.getMonth()
+                                                                                let day = tempDate.getDate()
+                                                                                let search = {
+                                                                                    date: {
+                                                                                        year: year,
+                                                                                        month: month,
+                                                                                        day: day,
+                                                                                    },
+                                                                                    starting: starting[key],
+                                                                                    ending: ending[key]
 
+                                                                                }
+                                                                                let temp = this.state.open
+                                                                                temp[key]=!(this.state.open[key])
+                                                                                this.setState({
+                                                                                    open: temp
+                                                                                })
+                                                                            }
+                                                                        }
+                                                                    >
+                                                                        <Typography
+                                                                            className={classes.typo}
+                                                                        >
+                                                                            Find Rooms
+                                                                        </Typography>
+                                                                    </Button>
+                                                                </Grid>
+                                                            </Grid>
+                                                        </ToolBar>
+                                                            <Collapse in = {this.state.open[key]}
+                                                                      >
+                                                                <RoomTable
+                                                                    Key={key}
+                                                                />
+                                                            </Collapse>
+                                                        </div>
+                                                        )
 
+                                                })
 
-
+                                            }
                                         </Grid>
                                         <Grid item xs="3">
                                         </Grid>
@@ -470,39 +617,42 @@ class EventForm extends React.Component{
 
                     <Grid container spacing={24} style={{marginTop: 10}}
                         >
-                        <Grid item xs={5}>
+                        <Grid item xs={9}>
                         </Grid>
-                        <Grid item xs = {3}>
-                            <Link to = "/">
-                            <Button  
-                            type="cancel" 
-                            color="inherit" 
-                        
-                            style = {{marginBottom: 15,marginTop: 5}}
-            
-                            >
-                            Cancel
-                            
-                            </Button>
-                            </Link>
-                       
+                        <Grid item xs={3}>
+                            <ToolBar>
+                                <Link to = "/">
+                                    <Button
+                                        color="secondary"
+                                        variant="contained"
+                                    >
+                                        <Typography
+                                            className={classes.typoButton}
+                                        >
+                                            Cancel
+                                        </Typography>
+
+
+                                    </Button>
+                                <t/>
+                                    <Button
+                                        variant = "contained"
+                                        color="primary"
+                                        type="submit"
+
+                                    >
+                                        <Typography
+                                            className={classes.typoButton}
+                                        >
+                                            Submit
+                                        </Typography>
+
+                                    </Button>
+                                </Link>
+
+                            </ToolBar>
                         </Grid>
-                        <Grid item xs={4}>
-                            <Button 
-                            variant = "contained" 
-                            type="submit" 
-                            color="inherit" 
-                        
-                            style = {{marginBottom: 15,marginTop: 5}}
-            
-                            >
-                            Submit
-                            
-                            </Button>
-                        
-                        <Grid>
-                    </Grid>
-                </Grid>
+
                 </Grid>
                     </form> 
 
@@ -522,7 +672,7 @@ EventForm.propTypes = {
   
   function mapStateToProps(state){
     return {
-        newUsers: state.newUsers
+        roomsFromReducer: state.rooms
     }
 }
 export default connect(mapStateToProps)(withStyles(styles)(EventForm));

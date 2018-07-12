@@ -13,6 +13,8 @@ import AdminHome from './views/admin/index'
 import Events from './views/admin/events'
 import UserEvent from './views/events'
 import Organizers from './views/admin/users'
+import theme from './theme'
+import {MuiThemeProvider} from '@material-ui/core/styles'
 
 class App extends React.Component {
     constructor(props){
@@ -22,6 +24,7 @@ class App extends React.Component {
 
     render() {
         return (
+            <MuiThemeProvider theme={theme}>
             <Router>
                 <div >
                     <Route path = "/" exact strict render = {() => {
@@ -81,6 +84,7 @@ class App extends React.Component {
                     
                 </div>
             </Router>
+            </MuiThemeProvider>
 
 
         )

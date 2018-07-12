@@ -19,7 +19,6 @@ const styles = {
 
     root: {
         flexGrow: 1,
-        backgroundColor: "#66adce",
        
     },
     flex: {
@@ -30,12 +29,11 @@ const styles = {
         marginRight: 20,
     },
     pad:{
-        paddingTop: 10
+        // paddingTop: 10
     },
     typography:{
-        fontSize: "21px",
+        fontSize: "25px",
         fontWeight: "lighter",
-        color: "white"
     }
 };
 
@@ -101,7 +99,9 @@ class HomeBar extends React.Component {
                                 <Grid item xs={1}>
                                 <Link to="/" className={classes.pad}>
                                     <Button color="inherit">
-                                    Home
+                                        <Typography
+                                            value="Home"
+                                        />
                                     </Button>
                                 </Link>
                                 </Grid>
@@ -144,7 +144,10 @@ class HomeBar extends React.Component {
                                 <Grid item xs={1}>
                                 <Link to="/" className={classes.pad}>
                                     <Button color="inherit">
-                                    Home
+                                        <Typography
+                                            className={classes.typography}
+                                        >Home
+                                        </Typography>
                                     </Button>
                                 </Link>
 
@@ -152,12 +155,18 @@ class HomeBar extends React.Component {
                                 <Grid item xs={8}>
                                     <Link to="/showEvents" className={classes.pad}>
                                         <Button color="inherit">
-                                            Show Events
+                                            <Typography
+                                                className={classes.typography}
+                                            >Show Events
+                                            </Typography>
                                         </Button>
                                     </Link>
                                     <Link to="/newEvent" className={classes.pad}>
                                         <Button color="inherit">
-                                            Create Event
+                                            <Typography
+                                                className={classes.typography}
+                                            >Create Event
+                                            </Typography>
                                         </Button>
                                     </Link>
 
@@ -166,14 +175,15 @@ class HomeBar extends React.Component {
                                 <Grid item xs={1}>
                                 
                                     <Button color="inherit" onClick={this.handleLogOut.bind(this)}>
-                                    LogOut
+                                        <Typography
+                                            className={classes.typography}
+                                        >Logout
+                                        </Typography>
                                     </Button>
                                
                                 </Grid>
                                 <Grid item xs={1}>
-                                    <Typography className={classes.typography}>
-                                    {this.state.userName}
-                                    </Typography>
+
 
                            
                             </Grid>
