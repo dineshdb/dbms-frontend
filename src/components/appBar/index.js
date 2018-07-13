@@ -108,21 +108,9 @@ class HomeBar extends React.Component {
                                 <Grid item xs={8}>
                                 </Grid>
                                 <Grid item xs={1}>
-                                <Link to="/signup" className={classes.pad}>
-                                    <Button 
-                                    color="inherit"
-                                    variant="contained"
-                                    >
-                                    SignUp
-                                    </Button>
-                                </Link>
+
                                 </Grid>
                                 <Grid item xs={1}>
-                                <Link to="/login" className={classes.pad}>
-                                    <Button color="inherit">
-                                    Login
-                                    </Button>
-                                </Link>
                                 </Grid>
                             
                                 </Grid>

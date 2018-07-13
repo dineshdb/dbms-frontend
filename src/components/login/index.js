@@ -2,7 +2,6 @@ import React from 'react'
 
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
-import Paper from '@material-ui/core/Paper'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 import {withStyles} from '@material-ui/core/styles'
@@ -192,7 +191,7 @@ class LoginForm extends React.Component{
 
                    
                     <Grid container spacing = {24}>
-                    <Grid item xs={8}>
+                    <Grid item xs={4}>
                     </Grid>
                     <Grid item xs={4}>
                     <br/>
@@ -218,7 +217,7 @@ class LoginForm extends React.Component{
                         style={{color: "black",fontSize: "20px",fontWeight:"lighter"}}
                         
                         >
-                        Login with your <b>ICT ID</b>
+                        Login with your admin id
                     </Typography>
                     <br/>
                    
@@ -284,11 +283,14 @@ class LoginForm extends React.Component{
                         disabled = {!this.validateSubmit.bind(this)}
                         variant = "contained" 
                         type="submit" 
-                        color="inherit" 
+                        color="primary"
                         style = {{marginBottom: 15,marginTop: 5}}
         
                         >
-                        Login
+                            <Typography style={{fontSize: "30px",fontWeight: "lighter"}}>
+                                Login
+                            </Typography>
+
                         
                         </Button>
                        </Grid>

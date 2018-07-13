@@ -11,7 +11,7 @@ class Event extends React.Component
     render(){
         return <div>
             <HomeBar/>
-            <NewEvent/>
+            <NewEvent />
             </div>
 
     }

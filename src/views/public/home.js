@@ -1,11 +1,10 @@
 import React from 'react'
 import HomeBar from '../../components/appBar/index'
-import HomeImage from '../../assets/images/home.jpeg'
 class Home extends React.Component
 {
     render(){
         return (
-            <div style = {{backgroundImage: HomeImage}}>
+            <div >
                 <HomeBar/>
                 </div>
         )

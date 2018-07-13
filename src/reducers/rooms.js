@@ -5,7 +5,6 @@ export default function rooms(state={
     switch(action.type){
         case ROOMS_STATUS:
             let temp = state.rooms
-            console.log("HELLO",state)
             temp[action.payload.key] = action.payload.data
             return {...state,rooms: temp}
 

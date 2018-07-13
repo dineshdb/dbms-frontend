@@ -19,12 +19,13 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
 import {connect} from 'react-redux'
-import {UpdateRooms} from './action'
+import {UpdateSelectedRooms} from './action'
+
 
 
 
 const columnData = [
-  "Choose","RoomName","Category"
+  "Check","ID","Name","Capacity","Floor","Category","CostPerDay","CostPerHour","CostPerUnit"
 ];
 
 
@@ -122,41 +123,43 @@ class RoomTable extends React.Component {
 
         this.state = {
             selected: [],
-            data: [
-                {
-                    id: 5,
-                    name:"ICT1",
-                    category: "class"
-                },
-                {
-                    id: 100,
-                    name:"ICT1",
-                    category: "class"
-                },
-                {
-                    id: 21,
-                    name:"ICT1",
-                    category: "class"
-                },
-                {
-                    id: 4,
-                    name:"ICT1",
-                    category: "class"
-                },
-                {
-                    id: 121,
-                    name:"ICT1",
-                    category: "class"
-                },
-                {
-                    id: 6,
-                    name:"ICT1",
-                    category: "class"
-                }
-            ],
+            data: [],
+            key: 0
+            ,
         };
     }
+    componentWillReceiveProps(){
+        const {rooms,Key,selectedRooms} = this.props
+        const render = selectedRooms.roomsSelected[Key]
+        if(render){
+         this.setState({
+             selected: render
+         })
+        }
+        this.setState({
+            data: rooms.rooms[Key],
+            key: Key
+        })
+    }
+    renderInitial = (id) => {
+            const { selected } = this.state;
+        const selectedIndex = selected.indexOf(id);
+        let newSelected = [];
 
+        if (selectedIndex === -1) {
+            newSelected = newSelected.concat(selected, id);
+        } else if (selectedIndex === 0) {
+            newSelected = newSelected.concat(selected.slice(1));
+        } else if (selectedIndex === selected.length - 1) {
+            newSelected = newSelected.concat(selected.slice(0, -1));
+        } else if (selectedIndex > 0) {
+            newSelected = newSelected.concat(
+                selected.slice(0, selectedIndex),
+                selected.slice(selectedIndex + 1),
+            );
+        }
+        this.setState({ selected: newSelected });
+}
     handleClick = (event, id) => {
         const { selected } = this.state;
         const selectedIndex = selected.indexOf(id);
@@ -174,16 +177,16 @@ class RoomTable extends React.Component {
                 selected.slice(selectedIndex + 1),
             );
         }
-
+        this.props.dispatch(UpdateSelectedRooms(this.state.key,newSelected))
         this.setState({ selected: newSelected });
     };
 
     isSelected = id => this.state.selected.indexOf(id) !== -1;
 
     render() {
-        const {classes,Key} = this.props;
-        const { data} = this.state;
-        this.props.dispatch(UpdateRooms(Key,this.state.selected))
+        const {classes,Key,rooms} = this.props;
+        const {data} = this.state
+
         return (
             <Paper className={classes.root} elevation={2}>
                 <div className={classes.tableWrapper}>
@@ -203,13 +206,15 @@ class RoomTable extends React.Component {
                          </TableRow>
                      </TableHead>
                         <TableBody>
-                            {data
+                            {
+
+                                data
                                 .map(n => {
-                                    const isSelected = this.isSelected(n.id);
+                                    const isSelected = this.isSelected(n.roomId);
                                     return (
                                         <TableRow
                                             hover
-                                            onClick={event => this.handleClick(event, n.id)}
+                                            onClick={event => this.handleClick(event, n.roomId)}
                                             role="checkbox"
                                             aria-checked={isSelected}
                                             tabIndex={-1}
@@ -223,7 +228,15 @@ class RoomTable extends React.Component {
                                                 <Typography
                                                     className={classes.typo}
                                                 >
-                                                    {n.name}
+                                                    {n.roomId}
+                                                </Typography>
+
+                                            </TableCell>
+                                            <TableCell component="th" scope="row" padding="none">
+                                                <Typography
+                                                    className={classes.typo}
+                                                >
+                                                    {n.roomName}
                                                 </Typography>
 
                                             </TableCell>
@@ -231,7 +244,42 @@ class RoomTable extends React.Component {
                                                 <Typography
                                                     className={classes.typo}
                                                 >
-                                                    {n.category}
+                                                    {n.roomCapacity}
+                                                </Typography>
+                                            </TableCell>
+                                            <TableCell component="th" scope = "row" padding="none">
+                                                <Typography
+                                                    className={classes.typo}
+                                                >
+                                                    {n.roomFloor}
+                                                </Typography>
+                                            </TableCell>
+                                            <TableCell component="th" scope = "row" padding="none">
+                                                <Typography
+                                                    className={classes.typo}
+                                                >
+                                                    {n.roomCategory}
+                                                </Typography>
+                                            </TableCell>
+                                            <TableCell component="th" scope = "row" padding="none">
+                                                <Typography
+                                                    className={classes.typo}
+                                                >
+                                                    {n.costPerDay}
+                                                </Typography>
+                                            </TableCell>
+                                            <TableCell component="th" scope = "row" padding="none">
+                                                <Typography
+                                                    className={classes.typo}
+                                                >
+                                                    {n.costPerHour}
+                                                </Typography>
+                                            </TableCell>
+                                            <TableCell component="th" scope = "row" padding="none">
+                                                <Typography
+                                                    className={classes.typo}
+                                                >
+                                                    {n.costPerUnit}
                                                 </Typography>
                                             </TableCell>
                                         </TableRow>
@@ -248,5 +296,11 @@ class RoomTable extends React.Component {
 RoomTable.propTypes = {
     classes: PropTypes.object.isRequired,
 };
+function mapStateToProps(state){
+    return {
+        rooms: state.rooms,
+        selectedRooms: state.RoomsSelected
+    }
+}
 
-export default connect()(withStyles(styles)(RoomTable));
+export default connect(mapStateToProps)(withStyles(styles)(RoomTable));

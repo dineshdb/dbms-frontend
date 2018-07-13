@@ -21,6 +21,8 @@ import 'react-datepicker/dist/react-datepicker-cssmodules.css'
 import Collapse from '@material-ui/core/Collapse'
 import RoomTable from '../rooms/index'
 import rooms from "../../reducers/rooms";
+import {UpdateRooms} from "../rooms/action";
+
 const styles = theme => ({
     root: {
       ...theme.mixins.gutters(),
@@ -107,11 +109,13 @@ class EventForm extends React.Component{
             starting: [],
             ending: [],
               submit: false,
-              fireCalendar: false,
-            open: []
+              fireRedirect: false,
+            open: [],
+            event: []
 
         }
     }
+
     handleOrganizerName(event){
         this.setState({
             organizerName: event.target.value
@@ -155,7 +159,7 @@ class EventForm extends React.Component{
         let temp4 = []
         for(let i=0;i<event.target.value;i++){
             temp.push(moment())
-            temp2.push("8:00")
+            temp2.push("08:00")
             temp3.push("17:00")
             temp4.push(false)
         }
@@ -178,39 +182,54 @@ class EventForm extends React.Component{
                 eventDescription,
                 eventName,
                 eventDays,dates,starting,ending} = this.state
-            const {roomsFromReducer} = this.props
-            console.log("ROOMS",roomsFromReducer)
+            const {roomsFromReducer,RoomsSelected} = this.props
             let temp = []
             for(let i=0;i<eventDays;i++){
-                let tempDate = dates[i].toDate()
-                let year = tempDate.getFullYear()
-                let month = tempDate.getMonth()
-                let day = tempDate.getDate()
+                let tempDate = dates[i].format('YYYY-MM-DD')
+                let newTemp = []
+                for(let j=0;j<RoomsSelected.rooms[i].length;j++){
+                    roomsFromReducer.rooms[i].map((room)=>{
+                        if (room.roomId === RoomsSelected.rooms[i][j]){
+                            newTemp.push(room)
+                        }
+                    })
+                }
+
                 temp.push({
-                    date: {
-                        year: year,
-                        month: month,
-                        day: day
-                    },
-                    starting: starting[i],
-                    ending: ending[i],
-                    rooms: roomsFromReducer.rooms[i]
+                    date: tempDate,
+                    timeSlotList: [
+                        {
+                            startingTime: starting[i],
+                            endingTime: ending[i],
+                            rooms: newTemp
+                        }
+                    ]
+
+
 
                 })
             }
-            let postingData = {}
-            postingData = {
+            let postingData = {
                 organizerName: organizerName,
                 organizerPhone: organizerPhone,
                 organizerEmail: organizerEmail,
                 organizerAddress: organizerAddress,
                 eventName: eventName,
                 eventDescription: eventDescription,
-                eventDays: eventDays,
-                dateAndRooms: temp
+                eventDurationInDays: eventDays,
+                perDayInfoList: temp
 
             }
-            console.log(postingData,"final Data")
+            axios.post(`http://localhost:8080/saveEvent`,postingData,{crossDomain: true})
+                .then(response =>{
+                    console.log("response",response)
+                }).then(()=>{
+                    this.setState({
+                        fireRedirect: true
+                    })
+            }
+
+            )
         }
 
 
@@ -246,6 +265,7 @@ class EventForm extends React.Component{
                                                     margin="dense"
                                                     type="text"
                                                     placeholder="Name"
+                                                    value={this.state.organizerName}
                                                     onChange={this.handleOrganizerName.bind(this)}
                                                     fullWidth
                                                     className={classes.text}
@@ -282,6 +302,7 @@ class EventForm extends React.Component{
                                                     placeholder="Email"
                                                     onChange={this.handleOrganizerEmail.bind(this)}
                                                     fullWidth
+                                                    value={this.state.organizerEmail}
                                                     className={classes.text}
                                                     InputProps={{
                                                         disableUnderline: true,
@@ -314,6 +335,7 @@ class EventForm extends React.Component{
                                                     placeholder="Address"
                                                     onChange={this.handleOrganizerAddress.bind(this)}
                                                     fullWidth
+                                                    value={this.state.organizerAddress}
                                                     className={classes.text}
                                                     InputProps={{
                                                         disableUnderline: true,
@@ -348,6 +370,7 @@ class EventForm extends React.Component{
                                                     placeholder="Phone"
                                                     onChange={this.handleOrganizerPhone.bind(this)}
                                                     fullWidth
+                                                    value={this.state.organizerPhone}
                                                     className={classes.text}
                                                     InputProps={{
                                                         disableUnderline: true,
@@ -398,6 +421,7 @@ class EventForm extends React.Component{
                                                             placeholder="Name"
                                                             onChange={this.handleEventName.bind(this)}
                                                             fullWidth
+                                                            value={this.state.eventName}
                                                             className={classes.text}
                                                             InputProps={{
                                                                 disableUnderline: true,
@@ -432,6 +456,7 @@ class EventForm extends React.Component{
                                                             placeholder="Description"
                                                             onChange={this.handleEventDescription.bind(this)}
                                                             fullWidth
+                                                            value={this.state.eventDescription}
                                                             style={{
                                                                 marginBottom: "20px",
                                                                 width: "45%"
@@ -513,6 +538,11 @@ class EventForm extends React.Component{
                                                                             this.setState({
                                                                                 dates: temp
                                                                             })
+                                                                            let temp2 = this.state.open
+                                                                            temp2[key]=!(this.state.open[key])
+                                                                            this.setState({
+                                                                                open: temp2
+                                                                            })
                                                                         }}
                                                                     />
                                                                 </Grid>
@@ -523,14 +553,19 @@ class EventForm extends React.Component{
                                                                         Starting-Time
                                                                     </Typography>
                                                                    <TextField
-                                                                    type="time"
-                                                                    defaultValue="8:00"
+                                                                    type="text"
+                                                                    defaultValue={this.state.starting[key]}
                                                                     onChange={
                                                                         (event)=> {
                                                                             let temp = this.state.starting
                                                                             temp[key] = event.target.value
                                                                             this.setState({
                                                                                 starting: temp
+                                                                            })
+                                                                            let temp2 = this.state.open
+                                                                            temp2[key]=!(this.state.open[key])
+                                                                            this.setState({
+                                                                                open: temp2
                                                                             })
                                                                         }
                                                                     }
@@ -543,8 +578,8 @@ class EventForm extends React.Component{
                                                                         Ending-Time
                                                                     </Typography>
                                                                     <TextField
-                                                                        type="time"
-                                                                        defaultValue="17:00"
+                                                                        type="text"
+                                                                        defaultValue={this.state.ending[key]}
                                                                         onChange={
                                                                             (event)=> {
                                                                                 let temp = this.state.ending
@@ -552,39 +587,47 @@ class EventForm extends React.Component{
                                                                                 this.setState({
                                                                                     ending: temp
                                                                                 })
+                                                                                let temp2 = this.state.open
+                                                                                temp2[key]=!(this.state.open[key])
+                                                                                this.setState({
+                                                                                    open: temp2
+                                                                                })
                                                                             }
                                                                         }
                                                                     />
                                                                 </Grid>
                                                                 <Grid item xs={3}>
                                                                     <Button
-                                                                        className={classes.button}
+                                                                        className={classes.typoButton}
                                                                         variant="contained"
                                                                         color="primary"
                                                                         onClick = {
                                                                             ()=>{
                                                                                 const {dates,starting,ending}=this.state
-                                                                                let tempDate = dates[key].toDate()
-                                                                                let year = tempDate.getFullYear()
-                                                                                let month = tempDate.getMonth()
-                                                                                let day = tempDate.getDate()
+                                                                                let tempDate = dates[key].format('YYYY-MM-DD')
                                                                                 let search = {
-                                                                                    date: {
-                                                                                        year: year,
-                                                                                        month: month,
-                                                                                        day: day,
-                                                                                    },
-                                                                                    starting: starting[key],
-                                                                                    ending: ending[key]
-
+                                                                                    eventSectionDate: tempDate,
+                                                                                    eventSectionStartTime: starting[key],
+                                                                                    eventSectionEndTime: ending[key]
                                                                                 }
+                                                                                console.log("Search",search)
+                                                                                let tempRooms = []
+                                                                                axios.post(`http://localhost:8080/findRooms`,search,{crossDomain:true})
+                                                                                    .then((response)=>{
+                                                                                        tempRooms=response.data
+                                                                                    }).then(()=>{
+                                                                                   this.props.dispatch(UpdateRooms(key,tempRooms))
+                                                                                })
                                                                                 let temp = this.state.open
                                                                                 temp[key]=!(this.state.open[key])
                                                                                 this.setState({
                                                                                     open: temp
                                                                                 })
-                                                                            }
-                                                                        }
+
+
+
+
+                                                                        }}
                                                                     >
                                                                         <Typography
                                                                             className={classes.typo}
@@ -595,12 +638,15 @@ class EventForm extends React.Component{
                                                                 </Grid>
                                                             </Grid>
                                                         </ToolBar>
-                                                            <Collapse in = {this.state.open[key]}
-                                                                      >
-                                                                <RoomTable
-                                                                    Key={key}
-                                                                />
-                                                            </Collapse>
+                                                            {
+                                                                this.state.open[key] && <Collapse in = {this.state.open[key]}
+                                                                >
+                                                                    <RoomTable
+                                                                        Key={key}
+                                                                    />
+                                                                </Collapse>
+                                                            }
+
                                                         </div>
                                                         )
 
@@ -624,7 +670,7 @@ class EventForm extends React.Component{
                                 <Link to = "/">
                                     <Button
                                         color="secondary"
-                                        variant="contained"
+
                                     >
                                         <Typography
                                             className={classes.typoButton}
@@ -639,6 +685,7 @@ class EventForm extends React.Component{
                                         variant = "contained"
                                         color="primary"
                                         type="submit"
+                                        onClick={this.handleSubmit.bind(this)}
 
                                     >
                                         <Typography
@@ -672,7 +719,8 @@ EventForm.propTypes = {
   
   function mapStateToProps(state){
     return {
-        roomsFromReducer: state.rooms
+        roomsFromReducer: state.rooms,
+        RoomsSelected: state.RoomsSelected
     }
 }
 export default connect(mapStateToProps)(withStyles(styles)(EventForm));

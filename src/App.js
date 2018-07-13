@@ -15,6 +15,7 @@ import UserEvent from './views/events'
 import Organizers from './views/admin/users'
 import theme from './theme'
 import {MuiThemeProvider} from '@material-ui/core/styles'
+import UpdateEvent from './views/updateEvent'
 
 class App extends React.Component {
     constructor(props){
@@ -30,9 +31,9 @@ class App extends React.Component {
                     <Route path = "/" exact strict render = {() => {
                         let userToken = JSON.parse(localStorage.getItem(USER_TOKEN))
                         if(!userToken){
-                            return <PublicHome/>
+                            return <Login/>
                         }
-                       
+
                         else{
                                 return <AdminHome/>
                         }
@@ -54,7 +55,7 @@ class App extends React.Component {
                     <Route path = "/error" exact strict render = {() => <PageNotFound errorMessage = "Invalid page" />}
                     />
                     <Route path = "/newEvent" render = {() => {
-                        var userToken = JSON.parse(localStorage.getItem(USER_TOKEN))
+                        let userToken = JSON.parse(localStorage.getItem(USER_TOKEN))
                         if(!userToken){
                             return <PublicHome/>
                         }
@@ -64,6 +65,17 @@ class App extends React.Component {
                              }
 
                         }} />
+                    <Route path = "/updateEvent/:id" render = {() => {
+                        let userToken = JSON.parse(localStorage.getItem(USER_TOKEN))
+                        if(!userToken){
+                            return <PublicHome/>
+                        }
+
+                        else{
+                            return <UpdateEvent/>
+                        }
+
+                    }} />
                          <Route path = "/showEvents" render = {() => {
                         let userToken = JSON.parse(localStorage.getItem(USER_TOKEN))
                         if(!userToken){
