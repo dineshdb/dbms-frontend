@@ -290,7 +290,7 @@ class EventForm extends React.Component{
             })
     }
     handleDelete(){
-        axios.delete(`http://localhost:8080/deleteEvent/${this.state.eventId}`,{crossDomain: true})
+        axios.post(`http://localhost:8080/deleteEvent/${this.state.eventId}`,{},{crossDomain: true})
             .then(response =>{
                 this.setState({
                     fireRedirect: true
