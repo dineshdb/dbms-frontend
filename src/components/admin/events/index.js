@@ -24,7 +24,7 @@ import {Redirect ,Link} from 'react-router-dom'
 
 
 const columnData = [
-    "ID","Event Name","Organizer Name","Organizer Email"
+    "ID","Event Name","Organizer Name","Organizer Email","Start","End"
 ];
 
 
