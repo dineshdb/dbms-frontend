@@ -10,6 +10,8 @@ import Grid from '@material-ui/core/Grid'
 import {USER_TOKEN} from '../../definitions/index'
 import {Redirect} from 'react-router-dom'
 import Typography from '@material-ui/core/Typography'
+import moment from 'moment'
+import DatePicker from 'react-datepicker'
 
 
 
@@ -46,7 +48,8 @@ class HomeBar extends React.Component {
             isOnline: false,
             userId: "",
             fireHome: false,
-            userName: ""
+            userName: "",
+            date: ""
         }
     }
     componentDidMount(){
@@ -79,6 +82,7 @@ class HomeBar extends React.Component {
             fireHome: true
         })
     }
+
 
 
     render() {
@@ -140,7 +144,8 @@ class HomeBar extends React.Component {
                                 </Link>
 
                                 </Grid>
-                                <Grid item xs={8}>
+                                <Grid item xs={7}>
+                                <Toolbar>
                                     <Link to="/showEvents" className={classes.pad}>
                                         <Button color="inherit">
                                             <Typography
@@ -157,6 +162,28 @@ class HomeBar extends React.Component {
                                             </Typography>
                                         </Button>
                                     </Link>
+                                     <Link to="/searchEvent" className={classes.pad}>
+                                        <Button color="inherit">
+                                            <Typography
+                                                className={classes.typography}
+                                            >Search
+                                            </Typography>
+                                        </Button>
+                                    </Link>
+                                     <DatePicker
+                                          selected={this.state.date}
+                                            onChange={(Date)=>{
+                                                               this.setState({
+                                                              date: Date
+                                                              })
+                                                             localStorage.setItem('DATE',Date.format('YYYY-MM-DD'))
+                                                               }}
+                                                                />
+                                    </Toolbar>
+                                    </Grid>
+                                    <Grid item xs={1}>
+                                     
+
 
 
                                 </Grid>
@@ -170,11 +197,7 @@ class HomeBar extends React.Component {
                                     </Button>
                                
                                 </Grid>
-                                <Grid item xs={1}>
-
-
-                           
-                            </Grid>
+                             
                             
                                 </Grid>
                                

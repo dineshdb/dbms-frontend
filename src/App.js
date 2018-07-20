@@ -16,6 +16,7 @@ import Organizers from './views/admin/users'
 import theme from './theme'
 import {MuiThemeProvider} from '@material-ui/core/styles'
 import UpdateEvent from './views/updateEvent'
+import Search from './views/admin/search'
 
 class App extends React.Component {
     constructor(props){
@@ -62,6 +63,17 @@ class App extends React.Component {
                        
                         else{
                             return <NewEvent/>
+                             }
+
+                        }} />
+                     <Route path = "/searchEvent" render = {() => {
+                        let userToken = JSON.parse(localStorage.getItem(USER_TOKEN))
+                        if(!userToken){
+                            return <PublicHome/>
+                        }
+                       
+                        else{
+                            return <Search/>
                              }
 
                         }} />

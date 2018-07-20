@@ -131,7 +131,9 @@ class EventTable extends React.Component {
         };
     }
     componentDidMount(){
-        axios.get(`http://localhost:8080/showAllEvents`,{crossDomain: true})
+        let x = localStorage.getItem('DATE')
+        console.log("DATE CHOSEN",x)
+        axios.post(`http://localhost:8080/findEventsHappeningAtDate`,{date: x},{crossDomain: true})
             .then(response =>{
                 console.log("response",response)
                 this.setState({
