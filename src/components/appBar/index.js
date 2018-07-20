@@ -9,6 +9,7 @@ import {Link} from 'react-router-dom'
 import Grid from '@material-ui/core/Grid'
 import {USER_TOKEN} from '../../definitions/index'
 import {Redirect} from 'react-router-dom'
+import Typography from '@material-ui/core/Typography'
 
 
 
@@ -18,7 +19,6 @@ const styles = {
 
     root: {
         flexGrow: 1,
-        backgroundColor: "#b4ce84",
        
     },
     flex: {
@@ -29,7 +29,11 @@ const styles = {
         marginRight: 20,
     },
     pad:{
-        paddingTop: 10
+        // paddingTop: 10
+    },
+    typography:{
+        fontSize: "25px",
+        fontWeight: "lighter",
     }
 };
 
@@ -95,28 +99,18 @@ class HomeBar extends React.Component {
                                 <Grid item xs={1}>
                                 <Link to="/" className={classes.pad}>
                                     <Button color="inherit">
-                                    Home
+                                        <Typography
+                                            value="Home"
+                                        />
                                     </Button>
                                 </Link>
                                 </Grid>
                                 <Grid item xs={8}>
                                 </Grid>
                                 <Grid item xs={1}>
-                                <Link to="/signup" className={classes.pad}>
-                                    <Button 
-                                    color="inherit"
-                                    variant="contained"
-                                    >
-                                    SignUp
-                                    </Button>
-                                </Link>
+
                                 </Grid>
                                 <Grid item xs={1}>
-                                <Link to="/login" className={classes.pad}>
-                                    <Button color="inherit">
-                                    Login
-                                    </Button>
-                                </Link>
                                 </Grid>
                             
                                 </Grid>
@@ -134,30 +128,51 @@ class HomeBar extends React.Component {
                 <div >
                     <AppBar position="static" className={classes.root}>
                         <Toolbar>
-                            <Grid container spacing = {24} spacing={40}>
+                            <Grid container spacing = {24} >
                                 <Grid item xs={1}>
                                 <Link to="/" className={classes.pad}>
                                     <Button color="inherit">
-                                    Home
+                                        <Typography
+                                            className={classes.typography}
+                                        >Home
+                                        </Typography>
                                     </Button>
                                 </Link>
 
                                 </Grid>
                                 <Grid item xs={8}>
-                               
+                                    <Link to="/showEvents" className={classes.pad}>
+                                        <Button color="inherit">
+                                            <Typography
+                                                className={classes.typography}
+                                            >Show Events
+                                            </Typography>
+                                        </Button>
+                                    </Link>
+                                    <Link to="/newEvent" className={classes.pad}>
+                                        <Button color="inherit">
+                                            <Typography
+                                                className={classes.typography}
+                                            >Create Event
+                                            </Typography>
+                                        </Button>
+                                    </Link>
+
+
                                 </Grid>
                                 <Grid item xs={1}>
                                 
                                     <Button color="inherit" onClick={this.handleLogOut.bind(this)}>
-                                    LogOut
+                                        <Typography
+                                            className={classes.typography}
+                                        >Logout
+                                        </Typography>
                                     </Button>
                                
                                 </Grid>
                                 <Grid item xs={1}>
-                                
-                                <Button color="inherit">
-                                    {this.state.userName}
-                                </Button>
+
+
                            
                             </Grid>
                             

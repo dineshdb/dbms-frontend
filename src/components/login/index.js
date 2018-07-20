@@ -2,7 +2,6 @@ import React from 'react'
 
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
-import Paper from '@material-ui/core/Paper'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 import {withStyles} from '@material-ui/core/styles'
@@ -192,14 +191,14 @@ class LoginForm extends React.Component{
 
                    
                     <Grid container spacing = {24}>
-                    <Grid item xs={8}>
+                    <Grid item xs={4}>
                     </Grid>
                     <Grid item xs={4}>
                     <br/>
                     <Typography 
                         align="center"
                         variant="display2"
-                        style={{color: "white",fontSize: "30"}}
+                        style={{color: "black",fontSize: "30",fontWeight: "lighter"}}
                         >
                         Welcome to ICT
                     </Typography>
@@ -215,17 +214,17 @@ class LoginForm extends React.Component{
                     <br/>
                     <Typography 
                         align="center"
-                        style={{color: "white",fontSize: "20px"}}
+                        style={{color: "black",fontSize: "20px",fontWeight:"lighter"}}
                         
                         >
-                        Login with your <b>ICT ID</b>
+                        Login with your admin id
                     </Typography>
                     <br/>
                    
                     <form onSubmit={this.handleSubmit.bind(this)} >
                     <div>
                     <TextField
-                            style={{color: "white"}}
+                            style={{color: "black",fontSize: "30",fontWeight: "lighter"}}
                             name="UserName"
                             margin="dense"
                             id="UserName"
@@ -259,6 +258,7 @@ class LoginForm extends React.Component{
                             onChange={this.handleUserPassword.bind(this)}
                             onBlur = {this.validateUserPassword.bind(this)}
                             fullWidth
+                            style={{color: "black",fontSize: "30",fontWeight: "lighter"}}
                             InputProps={{
                                 disableUnderline: true,
                                 classes: {
@@ -283,11 +283,14 @@ class LoginForm extends React.Component{
                         disabled = {!this.validateSubmit.bind(this)}
                         variant = "contained" 
                         type="submit" 
-                        color="inherit" 
+                        color="primary"
                         style = {{marginBottom: 15,marginTop: 5}}
         
                         >
-                        Login
+                            <Typography style={{fontSize: "30px",fontWeight: "lighter"}}>
+                                Login
+                            </Typography>
+
                         
                         </Button>
                        </Grid>

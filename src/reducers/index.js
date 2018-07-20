@@ -1,8 +1,7 @@
 import {combineReducers} from 'redux'
-import newUsers from './newUsers'
-import userStatus from './userStatus'
+import rooms from './rooms'
+import RoomsSelected from './selectedRooms'
 export default combineReducers({
-    newUsers,
-    userStatus
-
+    rooms,
+    RoomsSelected
 })

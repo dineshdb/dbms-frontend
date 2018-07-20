@@ -10,7 +10,7 @@ class Event extends React.Component
             <div>
                
             <HomeBar/>
-            <NewEvent/>
+            <NewEvent EventId={19}/>
             <Footer style={{sticky: bottom}}/>
             </div>
             )

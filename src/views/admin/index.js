@@ -10,26 +10,7 @@ class Home extends React.Component
         return (
             <div>
             <HomeBar/>
-            <Body/>
-            <Renderer/>
-            <br/>
-                <br/>
-                <br/>
-                <br/>
-                <br/>
-                <br/>
-                <br/>
-                <br/>
-                <br/>
-                <br/>
-                <br/>
-                <br/>
-                <br/>
-                <br/>
-                <br/>
-                <br/>
-                <br/>
-                <Footer/>
+
         
         
             </div>

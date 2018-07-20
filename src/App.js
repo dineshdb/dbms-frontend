@@ -13,6 +13,9 @@ import AdminHome from './views/admin/index'
 import Events from './views/admin/events'
 import UserEvent from './views/events'
 import Organizers from './views/admin/users'
+import theme from './theme'
+import {MuiThemeProvider} from '@material-ui/core/styles'
+import UpdateEvent from './views/updateEvent'
 
 class App extends React.Component {
     constructor(props){
@@ -22,23 +25,17 @@ class App extends React.Component {
 
     render() {
         return (
+            <MuiThemeProvider theme={theme}>
             <Router>
                 <div >
                     <Route path = "/" exact strict render = {() => {
-                        var userToken = JSON.parse(localStorage.getItem(USER_TOKEN))
-                        console.log("User token is ",userToken)
+                        let userToken = JSON.parse(localStorage.getItem(USER_TOKEN))
                         if(!userToken){
-                            return <PublicHome/>
+                            return <Login/>
                         }
-                       
+
                         else{
-                            if(userToken.userRole == "ORG"){
-                                return <Home/>
-                            }
-                            if(userToken.userRole == "ADMIN"){
-                                console.log("In home")
                                 return <AdminHome/>
-                            }
                         }
                     }
                 }
@@ -55,106 +52,51 @@ class App extends React.Component {
 
                         }
                     />
-                      <Route path = "/admin" exact strict render = {() => {
-
-                            return (
-                                <AdminHome/>
-                            )
-                      }
-                    
-                    }
-                
-                    />
-                    <Route path = "/signup" exact strict render = {() => {
-                        var userToken = JSON.parse(localStorage.getItem(USER_TOKEN))
-                        if(!userToken){
-                            return <SignUp/>
-                        }
-                        else{
-                            return <Redirect to = "/" />
-                        }
-                    }
-
-                        }
-                    />
                     <Route path = "/error" exact strict render = {() => <PageNotFound errorMessage = "Invalid page" />}
                     />
                     <Route path = "/newEvent" render = {() => {
-                        var userToken = JSON.parse(localStorage.getItem(USER_TOKEN))
+                        let userToken = JSON.parse(localStorage.getItem(USER_TOKEN))
                         if(!userToken){
                             return <PublicHome/>
                         }
                        
                         else{
-                            if(userToken.userRole == "ORG"){
-                                return <NewEvent/>
-                            }
-                            if(userToken.userRole == "ADMIN"){
-                                console.log("In home")
-                                return  <Redirect to = "/" /> 
-                                                         
+                            return <NewEvent/>
                              }
-                        }
 
                         }} />
+                    <Route path = "/updateEvent/:id" render = {() => {
+                        let userToken = JSON.parse(localStorage.getItem(USER_TOKEN))
+                        if(!userToken){
+                            return <PublicHome/>
+                        }
+
+                        else{
+                            return <UpdateEvent/>
+                        }
+
+                    }} />
                          <Route path = "/showEvents" render = {() => {
-                        var userToken = JSON.parse(localStorage.getItem(USER_TOKEN))
+                        let userToken = JSON.parse(localStorage.getItem(USER_TOKEN))
                         if(!userToken){
                             return <PublicHome/>
                         }
                        
                         else{
-                            if(userToken.userRole == "ORG"){
-                                return <UserEvent/>
-                            }
-                            if(userToken.userRole == "ADMIN"){
-                                console.log("In home")
-                                return  <Redirect to = "/" /> 
-                                                         
-                             }
+
+                                return  <Events/>
+
                         }
 
                         }} />
-                          <Route path = "/organizers" render = {() => {
-                        var userToken = JSON.parse(localStorage.getItem(USER_TOKEN))
-                        if(!userToken){
-                            return <PublicHome/>
-                        }
-                       
-                        else{
-                            if(userToken.userRole == "ORG"){
-                                return <PublicHome/>
-                            }
-                            if(userToken.userRole == "ADMIN"){
-                                return <Organizers/>
-                                                         
-                             }
-                        }
 
-                        }} />
-                         <Route path = "/events" render = {() => {
-                        var userToken = JSON.parse(localStorage.getItem(USER_TOKEN))
-                        if(!userToken){
-                            return <PublicHome/>
-                        }
-                       
-                        else{
-                            if(userToken.userRole == "ORG"){
-                                return <PublicHome/>
-                            }
-                            if(userToken.userRole == "ADMIN"){
-                                return <Events/>
-                                                         
-                             }
-                        }
-
-                        }} />
 
                      
                     
                     
                 </div>
             </Router>
+            </MuiThemeProvider>
 
 
         )

@@ -11,23 +11,6 @@ class Home extends React.Component
             <div>
             <HomeBar/>
             <Organizers/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-
-        
-           <Footer/>
 
         
             </div>
