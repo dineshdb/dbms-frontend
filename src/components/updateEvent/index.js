@@ -21,6 +21,7 @@ import {UpdateRooms, UpdateSelectedRooms} from "../rooms/action";
 import AppBar from '@material-ui/core/AppBar'
 import ToolBar from '@material-ui/core/Toolbar'
 import Delete from '@material-ui/icons/Delete'
+import Icon from '@material-ui/core/Icon';
 
 const styles = theme => ({
     root: {
@@ -307,10 +308,9 @@ class EventForm extends React.Component{
                 <Paper>
                     <Grid container spacing={24}>
                         <Grid item xs="9">
-                            <Button
-                                onClick = {this.handleDelete.bind(this)}
-
+                            <Button onClick = {this.handleDelete.bind(this)} color="secondary" variant = "contained"
                             >
+                                <Icon> delete </Icon>
                                 <Typography
                                     className={classes.typoButton}
                                     align="center"
@@ -749,19 +749,12 @@ class EventForm extends React.Component{
                                                                                     else{
                                                                                         this.props.dispatch(UpdateRooms(key,tempRooms))
                                                                                     }
-
-
-
-
                                                                             })
                                                                             let temp = this.state.open
                                                                             temp[key]=!(this.state.open[key])
                                                                             this.setState({
                                                                                 open: temp
                                                                             })
-
-
-
 
                                                                         }}
                                                                 >
@@ -797,26 +790,20 @@ class EventForm extends React.Component{
                         </Paper>
                     </Paper>
 
-                    <Grid container spacing={24} style={{marginTop: 10}}
-                    >
+                    <Grid container spacing={24} style={{marginTop: 10}}>
                         <Grid item xs={9}>
                         </Grid>
                         <Grid item xs={3}>
-
                         </Grid>
-
                     </Grid>
                 </form>
 
                 {this.state.fireRedirect && (
                     <Redirect to = "/" />
                 )}
-
             </div>
-
         )
     }
-
 }
 EventForm.propTypes = {
     classes: PropTypes.object.isRequired,

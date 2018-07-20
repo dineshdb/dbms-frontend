@@ -18,6 +18,8 @@ import {MuiThemeProvider} from '@material-ui/core/styles'
 import UpdateEvent from './views/updateEvent'
 import Search from './views/admin/search'
 
+import CssBaseline from '@material-ui/core/CssBaseline';
+
 class App extends React.Component {
     constructor(props){
         super(props)
@@ -27,6 +29,7 @@ class App extends React.Component {
     render() {
         return (
             <MuiThemeProvider theme={theme}>
+                <CssBaseline />            
             <Router>
                 <div >
                     <Route path = "/" exact strict render = {() => {
@@ -92,25 +95,15 @@ class App extends React.Component {
                         let userToken = JSON.parse(localStorage.getItem(USER_TOKEN))
                         if(!userToken){
                             return <PublicHome/>
-                        }
-                       
+                        }                      
                         else{
-
                                 return  <Events/>
-
                         }
 
                         }} />
-
-
-                     
-                    
-                    
                 </div>
             </Router>
             </MuiThemeProvider>
-
-
         )
     }
 }

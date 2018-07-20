@@ -23,11 +23,18 @@ import RoomTable from '../rooms/index'
 import rooms from "../../reducers/rooms";
 import {UpdateRooms} from "../rooms/action";
 
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import Icon from '@material-ui/core/Icon';
+
 const styles = theme => ({
     root: {
       ...theme.mixins.gutters(),
       paddingTop: theme.spacing.unit * 2,
       paddingBottom: theme.spacing.unit * 2,
+      align: "center",
     },
     innerPaper:{
       marginLeft: "20px",
@@ -92,6 +99,14 @@ const styles = theme => ({
         fontSize: 18,
         color: "white"
     },
+    container: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+  },
   });
 
 class EventForm extends React.Component{
@@ -231,12 +246,16 @@ class EventForm extends React.Component{
 
             )
         }
+        
+        handleChange(changed){
+
+        }
 
 
         render(){
             const {classes} = this.props
             return(
-                <div style={{marginTop: 40, marginBottom: 40}}>
+                <div style={{marginTop: 40, marginBottom: 40}} className={classes.root}>
 
                     <form  onSubmit={this.handleSubmit.bind(this)}>
                         <Paper
@@ -249,274 +268,107 @@ class EventForm extends React.Component{
                         >
                             Organizer
                         </Typography>
-                        <Paper className={classes.root} elevation={1} square>
-                            <Grid container spacing={24}>
-                                <Grid item xs={9}>
-                                    <ToolBar>
-                                        <Grid container spacing="24">
-                                            <Grid item xs="1">
-                                                <Typography
-                                                    className={classes.typo}>
-                                                    Name*
-                                                </Typography>
-                                            </Grid>
-                                            <Grid item xs="11">
-                                                <TextField
-                                                    margin="dense"
-                                                    type="text"
-                                                    placeholder="Name"
-                                                    value={this.state.organizerName}
-                                                    onChange={this.handleOrganizerName.bind(this)}
-                                                    fullWidth
-                                                    className={classes.text}
-                                                    InputProps={{
-                                                        disableUnderline: true,
-                                                        classes: {
-                                                            root: classes.bootstrapRoot,
-                                                            input: classes.bootstrapInput,
-                                                        },
-
-                                                    }}
-                                                    InputLabelProps={{
-                                                        shrink: true,
-                                                        className: classes.bootstrapFormLabel,
-                                                    }}
-                                                />
-                                            </Grid>
-                                        </Grid>
-
-
-                                    </ToolBar>
-                                    <ToolBar>
-                                        <Grid container spacing="24">
-                                            <Grid item xs="1">
-                                                <Typography
-                                                    className={classes.typo}>
-                                                    Email*
-                                                </Typography>
-                                            </Grid>
-                                            <Grid item xs="11">
-                                                <TextField
-                                                    margin="dense"
-                                                    type="text"
-                                                    placeholder="Email"
-                                                    onChange={this.handleOrganizerEmail.bind(this)}
-                                                    fullWidth
-                                                    value={this.state.organizerEmail}
-                                                    className={classes.text}
-                                                    InputProps={{
-                                                        disableUnderline: true,
-                                                        classes: {
-                                                            root: classes.bootstrapRoot,
-                                                            input: classes.bootstrapInput,
-                                                        },
-
-                                                    }}
-                                                    InputLabelProps={{
-                                                        shrink: true,
-                                                        className: classes.bootstrapFormLabel,
-                                                    }}
-                                                />
-                                            </Grid>
-                                        </Grid>
-                                    </ToolBar>
-                                    <ToolBar>
-                                        <Grid container spacing="24">
-                                            <Grid item xs="1">
-                                                <Typography
-                                                    className={classes.typo}>
-                                                    Address*
-                                                </Typography>
-                                            </Grid>
-                                            <Grid item xs="11">
-                                                <TextField
-                                                    margin="dense"
-                                                    type="text"
-                                                    placeholder="Address"
-                                                    onChange={this.handleOrganizerAddress.bind(this)}
-                                                    fullWidth
-                                                    value={this.state.organizerAddress}
-                                                    className={classes.text}
-                                                    InputProps={{
-                                                        disableUnderline: true,
-                                                        classes: {
-                                                            root: classes.bootstrapRoot,
-                                                            input: classes.bootstrapInput,
-                                                        },
-
-                                                    }}
-                                                    InputLabelProps={{
-                                                        shrink: true,
-                                                        className: classes.bootstrapFormLabel,
-                                                    }}
-                                                />
-                                            </Grid>
-                                        </Grid>
-
-
-                                    </ToolBar>
-                                    <ToolBar>
-                                        <Grid container spacing="24">
-                                            <Grid item xs="1">
-                                                <Typography
-                                                    className={classes.typo}>
-                                                    Phone*
-                                                </Typography>
-                                            </Grid>
-                                            <Grid item xs="11">
-                                                <TextField
-                                                    margin="dense"
-                                                    type="text"
-                                                    placeholder="Phone"
-                                                    onChange={this.handleOrganizerPhone.bind(this)}
-                                                    fullWidth
-                                                    value={this.state.organizerPhone}
-                                                    className={classes.text}
-                                                    InputProps={{
-                                                        disableUnderline: true,
-                                                        classes: {
-                                                            root: classes.bootstrapRoot,
-                                                            input: classes.bootstrapInput,
-                                                        },
-
-                                                    }}
-                                                    InputLabelProps={{
-                                                        shrink: true,
-                                                        className: classes.bootstrapFormLabel,
-                                                    }}
-                                                />
-                                            </Grid>
-                                        </Grid>
-
-
-                                    </ToolBar>
-                                </Grid>
-                                <Grid item xs="3">
-                                </Grid>
-                            </Grid>
-                            <br/>
-                        </Paper>
-                                <Typography
-                                    className={classes.title}
-                                    align="center"
-                                >
+                       
+                        <div className={classes.container}>
+                              <TextField
+                                label="Name *"
+                                className={classes.textField}
+                                fullWidth
+                                onChange={this.handleOrganizerName.bind(this)}
+                                value={this.state.organizerName}
+                              />
+                              <TextField
+                                label="Email *"
+                                className={classes.textField}
+                                fullWidth
+                                onChange={this.handleOrganizerEmail.bind(this)}
+                                value={this.state.organizerEmail}
+                              />
+                              <TextField
+                                label="Address *"
+                                className={classes.textField}
+                                value={this.state.organizerAddress}
+                                fullWidth
+                                onChange={this.handleOrganizerAddress.bind(this)}
+                              />
+                              <TextField
+                                label="Phone *"
+                                className={classes.textField}
+                                fullWidth
+                                onChange={this.handleOrganizerPhone.bind(this)}
+                                value={this.state.organizerPhone}
+                              />
+                        </div>
+                        <Typography className={classes.title} align="center">
                                     Event
-                                </Typography>
-                                <Paper className={classes.root} elevation={2} square>
-                                    <Grid container spacing={24}>
-                                        <Grid item xs={9}>
+                        </Typography>
 
-                                            <ToolBar>
-                                                <Grid container spacing="24">
-                                                    <Grid item xs="1">
-                                                        <Typography
-                                                            className={classes.typo}>
-                                                            Name*
-                                                        </Typography>
-                                                    </Grid>
-                                                    <Grid item xs="11">
-                                                        <TextField
-                                                            margin="dense"
-                                                            type="text"
-                                                            placeholder="Name"
-                                                            onChange={this.handleEventName.bind(this)}
-                                                            fullWidth
-                                                            value={this.state.eventName}
-                                                            className={classes.text}
-                                                            InputProps={{
-                                                                disableUnderline: true,
-                                                                classes: {
-                                                                    root: classes.bootstrapRoot,
-                                                                    input: classes.bootstrapInput,
-                                                                },
+                        <div className={classes.container}>
+                              <TextField
+                                label="Name *"
+                                className={classes.textField}
+                                fullWidth
+                                onChange={this.handleEventName.bind(this)}
+                                value={this.state.eventName}
+                              />
+                              <TextField
+                                label="Description *"
+                                className={classes.textField}
+                                fullWidth
+                                onChange={this.handleEventDescription.bind(this)}
+                                value={this.state.eventDescription}
+                              />
+                              <TextField
+                                label="Days *"
+                                className={classes.textField}
+                                fullWidth
+                                onChange={this.handleEventDays.bind(this)}
+                              />
+                   </div>
+                                            
+                    <Grid container spacing={24} style={{marginTop: 10}}
+                        >
+                        <Grid item xs={9}>
+                        </Grid>
+                        <Grid item xs={3}>
+                            <ToolBar>
+                                <Link to = "/">
+                                    <Button
+                                        color="secondary"
 
-                                                            }}
-                                                            InputLabelProps={{
-                                                                shrink: true,
-                                                                className: classes.bootstrapFormLabel,
-                                                            }}
-                                                        />
-                                                    </Grid>
-                                                </Grid>
+                                    >
+                                        <Typography
+                                            className={classes.typoButton}
+                                        >
+                                            Cancel
+                                        </Typography>
 
 
-                                            </ToolBar>
-                                            <ToolBar>
-                                                <Grid container spacing="24">
-                                                    <Grid item xs="2">
-                                                        <Typography
-                                                            className={classes.typo}>
-                                                            Description*
-                                                        </Typography>
-                                                    </Grid>
-                                                    <Grid item xs="10">
-                                                        <TextField
-                                                            margin="dense"
-                                                            type="text"
-                                                            placeholder="Description"
-                                                            onChange={this.handleEventDescription.bind(this)}
-                                                            fullWidth
-                                                            value={this.state.eventDescription}
-                                                            style={{
-                                                                marginBottom: "20px",
-                                                                width: "45%"
-                                                            }}
-                                                            className={classes.text}
-                                                            InputProps={{
-                                                                disableUnderline: true,
-                                                                classes: {
-                                                                    root: classes.bootstrapRoot,
-                                                                    input: classes.bootstrapInput,
-                                                                },
+                                    </Button>
+                                <t/>
+                                    <Button
+                                        variant = "contained"
+                                        color="primary"
+                                        type="submit"
+                                        onClick={this.handleSubmit.bind(this)}
 
-                                                            }}
-                                                            InputLabelProps={{
-                                                                shrink: true,
-                                                                className: classes.bootstrapFormLabel,
-                                                            }}
-                                                            multiline
-                                                        />
-                                                    </Grid>
-                                                </Grid>
-                                            </ToolBar>
-                                            <ToolBar>
-                                                <Grid container spacing="24">
-                                                    <Grid item xs="1">
-                                                        <Typography
-                                                            className={classes.typo}>
-                                                            Days*
-                                                        </Typography>
-                                                    </Grid>
-                                                    <Grid item xs="11">
-                                                        <TextField
-                                                            margin="dense"
-                                                            type="text"
-                                                            placeholder="Days"
-                                                            onChange={this.handleEventDays.bind(this)}
-                                                            fullWidth
-                                                            style={{
-                                                                marginBottom: "20px",
-                                                                width: "45%"
-                                                            }}
-                                                            className={classes.text}
-                                                            InputProps={{
-                                                                disableUnderline: true,
-                                                                classes: {
-                                                                    root: classes.bootstrapRoot,
-                                                                    input: classes.bootstrapInput,
-                                                                },
+                                    >
+                                        <Typography
+                                            className={classes.typoButton}
+                                        >
+                                            Submit
+                                        </Typography>
 
-                                                            }}
-                                                            InputLabelProps={{
-                                                                shrink: true,
-                                                                className: classes.bootstrapFormLabel,
-                                                            }}
+                                    </Button>
+                                </Link>
 
-                                                        />
-                                                    </Grid>
-                                                </Grid>
-                                            </ToolBar>
-                                            {
+                            </ToolBar>
+                        </Grid>
+                </Grid>
+
+                </Paper>
+                    </form> 
+                              {
                                                 this.state.dates.map((date,key)=>{
                                                     console.log("KEY",key)
                                                     return(
@@ -653,55 +505,6 @@ class EventForm extends React.Component{
                                                 })
 
                                             }
-                                        </Grid>
-                                        <Grid item xs="3">
-                                        </Grid>
-                                    </Grid>
-
-                                </Paper>
-                            </Paper>
-
-                    <Grid container spacing={24} style={{marginTop: 10}}
-                        >
-                        <Grid item xs={9}>
-                        </Grid>
-                        <Grid item xs={3}>
-                            <ToolBar>
-                                <Link to = "/">
-                                    <Button
-                                        color="secondary"
-
-                                    >
-                                        <Typography
-                                            className={classes.typoButton}
-                                        >
-                                            Cancel
-                                        </Typography>
-
-
-                                    </Button>
-                                <t/>
-                                    <Button
-                                        variant = "contained"
-                                        color="primary"
-                                        type="submit"
-                                        onClick={this.handleSubmit.bind(this)}
-
-                                    >
-                                        <Typography
-                                            className={classes.typoButton}
-                                        >
-                                            Submit
-                                        </Typography>
-
-                                    </Button>
-                                </Link>
-
-                            </ToolBar>
-                        </Grid>
-
-                </Grid>
-                    </form> 
 
                 {this.state.fireRedirect && (
                     <Redirect to = "/" />

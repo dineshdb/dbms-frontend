@@ -12,13 +12,10 @@ import {Redirect} from 'react-router-dom'
 import Typography from '@material-ui/core/Typography'
 import moment from 'moment'
 import DatePicker from 'react-datepicker'
-
-
-
-
+import Icon from '@material-ui/core/Icon';
+import IconButton from '@material-ui/core/IconButton';
 
 const styles = {
-
     root: {
         flexGrow: 1,
        
@@ -36,6 +33,9 @@ const styles = {
     typography:{
         fontSize: "25px",
         fontWeight: "lighter",
+    },
+    search: {
+    
     }
 };
 
@@ -83,11 +83,7 @@ class HomeBar extends React.Component {
         })
     }
 
-
-
-    render() {
-        
-        console.log("new state",this.state)
+    render() {       
         const {classes} = this.props;
         if(!this.state.isOnline){
             return (
@@ -103,9 +99,7 @@ class HomeBar extends React.Component {
                                 <Grid item xs={1}>
                                 <Link to="/" className={classes.pad}>
                                     <Button color="inherit">
-                                        <Typography
-                                            value="Home"
-                                        />
+                                        <Typography value="ICT"/>
                                     </Button>
                                 </Link>
                                 </Grid>
@@ -120,9 +114,6 @@ class HomeBar extends React.Component {
                                 </Grid>
                         </Toolbar>
                     </AppBar>
-                    
-
-                
                 </div>
             );
         }
@@ -138,7 +129,7 @@ class HomeBar extends React.Component {
                                     <Button color="inherit">
                                         <Typography
                                             className={classes.typography}
-                                        >Home
+                                        > ICT
                                         </Typography>
                                     </Button>
                                 </Link>
@@ -148,27 +139,18 @@ class HomeBar extends React.Component {
                                 <Toolbar>
                                     <Link to="/showEvents" className={classes.pad}>
                                         <Button color="inherit">
-                                            <Typography
-                                                className={classes.typography}
-                                            >Show Events
-                                            </Typography>
+                                            <Typography className={classes.typography}>Events</Typography>
                                         </Button>
                                     </Link>
-                                    <Link to="/newEvent" className={classes.pad}>
+                                    <Link to="/organizers" className={classes.pad}>
                                         <Button color="inherit">
-                                            <Typography
-                                                className={classes.typography}
-                                            >Create Event
-                                            </Typography>
+                                            <Typography className={classes.typography}>Organizers</Typography>
                                         </Button>
                                     </Link>
                                      <Link to="/searchEvent" className={classes.pad}>
-                                        <Button color="inherit">
-                                            <Typography
-                                                className={classes.typography}
-                                            >Search
-                                            </Typography>
-                                        </Button>
+                                        <IconButton color="inherit" aria-label="Search">
+                                            <Icon>search</Icon>
+                                        </IconButton>
                                     </Link>
                                      <DatePicker
                                           selected={this.state.date}
@@ -182,10 +164,6 @@ class HomeBar extends React.Component {
                                     </Toolbar>
                                     </Grid>
                                     <Grid item xs={1}>
-                                     
-
-
-
                                 </Grid>
                                 <Grid item xs={1}>
                                 
@@ -195,17 +173,10 @@ class HomeBar extends React.Component {
                                         >Logout
                                         </Typography>
                                     </Button>
-                               
                                 </Grid>
-                             
-                            
-                                </Grid>
-                               
+                            </Grid>  
                         </Toolbar>
                     </AppBar>
-                    
-             
-
                 </div>
             );
 

@@ -19,14 +19,14 @@ import {connect} from 'react-redux'
 import axios from 'axios'
 import classNames from 'classnames';
 import {Redirect ,Link} from 'react-router-dom'
-
+import Icon from '@material-ui/core/Icon';
+import Button from '@material-ui/core/Button'
 
 
 
 const columnData = [
     "ID","Event Name","Organizer Name","Organizer Email","Start","End"
 ];
-
 
 const toolbarStyles = theme => ({
     root: {
@@ -115,7 +115,13 @@ const styles = theme => ({
     typo: {
         fontWeight: "lighter",
         marginLeft: "10px"
-    }
+    },
+  addButton: {
+    position: 'absolute',
+    bottom: theme.spacing.unit * 2,
+    right: theme.spacing.unit * 3,
+    paddingRight: theme.spacing.unit,
+  },
 });
 
 class EventTable extends React.Component {
@@ -154,6 +160,7 @@ class EventTable extends React.Component {
         const {events} = this.state
 
         return (
+        <div>
             <Paper className={classes.root} elevation={2} style={{marginLeft:"20px"}}>
                 <div className={classes.tableWrapper}>
                     <Table className={classes.table} aria-labelledby="tableTitle">
@@ -256,6 +263,12 @@ class EventTable extends React.Component {
                     }
                 </div>
             </Paper>
+            <Link to="/newEvent" className={classes.addButton}>
+                   <Button variant="fab" color="secondary" aria-label="Add" className={classes.button}>
+                        <Icon>add</Icon>
+                   </Button>
+            </Link>
+        </div>
         );
     }
 }
