@@ -102,10 +102,12 @@ const styles = theme => ({
     container: {
     display: 'flex',
     flexWrap: 'wrap',
+    
   },
   textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
+    marginLeft: theme.spacing.unit*50,
+    marginRight: theme.spacing.unit*50,
+    width: "60%"
   },
   });
 
@@ -259,7 +261,7 @@ class EventForm extends React.Component{
 
                     <form  onSubmit={this.handleSubmit.bind(this)}>
                         <Paper
-                            elevation={0}
+                            elevation={4}
                             className={classes.innerPaper}
                         >
                         <Typography
@@ -273,7 +275,7 @@ class EventForm extends React.Component{
                               <TextField
                                 label="Name *"
                                 className={classes.textField}
-                                fullWidth
+                            
                                 onChange={this.handleOrganizerName.bind(this)}
                                 value={this.state.organizerName}
                               />
@@ -283,18 +285,19 @@ class EventForm extends React.Component{
                                 fullWidth
                                 onChange={this.handleOrganizerEmail.bind(this)}
                                 value={this.state.organizerEmail}
+
                               />
                               <TextField
                                 label="Address *"
                                 className={classes.textField}
                                 value={this.state.organizerAddress}
-                                fullWidth
+                                
                                 onChange={this.handleOrganizerAddress.bind(this)}
                               />
                               <TextField
                                 label="Phone *"
                                 className={classes.textField}
-                                fullWidth
+                                
                                 onChange={this.handleOrganizerPhone.bind(this)}
                                 value={this.state.organizerPhone}
                               />
@@ -314,65 +317,25 @@ class EventForm extends React.Component{
                               <TextField
                                 label="Description *"
                                 className={classes.textField}
-                                fullWidth
+                                
                                 onChange={this.handleEventDescription.bind(this)}
                                 value={this.state.eventDescription}
                               />
                               <TextField
                                 label="Days *"
                                 className={classes.textField}
-                                fullWidth
+                                
                                 onChange={this.handleEventDays.bind(this)}
                               />
                    </div>
-                                            
-                    <Grid container spacing={24} style={{marginTop: 10}}
-                        >
-                        <Grid item xs={9}>
-                        </Grid>
-                        <Grid item xs={3}>
-                            <ToolBar>
-                                <Link to = "/">
-                                    <Button
-                                        color="secondary"
+                  
 
-                                    >
-                                        <Typography
-                                            className={classes.typoButton}
-                                        >
-                                            Cancel
-                                        </Typography>
-
-
-                                    </Button>
-                                <t/>
-                                    <Button
-                                        variant = "contained"
-                                        color="primary"
-                                        type="submit"
-                                        onClick={this.handleSubmit.bind(this)}
-
-                                    >
-                                        <Typography
-                                            className={classes.typoButton}
-                                        >
-                                            Submit
-                                        </Typography>
-
-                                    </Button>
-                                </Link>
-
-                            </ToolBar>
-                        </Grid>
-                </Grid>
-
-                </Paper>
-                    </form> 
+                
                               {
                                                 this.state.dates.map((date,key)=>{
                                                     console.log("KEY",key)
                                                     return(
-                                                        <div>
+                                                        <div style={{marginLeft: "100px"}}>
                                                         <ToolBar>
 
                                                             <Grid container spacing={24}>
@@ -487,15 +450,19 @@ class EventForm extends React.Component{
                                                                             Find Rooms
                                                                         </Typography>
                                                                     </Button>
+
                                                                 </Grid>
                                                             </Grid>
+
                                                         </ToolBar>
                                                             {
                                                                 this.state.open[key] && <Collapse in = {this.state.open[key]}
-                                                                >
+                                                                >   <div style={{marginRight: "50px"}}>
                                                                     <RoomTable
                                                                         Key={key}
+
                                                                     />
+                                                                    </div>
                                                                 </Collapse>
                                                             }
 
@@ -506,10 +473,53 @@ class EventForm extends React.Component{
 
                                             }
 
-                {this.state.fireRedirect && (
+                    <Grid container spacing={24} style={{marginTop: 10}}
+                        >
+                        <Grid item xs={9}>
+                        </Grid>
+                        <Grid item xs={3}>
+                            <ToolBar>
+                                <Link to = "/">
+                                    <Button
+                                        color="secondary"
+                                    
+
+
+                                    >
+                                        <Typography
+                                            className={classes.typoButton}
+                                        >
+                                            Cancel
+                                        </Typography>
+
+
+                                    </Button>
+                            
+                                    <Button
+                                        variant = "contained"
+                                        color="primary"
+                                        type="submit"
+                                        onClick={this.handleSubmit.bind(this)}
+
+                                    >
+                                        <Typography
+                                            className={classes.typoButton}
+                                        >
+                                            Submit
+                                        </Typography>
+
+                                    </Button>
+                                </Link>
+
+                            </ToolBar>
+                        </Grid>
+                </Grid>
+                
+                </Paper>
+                    </form>
+                    {this.state.fireRedirect && (
                     <Redirect to = "/" />
                 )}
-               
                 </div>
 
             )

@@ -126,7 +126,7 @@ class HomeBar extends React.Component {
                             <Grid container spacing = {24} >
                                 <Grid item xs={1}>
                                 <Link to="/" className={classes.pad}>
-                                    <Button color="inherit">
+                                    <Button color="inherit" style={{margin: "5px"}}>
                                         <Typography
                                             className={classes.typography}
                                         > ICT
@@ -167,7 +167,7 @@ class HomeBar extends React.Component {
                                 </Grid>
                                 <Grid item xs={1}>
                                 
-                                    <Button color="inherit" onClick={this.handleLogOut.bind(this)}>
+                                    <Button style={{margin: "5px"}} variant="outlined" color="inherit" onClick={this.handleLogOut.bind(this)}>
                                         <Typography
                                             className={classes.typography}
                                         >Logout

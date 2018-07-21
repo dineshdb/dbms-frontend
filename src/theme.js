@@ -5,11 +5,16 @@ import purple from '@material-ui/core/colors/purple';
 
 export default createMuiTheme({
     palette: {
-        primary: indigo,
+       primary: {
+            light: '#536bea',
+            main: '#2bc6ea',
+            dark: '#ff74ad',
+            contrastText: '#ffffff',
+        },
         secondary: {
             light: '#4fffa5',
-            main: '#4ad6ff',
-            dark: '#4fffa5',
+            main: '#d32c51',
+            dark: '#ff74ad',
             contrastText: '#000',
         },
     },
