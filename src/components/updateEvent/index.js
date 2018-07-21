@@ -308,22 +308,20 @@ class EventForm extends React.Component{
                 <Paper>
                     <Grid container spacing={24}>
                         <Grid item xs="9">
-                            <Button onClick = {this.handleDelete.bind(this)} color="secondary" variant = "contained"
+                            <Button onClick = {this.handleDelete.bind(this)} 
+                            color="secondary" 
+                            variant = "outlined"
+                            style={{margin: "25px"}}
                             >
                                 <Icon> delete </Icon>
-                                <Typography
-                                    className={classes.typoButton}
-                                    align="center"
-                                >
-                                    Delete
-                                </Typography>
-
+                            
                             </Button>
                         </Grid>
                         <Grid container xs="3">
                             <ToolBar>
                                 <Link to = "/">
                                     <Button
+                                    variant="outlined"
 
                                     >
                                         <Typography
