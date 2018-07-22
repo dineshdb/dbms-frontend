@@ -2,6 +2,7 @@
 import React from 'react'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
+import IconButton from '@material-ui/core/IconButton'
 import Paper from '@material-ui/core/Paper'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
@@ -16,13 +17,9 @@ import moment from 'moment'
 import 'react-datepicker/dist/react-datepicker-cssmodules.css'
 import Collapse from '@material-ui/core/Collapse'
 import RoomTable from '../rooms/index'
-import rooms from "../../reducers/rooms";
 import {UpdateRooms, UpdateSelectedRooms} from "../rooms/action";
-import AppBar from '@material-ui/core/AppBar'
 import ToolBar from '@material-ui/core/Toolbar'
-import Delete from '@material-ui/icons/Delete'
-import Icon from '@material-ui/core/Icon';
-
+import Remove from '@material-ui/icons/Delete'
 const styles = theme => ({
     root: {
         ...theme.mixins.gutters(),
@@ -120,7 +117,6 @@ class EventForm extends React.Component{
     }
     componentDidMount(props){
         let EventId = Number(localStorage.getItem('ID'))
-        console.log(EventId,"id")
         this.setState({
             eventId: EventId
         })
@@ -131,10 +127,10 @@ class EventForm extends React.Component{
                     event: temp
                 })
                 let tempEvent = temp.find((event)=> event.eventId === EventId)
-                console.log("HEY",EventId)
+
                 if(tempEvent){
                     const info = tempEvent.eventInfo
-                    console.log("info",info)
+
                     this.setState({
                         organizerName: info.organizerName,
                         organizerPhone: info.organizerPhone,
@@ -162,7 +158,6 @@ class EventForm extends React.Component{
                         tempo4.push(tempo5)
                         tempo6.push(tempo7)
                     })
-                    console.log("occupied",tempo4)
                     this.setState({
                         dates: tempo1,
                         starting: tempo2,
@@ -243,19 +238,28 @@ class EventForm extends React.Component{
             eventName,
             eventDays,dates,starting,ending} = this.state
         const {roomsFromReducer,RoomsSelected} = this.props
-        console.log("rooms",RoomsSelected)
         let temp = []
         for(let i=0;i<eventDays;i++){
             let tempDate = dates[i].format('YYYY-MM-DD')
             let newTemp = []
-            for(let j=0;j<RoomsSelected.rooms[i].length;j++){
-                roomsFromReducer.rooms[i].map((room)=>{
-                    if (room.roomId === RoomsSelected.rooms[i][j]){
-                        newTemp.push(room)
-                    }
-                })
+           if(RoomsSelected.rooms[i]){
+               for(let j=0;j<RoomsSelected.rooms[i].length;j++){
+                   roomsFromReducer.rooms[i].map((room)=>{
+                       if (room.roomId === RoomsSelected.rooms[i][j]){
+                           newTemp.push(room)
+                       }
+                   })
+               }
+           }
+            else{
+                for(let j=0;j<RoomsSelected.rooms[0].length;j++){
+                    roomsFromReducer.rooms[0].map((room)=>{
+                        if (room.roomId === RoomsSelected.rooms[0][j]){
+                            newTemp.push(room)
+                        }
+                    })
+                }
             }
-            console.log("temps",tempDate,newTemp)
 
             temp.push({
                 date: tempDate,
@@ -282,7 +286,6 @@ class EventForm extends React.Component{
             perDayInfoList: temp
 
         }
-        console.log("ID",this.state.eventId,"data",postingData)
         axios.post(`http://localhost:8080/updateEvent/${this.state.eventId}`,postingData,{crossDomain: true})
             .then(response =>{
                 this.setState({
@@ -308,14 +311,14 @@ class EventForm extends React.Component{
                 <Paper>
                     <Grid container spacing={24}>
                         <Grid item xs="9">
-                            <Button onClick = {this.handleDelete.bind(this)} 
+                            <IconButton onClick = {this.handleDelete.bind(this)}
                             color="secondary" 
                             variant = "outlined"
                             style={{margin: "25px"}}
                             >
-                                <Icon> delete </Icon>
+                               <Remove/>
                             
-                            </Button>
+                            </IconButton>
                         </Grid>
                         <Grid container xs="3">
                             <ToolBar>
@@ -638,7 +641,7 @@ class EventForm extends React.Component{
                                     </ToolBar>
                                     {
                                         this.state.dates.map((date,key)=>{
-                                            console.log("KEY",key)
+
                                             return(
                                                 <div>
                                                     <ToolBar>

@@ -7,13 +7,8 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import IconButton from '@material-ui/core/IconButton'
-import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
-import Clear from '@material-ui/icons/Clear'
-import Check from '@material-ui/icons/Check'
 import axios from 'axios'
-import {Redirect } from 'react-router-dom'
 import {USER_TOKEN} from '../../definitions/index'
 
 const styles = theme => ({

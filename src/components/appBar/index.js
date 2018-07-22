@@ -10,9 +10,8 @@ import Grid from '@material-ui/core/Grid'
 import {USER_TOKEN} from '../../definitions/index'
 import {Redirect} from 'react-router-dom'
 import Typography from '@material-ui/core/Typography'
-import moment from 'moment'
 import DatePicker from 'react-datepicker'
-import Icon from '@material-ui/core/Icon';
+import Search from '@material-ui/icons/Search'
 import IconButton from '@material-ui/core/IconButton';
 
 const styles = {
@@ -146,7 +145,7 @@ class HomeBar extends React.Component {
                                 
                                      <Link to="/searchEvent" className={classes.pad}>
                                         <IconButton color="inherit" aria-label="Search">
-                                            <Icon>search</Icon>
+                                            <Search/>
                                         </IconButton>
                                     </Link>
 

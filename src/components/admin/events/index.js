@@ -9,7 +9,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
-import Checkbox from '@material-ui/core/Checkbox';
+import Add from '@material-ui/icons/Add'
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -137,7 +137,6 @@ class EventTable extends React.Component {
     componentDidMount(){
         axios.get(`http://localhost:8080/showAllEvents`,{crossDomain: true})
             .then(response =>{
-                console.log("response",response)
                 this.setState({
                     events: response.data
                 })
@@ -145,7 +144,6 @@ class EventTable extends React.Component {
     }
     handleClick(id){
         localStorage.setItem('ID',id)
-        console.log("get",localStorage.getItem('ID'))
         this.setState({
             id: id,
             fireUpdate: true
@@ -263,7 +261,7 @@ class EventTable extends React.Component {
             </Paper>
             <Link to="/newEvent" className={classes.addButton}>
                    <Button variant="fab" color="secondary" aria-label="Add" className={classes.button}>
-                        <Icon>add</Icon>
+                        <Add/>
                    </Button>
             </Link>
         </div>

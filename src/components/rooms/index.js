@@ -161,24 +161,27 @@ class RoomTable extends React.Component {
         this.setState({ selected: newSelected });
 }
     handleClick = (event, id) => {
-        const { selected } = this.state;
-        const selectedIndex = selected.indexOf(id);
-        let newSelected = [];
 
-        if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, id);
-        } else if (selectedIndex === 0) {
-            newSelected = newSelected.concat(selected.slice(1));
-        } else if (selectedIndex === selected.length - 1) {
-            newSelected = newSelected.concat(selected.slice(0, -1));
-        } else if (selectedIndex > 0) {
-            newSelected = newSelected.concat(
-                selected.slice(0, selectedIndex),
-                selected.slice(selectedIndex + 1),
-            );
-        }
-        this.props.dispatch(UpdateSelectedRooms(this.state.key,[newSelected]))
-        this.setState({ selected: newSelected });
+            const { selected } = this.state;
+            const selectedIndex = selected.indexOf(id);
+            let newSelected = [];
+
+            if (selectedIndex === -1) {
+                newSelected = newSelected.concat(selected, id);
+            } else if (selectedIndex === 0) {
+                newSelected = newSelected.concat(selected.slice(1));
+            } else if (selectedIndex === selected.length - 1) {
+                newSelected = newSelected.concat(selected.slice(0, -1));
+            } else if (selectedIndex > 0) {
+                newSelected = newSelected.concat(
+                    selected.slice(0, selectedIndex),
+                    selected.slice(selectedIndex + 1),
+                );
+            }
+            this.props.dispatch(UpdateSelectedRooms(this.state.key,newSelected))
+            this.setState({ selected: newSelected });
+
+
     };
 
     isSelected = id => this.state.selected.indexOf(id) !== -1;
