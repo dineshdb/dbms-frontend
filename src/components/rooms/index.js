@@ -177,7 +177,7 @@ class RoomTable extends React.Component {
                 selected.slice(selectedIndex + 1),
             );
         }
-        this.props.dispatch(UpdateSelectedRooms(this.state.key,newSelected))
+        this.props.dispatch(UpdateSelectedRooms(this.state.key,[newSelected]))
         this.setState({ selected: newSelected });
     };
 

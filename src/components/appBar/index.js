@@ -49,7 +49,8 @@ class HomeBar extends React.Component {
             userId: "",
             fireHome: false,
             userName: "",
-            date: ""
+            date: "",
+            fireSearch: false
         }
     }
     componentDidMount(){
@@ -142,16 +143,15 @@ class HomeBar extends React.Component {
                                             <Typography className={classes.typography}>Events</Typography>
                                         </Button>
                                     </Link>
-                                    <Link to="/organizers" className={classes.pad}>
-                                        <Button color="inherit">
-                                            <Typography className={classes.typography}>Organizers</Typography>
-                                        </Button>
-                                    </Link>
+                                
                                      <Link to="/searchEvent" className={classes.pad}>
                                         <IconButton color="inherit" aria-label="Search">
                                             <Icon>search</Icon>
                                         </IconButton>
                                     </Link>
+
+                                         
+                                    
                                      <DatePicker
                                           selected={this.state.date}
                                             onChange={(Date)=>{

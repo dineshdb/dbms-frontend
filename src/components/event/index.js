@@ -22,7 +22,6 @@ import Collapse from '@material-ui/core/Collapse'
 import RoomTable from '../rooms/index'
 import rooms from "../../reducers/rooms";
 import {UpdateRooms} from "../rooms/action";
-
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
@@ -190,6 +189,10 @@ class EventForm extends React.Component{
             }
             )
         }
+        clearState() {
+            this.props.dispatch(UpdateRooms([]))
+        }
+
         handleSubmit(event){
             event.preventDefault()
             const {organizerName,
@@ -241,6 +244,7 @@ class EventForm extends React.Component{
                 .then(response =>{
                     console.log("response",response)
                 }).then(()=>{
+                    this.clearState()
                     this.setState({
                         fireRedirect: true
                     })
@@ -317,7 +321,7 @@ class EventForm extends React.Component{
                               <TextField
                                 label="Description *"
                                 className={classes.textField}
-                                
+                                multiline
                                 onChange={this.handleEventDescription.bind(this)}
                                 value={this.state.eventDescription}
                               />

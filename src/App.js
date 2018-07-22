@@ -17,7 +17,6 @@ import theme from './theme'
 import {MuiThemeProvider} from '@material-ui/core/styles'
 import UpdateEvent from './views/updateEvent'
 import Search from './views/admin/search'
-
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 class App extends React.Component {
@@ -80,6 +79,7 @@ class App extends React.Component {
                              }
 
                         }} />
+                       
                     <Route path = "/updateEvent/:id" render = {() => {
                         let userToken = JSON.parse(localStorage.getItem(USER_TOKEN))
                         if(!userToken){
