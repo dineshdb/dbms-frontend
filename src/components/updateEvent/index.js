@@ -325,6 +325,7 @@ class EventForm extends React.Component{
                                 <Link to = "/">
                                     <Button
                                     variant="outlined"
+                                    style={{borderRadius: 0}}
 
                                     >
                                         <Typography
@@ -341,6 +342,7 @@ class EventForm extends React.Component{
                                     variant = "contained"
                                     color="primary"
                                     type="submit"
+                                     style={{borderRadius: 0}}
                                     onClick={this.handleSubmit.bind(this)}
 
                                 >
