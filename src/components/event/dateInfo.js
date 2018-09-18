@@ -64,7 +64,7 @@ class Rooms extends React.Component {
         const fetchedDate = JSON.parse(localStorage.getItem('TEMP_DATE'))
         
        
-        axios.get('http://localhost:8080/rooms',{crossDomain: true})
+        axios.get('/api/rooms',{crossDomain: true})
         .then((response) => {
           this.setState({
             rooms: response.data
@@ -94,7 +94,7 @@ class Rooms extends React.Component {
 
         )
         .then(
-          axios.post('http://localhost:8080/eventSections/findByDate',fetchedDate,{crossDomain: true})
+          axios.post('/api/eventSections/findByDate',fetchedDate,{crossDomain: true})
           .then(((response)=>{
             this.setState({
               chosenTimeSlots: response.data

@@ -30,7 +30,7 @@ class Organizers extends React.Component {
     }
     componentDidMount(){
     
-       axios.get('http://localhost:8080/organizers')
+       axios.get('/api/organizers')
        .then(response=>{
            this.setState({
                users: response.data

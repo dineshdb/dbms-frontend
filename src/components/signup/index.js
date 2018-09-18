@@ -199,7 +199,7 @@ class SignUpForm extends React.Component{
                 organizerPhone: phone,
                 organizerAddress: address
             }
-            axios.post('http://localhost:8080/organizers'
+            axios.post('/api/organizers'
             ,(signUpObject),{crossDomain: true})
             .then(response => {
         

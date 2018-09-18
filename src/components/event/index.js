@@ -232,7 +232,7 @@ class EventForm extends React.Component{
                 perDayInfoList: temp
 
             }
-            axios.post(`http://localhost:8080/saveEvent`,postingData,{crossDomain: true})
+            axios.post(`/api/saveEvent`,postingData,{crossDomain: true})
                 .then(response =>{
                 }).then(()=>{
                     this.clearState()
@@ -417,7 +417,7 @@ class EventForm extends React.Component{
                                                                                 }
                                                                                 let tempRooms = []
                                                                                 this.clearState()
-                                                                                axios.post(`http://localhost:8080/findRooms`,search,{crossDomain:true})
+                                                                                axios.post(`/api/findRooms`,search,{crossDomain:true})
                                                                                     .then((response)=>{
                                                                                         tempRooms=response.data
                                                                                     }).then(()=>{

@@ -36,7 +36,7 @@ class Events extends React.Component {
     componentDidMount(){
         let user = JSON.parse(localStorage.getItem(USER_TOKEN))
         if(user){
-            axios.get(`http://localhost:8080/organizers/${user.id}/events`,{crossDomain:true})
+            axios.get(`/api/organizers/${user.id}/events`,{crossDomain:true})
             .then(response => {
                 this.setState({
                     events: response.data
@@ -80,10 +80,10 @@ class Events extends React.Component {
                     <TableRow key={i}>
                         <TableCell>{n.eventName}</TableCell>
                         
-                        {(n.accepted == true) && (
+                        {(n.accepted === true) && (
                             <TableCell>Approved</TableCell>
                         )}
-                        {(n.accepted == false) && (
+                        {(n.accepted === false) && (
                             <TableCell>Pending</TableCell>
                         )}
                         <TableCell>{n.organizer.organizerName}</TableCell>
@@ -92,7 +92,6 @@ class Events extends React.Component {
                         <TableCell >{n.eventDurationInDays}</TableCell>
                         <TableCell >{n.expectedNumberOfParticipants}</TableCell>
                     </TableRow>
-                    
                     );
                 })}
                 <br/>

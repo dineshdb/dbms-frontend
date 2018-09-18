@@ -120,7 +120,7 @@ class EventForm extends React.Component{
         this.setState({
             eventId: EventId
         })
-        axios.get(`http://localhost:8080/showAllEvents`,{crossDomain: true})
+        axios.get(`/api/showAllEvents`,{crossDomain: true})
             .then(response =>{
                 let temp = response.data
                 this.setState({
@@ -286,7 +286,7 @@ class EventForm extends React.Component{
             perDayInfoList: temp
 
         }
-        axios.post(`http://localhost:8080/updateEvent/${this.state.eventId}`,postingData,{crossDomain: true})
+        axios.post(`/api/updateEvent/${this.state.eventId}`,postingData,{crossDomain: true})
             .then(response =>{
                 this.setState({
                     fireRedirect: true
@@ -294,7 +294,7 @@ class EventForm extends React.Component{
             })
     }
     handleDelete(){
-        axios.post(`http://localhost:8080/deleteEvent/${this.state.eventId}`,{},{crossDomain: true})
+        axios.post(`/api/deleteEvent/${this.state.eventId}`,{},{crossDomain: true})
             .then(response =>{
                 this.setState({
                     fireRedirect: true
@@ -734,7 +734,7 @@ class EventForm extends React.Component{
                                                                                 eventSectionEndTime: ending[key]
                                                                             }
                                                                             let tempRooms = []
-                                                                            axios.post(`http://localhost:8080/findRooms`,search,{crossDomain:true})
+                                                                            axios.post(`/api/findRooms`,search,{crossDomain:true})
                                                                                 .then((response)=>{
                                                                                     tempRooms=response.data
                                                                                 }).then(()=>{

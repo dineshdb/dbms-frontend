@@ -139,7 +139,7 @@ class LoginForm extends React.Component{
                 userName: this.state.userName,
                 userPassword: this.state.userPassword
             }
-            axios.post(`http://localhost:8080/login` 
+            axios.post(`/api/login` 
             ,(postingData),
             {crossDomain: true})
             .then(response => {

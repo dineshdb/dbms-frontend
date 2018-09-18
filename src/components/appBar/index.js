@@ -17,7 +17,7 @@ import IconButton from '@material-ui/core/IconButton';
 const styles = {
     root: {
         flexGrow: 1,
-       
+
     },
     flex: {
         flex: 1,
@@ -34,7 +34,7 @@ const styles = {
         fontWeight: "lighter",
     },
     search: {
-    
+
     }
 };
 
@@ -54,7 +54,7 @@ class HomeBar extends React.Component {
     }
     componentDidMount(){
         var userToken = JSON.parse(localStorage.getItem(USER_TOKEN))
-        
+
         if(userToken){
             this.setState({
                 isOnline: userToken.isOnline,
@@ -63,7 +63,7 @@ class HomeBar extends React.Component {
             })
         }
 
-        
+
     }
     handleLogOut(){
         var userToken = JSON.parse(localStorage.getItem(USER_TOKEN))
@@ -75,7 +75,7 @@ class HomeBar extends React.Component {
            })
         }
         this.fireHome()
-        
+
     }
     fireHome(){
         this.setState({
@@ -83,7 +83,7 @@ class HomeBar extends React.Component {
         })
     }
 
-    render() {       
+    render() {
         const {classes} = this.props;
         if(!this.state.isOnline){
             return (
@@ -110,7 +110,7 @@ class HomeBar extends React.Component {
                                 </Grid>
                                 <Grid item xs={1}>
                                 </Grid>
-                            
+
                                 </Grid>
                         </Toolbar>
                     </AppBar>
@@ -118,7 +118,6 @@ class HomeBar extends React.Component {
             );
         }
         else{
-           
             return (
                 <div >
                     <AppBar position="static" className={classes.root}>
@@ -142,15 +141,12 @@ class HomeBar extends React.Component {
                                             <Typography className={classes.typography}>Events</Typography>
                                         </Button>
                                     </Link>
-                                
+
                                      <Link to="/searchEvent" className={classes.pad}>
                                         <IconButton color="inherit" aria-label="Search">
                                             <Search/>
                                         </IconButton>
                                     </Link>
-
-                                         
-                                    
                                      <DatePicker
                                           selected={this.state.date}
                                             onChange={(Date)=>{
@@ -165,7 +161,6 @@ class HomeBar extends React.Component {
                                     <Grid item xs={1}>
                                 </Grid>
                                 <Grid item xs={1}>
-                                
                                     <Button style={{margin: "5px"}} variant="outlined" color="inherit" onClick={this.handleLogOut.bind(this)}>
                                         <Typography
                                             className={classes.typography}
@@ -173,12 +168,11 @@ class HomeBar extends React.Component {
                                         </Typography>
                                     </Button>
                                 </Grid>
-                            </Grid>  
+                            </Grid>
                         </Toolbar>
                     </AppBar>
                 </div>
             );
-
         }
 }
 }
@@ -188,7 +182,7 @@ HomeBar.propTypes = {
 
 function mapStateToProps(state){
     return {
-        
+
 
     }
 }
