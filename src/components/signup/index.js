@@ -1,13 +1,10 @@
 import React from 'react'
-import {withStyles} from '@material-ui/core/styles'
-import PropTypes from 'prop-types'
 import {Link } from 'react-router-dom'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import Paper from '@material-ui/core/Paper'
 import TextField from '@material-ui/core/TextField'
 import {connect} from 'react-redux'
-import {addUser} from './action'
 import axios from 'axios'
 import Typography from '@material-ui/core/Typography'
 import {Redirect} from 'react-router-dom'
@@ -199,7 +196,7 @@ class SignUpForm extends React.Component{
                 organizerPhone: phone,
                 organizerAddress: address
             }
-            axios.post('http://localhost:8080/organizers'
+            axios.post('/api/organizers'
             ,(signUpObject),{crossDomain: true})
             .then(response => {
         

@@ -7,13 +7,8 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import IconButton from '@material-ui/core/IconButton'
-import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
-import Clear from '@material-ui/icons/Clear'
-import Check from '@material-ui/icons/Check'
 import axios from 'axios'
-import {Redirect } from 'react-router-dom'
 import {USER_TOKEN} from '../../definitions/index'
 
 const styles = theme => ({
@@ -41,7 +36,7 @@ class Events extends React.Component {
     componentDidMount(){
         let user = JSON.parse(localStorage.getItem(USER_TOKEN))
         if(user){
-            axios.get(`http://localhost:8080/organizers/${user.id}/events`,{crossDomain:true})
+            axios.get(`/api/organizers/${user.id}/events`,{crossDomain:true})
             .then(response => {
                 this.setState({
                     events: response.data
@@ -85,10 +80,10 @@ class Events extends React.Component {
                     <TableRow key={i}>
                         <TableCell>{n.eventName}</TableCell>
                         
-                        {(n.accepted == true) && (
+                        {(n.accepted === true) && (
                             <TableCell>Approved</TableCell>
                         )}
-                        {(n.accepted == false) && (
+                        {(n.accepted === false) && (
                             <TableCell>Pending</TableCell>
                         )}
                         <TableCell>{n.organizer.organizerName}</TableCell>
@@ -97,7 +92,6 @@ class Events extends React.Component {
                         <TableCell >{n.eventDurationInDays}</TableCell>
                         <TableCell >{n.expectedNumberOfParticipants}</TableCell>
                     </TableRow>
-                    
                     );
                 })}
                 <br/>

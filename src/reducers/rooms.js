@@ -8,6 +8,9 @@ export default function rooms(state={
             temp[action.payload.key] = action.payload.data
             return {...state,rooms: temp}
 
+
+
+
     }
     return state
 }

@@ -7,12 +7,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import Button from '@material-ui/core/Button'
 import Checkbox from '@material-ui/core/Checkbox';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
 import {ROOMS} from '../../definitions/index'
 import Typography from '@material-ui/core/Typography'
 import Tooltip from '@material-ui/core/Tooltip'
@@ -64,7 +59,7 @@ class Rooms extends React.Component {
         const fetchedDate = JSON.parse(localStorage.getItem('TEMP_DATE'))
         
        
-        axios.get('http://localhost:8080/rooms',{crossDomain: true})
+        axios.get('/api/rooms',{crossDomain: true})
         .then((response) => {
           this.setState({
             rooms: response.data
@@ -94,7 +89,7 @@ class Rooms extends React.Component {
 
         )
         .then(
-          axios.post('http://localhost:8080/eventSections/findByDate',fetchedDate,{crossDomain: true})
+          axios.post('/api/eventSections/findByDate',fetchedDate,{crossDomain: true})
           .then(((response)=>{
             this.setState({
               chosenTimeSlots: response.data

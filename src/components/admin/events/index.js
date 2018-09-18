@@ -9,23 +9,22 @@ import TableRow from '@material-ui/core/TableRow';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
-import Checkbox from '@material-ui/core/Checkbox';
+import Add from '@material-ui/icons/Add'
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import axios from 'axios'
 import classNames from 'classnames';
-import {Redirect ,Link} from 'react-router-dom'
-import Icon from '@material-ui/core/Icon';
+import { Redirect, Link } from 'react-router-dom'
 import Button from '@material-ui/core/Button'
 
 
 
 const columnData = [
-    "ID","Event Name","Organizer Name","Organizer Email","Start","End"
+    "ID", "Event Name", "Organizer Name", "Organizer Email", "Start", "End"
 ];
 
 const toolbarStyles = theme => ({
@@ -68,10 +67,10 @@ let EnhancedTableToolbar = props => {
                         {numSelected} selected
                     </Typography>
                 ) : (
-                    <Typography variant="title" id="tableTitle">
-                        Nutrition
+                        <Typography variant="title" id="tableTitle">
+                            Nutrition
                     </Typography>
-                )}
+                    )}
             </div>
             <div className={classes.spacer} />
             <div className={classes.actions}>
@@ -82,12 +81,12 @@ let EnhancedTableToolbar = props => {
                         </IconButton>
                     </Tooltip>
                 ) : (
-                    <Tooltip title="Filter list">
-                        <IconButton aria-label="Filter list">
-                            <FilterListIcon />
-                        </IconButton>
-                    </Tooltip>
-                )}
+                        <Tooltip title="Filter list">
+                            <IconButton aria-label="Filter list">
+                                <FilterListIcon />
+                            </IconButton>
+                        </Tooltip>
+                    )}
             </div>
         </Toolbar>
     );
@@ -102,9 +101,7 @@ EnhancedTableToolbar = withStyles(toolbarStyles)(EnhancedTableToolbar);
 
 const styles = theme => ({
     root: {
-
-        marginTop: theme.spacing.unit * 3,
-        marginRight: theme.spacing.unit * 3,
+        margin: theme.spacing.unit * 3,
     },
     table: {
         minWidth: 1020,
@@ -116,12 +113,12 @@ const styles = theme => ({
         fontWeight: "lighter",
         marginLeft: "10px"
     },
-  addButton: {
-    position: 'absolute',
-    bottom: theme.spacing.unit * 2,
-    right: theme.spacing.unit * 3,
-    paddingRight: theme.spacing.unit,
-  },
+    addButton: {
+        position: 'absolute',
+        bottom: theme.spacing.unit * 2,
+        right: theme.spacing.unit * 3,
+        paddingRight: theme.spacing.unit,
+    },
 });
 
 class EventTable extends React.Component {
@@ -131,23 +128,30 @@ class EventTable extends React.Component {
         this.state = {
             events: [],
             key: 0,
-            id:0,
-            fireUpdate: false
-            ,
+            id: 0,
+            fireUpdate: false,
         };
     }
-    componentDidMount(){
-        axios.get(`http://localhost:8080/showAllEvents`,{crossDomain: true})
-            .then(response =>{
-                console.log("response",response)
+    componentDidMount() {
+        axios.get(`/api/showAllEvents`, { crossDomain: true })
+            .then(response => {
                 this.setState({
                     events: response.data
                 })
             })
     }
-    handleClick(id){
-        localStorage.setItem('ID',id)
-        console.log("get",localStorage.getItem('ID'))
+
+    handleClick(id) {
+        let event = this.state.events.find(event => event.eventId === id)
+        let startTime = new Date(event.eventInfo.eventStartDate)
+        let now = Date.now()
+        let buffer = 8 * 60 * 60 * 1000 // hours in milli second
+        console.log(event)
+        if (startTime - now <= buffer){
+            console.log("No time")
+            return
+        }
+        localStorage.setItem('ID', id)
         this.setState({
             id: id,
             fireUpdate: true
@@ -156,119 +160,112 @@ class EventTable extends React.Component {
 
     }
     render() {
-        const {classes} = this.props;
-        const {events} = this.state
+        const { classes } = this.props;
+        const { events } = this.state
 
         return (
-        <div>
-            <Paper className={classes.root} elevation={2} style={{marginLeft:"20px"}}>
-                <div className={classes.tableWrapper}>
-                    <Table className={classes.table} aria-labelledby="tableTitle">
-                        <TableHead>
-                            <TableRow>
-                                {columnData.map((data)=>{
-                                    return (
-                                        <TableCell> <Typography
-                                            className={classes.typo}
-                                        >
-                                            {data}
-                                        </Typography></TableCell>
-                                    )
-                                })}
-
-                            </TableRow>
-                        </TableHead>
-                        <TableBody style={{marginLeft: "50px"}}>
-                            {
-
-                                events
-                                    .map(n => {
-
+            <div>
+                <Paper className={classes.root} elevation={2} style={{ marginLeft: "20px" }}>
+                    <div className={classes.tableWrapper}>
+                        <Table className={classes.table} aria-labelledby="tableTitle">
+                            <TableHead>
+                                <TableRow>
+                                    {columnData.map((data) => {
                                         return (
-
-                                            <TableRow
-                                                hover
-                                                onClick={(event) => {
-                                                    this.handleClick(n.eventId)
-
-                                                }
-
-
-                                                }
-
-                                                tabIndex={-1}
-                                                key={n.eventId}
-
-
-
-                                                // selected={isSelected}
+                                            <TableCell> <Typography
+                                                className={classes.typo}
                                             >
-
-                                                <TableCell component="th" scope="row" padding="none">
-                                                    <Typography
-                                                        className={classes.typo}
-                                                    >
-                                                        {n.eventId}
-                                                    </Typography>
-
-                                                </TableCell>
-
-                                                <TableCell component="th" scope="row" padding="none">
-                                                    <Typography
-                                                        className={classes.typo}
-                                                    >
-                                                        {n.eventInfo.eventName}
-                                                    </Typography>
-
-                                                </TableCell>
-                                                <TableCell component="th" scope="row" padding="none">
-                                                    <Typography
-                                                        className={classes.typo}
-                                                    >
-                                                        {n.eventInfo.organizerName}
-                                                    </Typography>
-
-                                                </TableCell>
-                                                <TableCell component="th" scope = "row" padding="none">
-                                                    <Typography
-                                                        className={classes.typo}
-                                                    >
-                                                        {n.eventInfo.organizerEmail}
-                                                    </Typography>
-                                                </TableCell>
-                                                <TableCell component="th" scope = "row" padding="none">
-                                                    <Typography
-                                                        className={classes.typo}
-                                                    >
-                                                        {n.eventInfo.eventStartDate}
-                                                    </Typography>
-                                                </TableCell>
-                                                <TableCell component="th" scope = "row" padding="none">
-                                                    <Typography
-                                                        className={classes.typo}
-                                                    >
-                                                        {n.eventInfo.eventEndDate}
-                                                    </Typography>
-                                                </TableCell>
-                                            </TableRow>
-                                        );
+                                                {data}
+                                            </Typography></TableCell>
+                                        )
                                     })}
-                        </TableBody>
-                    </Table>
-                    {
-                        this.state.fireUpdate && (
 
-                            <Redirect to = {`/updateEvent/${this.state.id}`} params={{id: this.state.id}} />
-                        )
-                    }
-                </div>
-            </Paper>
-            <Link to="/newEvent" className={classes.addButton}>
-                   <Button variant="fab" color="secondary" aria-label="Add" className={classes.button}>
-                        <Icon>add</Icon>
-                   </Button>
-            </Link>
-        </div>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody style={{ marginLeft: "50px" }}>
+                                {
+
+                                    events
+                                        .map(n => {
+
+                                            return (
+
+                                                <TableRow hover
+                                                    onClick={event=> {
+                                                        this.handleClick(n.eventId)
+                                                    }
+                                                    }
+
+                                                    tabIndex={-1}
+                                                    key={n.eventId}
+                                                // selected={isSelected}
+                                                >
+
+                                                    <TableCell component="th" scope="row" padding="none">
+                                                        <Typography
+                                                            className={classes.typo}
+                                                        >
+                                                            {n.eventId}
+                                                        </Typography>
+
+                                                    </TableCell>
+
+                                                    <TableCell component="th" scope="row" padding="none">
+                                                        <Typography
+                                                            className={classes.typo}
+                                                        >
+                                                            {n.eventInfo.eventName}
+                                                        </Typography>
+
+                                                    </TableCell>
+                                                    <TableCell component="th" scope="row" padding="none">
+                                                        <Typography
+                                                            className={classes.typo}
+                                                        >
+                                                            {n.eventInfo.organizerName}
+                                                        </Typography>
+
+                                                    </TableCell>
+                                                    <TableCell component="th" scope="row" padding="none">
+                                                        <Typography
+                                                            className={classes.typo}
+                                                        >
+                                                            {n.eventInfo.organizerEmail}
+                                                        </Typography>
+                                                    </TableCell>
+                                                    <TableCell component="th" scope="row" padding="none">
+                                                        <Typography
+                                                            className={classes.typo}
+                                                        >
+                                                            {n.eventInfo.eventStartDate}
+                                                        </Typography>
+                                                    </TableCell>
+                                                    <TableCell component="th" scope="row" padding="none">
+                                                        <Typography
+                                                            className={classes.typo}
+                                                        >
+                                                            {n.eventInfo.eventEndDate}
+                                                        </Typography>
+                                                    </TableCell>
+                                                </TableRow>
+                                            );
+                                        })}
+                            </TableBody>
+                        </Table>
+                        {
+                            this.state.fireUpdate && (
+
+                                <Redirect to={`/updateEvent/${this.state.id}`} params={{ id: this.state.id }} />
+                            )
+                        }
+                    </div>
+                </Paper>
+                <Link to="/newEvent" className={classes.addButton}>
+                    <Button variant="fab" color="secondary" aria-label="Add" className={classes.button}>
+                        <Add />
+                    </Button>
+                </Link>
+            </div>
         );
     }
 }
@@ -276,7 +273,7 @@ class EventTable extends React.Component {
 EventTable.propTypes = {
     classes: PropTypes.object.isRequired,
 };
-function mapStateToProps(state){
+function mapStateToProps(state) {
     return {
         rooms: state.rooms,
         selectedRooms: state.RoomsSelected

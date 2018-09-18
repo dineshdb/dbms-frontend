@@ -4,7 +4,6 @@ export default function users(state={
 },action){
     switch(action.type){
         case ADD_NEW_USER:
-            console.log('action dispatched',action.payload,'state',state)
             return {...state,users: [...state.users,action.payload]}
     }
     return state

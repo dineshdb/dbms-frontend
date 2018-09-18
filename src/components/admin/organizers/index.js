@@ -7,7 +7,6 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import Button from '@material-ui/core/Button'
 import axios from 'axios'
 
 const styles = theme => ({
@@ -31,7 +30,7 @@ class Organizers extends React.Component {
     }
     componentDidMount(){
     
-       axios.get('http://localhost:8080/organizers')
+       axios.get('/api/organizers')
        .then(response=>{
            this.setState({
                users: response.data

@@ -11,23 +11,14 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import axios from 'axios'
-import {USER_TOKEN} from '../../definitions/index'
 import {Redirect } from 'react-router-dom'
 import DatePicker from 'react-datepicker'
-import {DATES} from '../../definitions/index'
 import ToolBar from '@material-ui/core/Toolbar'
 import moment from 'moment'
 import 'react-datepicker/dist/react-datepicker-cssmodules.css'
 import Collapse from '@material-ui/core/Collapse'
 import RoomTable from '../rooms/index'
-import rooms from "../../reducers/rooms";
-import {UpdateRooms} from "../rooms/action";
-
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import Icon from '@material-ui/core/Icon';
+import {UpdateRooms,UpdateSelectedRooms} from "../rooms/action";
 
 const styles = theme => ({
     root: {
@@ -190,6 +181,10 @@ class EventForm extends React.Component{
             }
             )
         }
+        clearState() {
+            this.props.dispatch(UpdateSelectedRooms())
+        }
+
         handleSubmit(event){
             event.preventDefault()
             const {organizerName,
@@ -237,20 +232,16 @@ class EventForm extends React.Component{
                 perDayInfoList: temp
 
             }
-            axios.post(`http://localhost:8080/saveEvent`,postingData,{crossDomain: true})
+            axios.post(`/api/saveEvent`,postingData,{crossDomain: true})
                 .then(response =>{
-                    console.log("response",response)
                 }).then(()=>{
+                    this.clearState()
                     this.setState({
                         fireRedirect: true
                     })
             }
 
             )
-        }
-        
-        handleChange(changed){
-
         }
 
 
@@ -317,7 +308,7 @@ class EventForm extends React.Component{
                               <TextField
                                 label="Description *"
                                 className={classes.textField}
-                                
+                                multiline
                                 onChange={this.handleEventDescription.bind(this)}
                                 value={this.state.eventDescription}
                               />
@@ -333,7 +324,6 @@ class EventForm extends React.Component{
                 
                               {
                                                 this.state.dates.map((date,key)=>{
-                                                    console.log("KEY",key)
                                                     return(
                                                         <div style={{marginLeft: "100px"}}>
                                                         <ToolBar>
@@ -425,9 +415,9 @@ class EventForm extends React.Component{
                                                                                     eventSectionStartTime: starting[key],
                                                                                     eventSectionEndTime: ending[key]
                                                                                 }
-                                                                                console.log("Search",search)
                                                                                 let tempRooms = []
-                                                                                axios.post(`http://localhost:8080/findRooms`,search,{crossDomain:true})
+                                                                                this.clearState()
+                                                                                axios.post(`/api/findRooms`,search,{crossDomain:true})
                                                                                     .then((response)=>{
                                                                                         tempRooms=response.data
                                                                                     }).then(()=>{

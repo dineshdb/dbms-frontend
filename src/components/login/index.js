@@ -139,11 +139,11 @@ class LoginForm extends React.Component{
                 userName: this.state.userName,
                 userPassword: this.state.userPassword
             }
-            axios.post(`http://localhost:8080/login` 
+            axios.post(`/api/login` 
             ,(postingData),
             {crossDomain: true})
             .then(response => {
-                if(response.data.responseCode != "404"){
+                if(response.data.responseCode !== "404"){
                    
                     localStorage.setItem(USER_TOKEN,JSON.stringify({
                     isOnline: true,
