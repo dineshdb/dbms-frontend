@@ -146,7 +146,7 @@ class EventTable extends React.Component {
         let startTime = new Date(event.eventInfo.eventStartDate)
         let now = Date.now()
         let buffer = 8 * 60 * 60 * 1000 // hours in milli second
-        
+        console.log(event)
         if (startTime - now <= buffer){
             console.log("No time")
             return

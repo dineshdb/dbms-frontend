@@ -10,7 +10,6 @@ import Grid from '@material-ui/core/Grid'
 import {USER_TOKEN} from '../../definitions/index'
 import {Redirect} from 'react-router-dom'
 import Typography from '@material-ui/core/Typography'
-import DatePicker from 'react-datepicker'
 import Search from '@material-ui/icons/Search'
 import IconButton from '@material-ui/core/IconButton';
 
@@ -40,7 +39,6 @@ const styles = {
 
 
 class HomeBar extends React.Component {
-
     constructor(props){
         super(props)
         this.state = {
@@ -62,8 +60,13 @@ class HomeBar extends React.Component {
                 userName: userToken.userName
             })
         }
-
-
+    }
+    handleSearch(){
+        this.setState({
+            fireSearch: true
+        })
+        let event = new CustomEvent('update-search',{detail: this.state.query})
+        window.dispatchEvent(event)
     }
     handleLogOut(){
         var userToken = JSON.parse(localStorage.getItem(USER_TOKEN))
@@ -142,20 +145,13 @@ class HomeBar extends React.Component {
                                         </Button>
                                     </Link>
 
-                                     <Link to="/searchEvent" className={classes.pad}>
-                                        <IconButton color="inherit" aria-label="Search">
+                                    <input type="text" onChange={event => {
+                                        let query = event.target.value
+                                        this.setState({query})
+                                    }}/>
+                                        <IconButton color="inherit" aria-label="Search"  onClick={ e => this.handleSearch(e)}>
                                             <Search/>
                                         </IconButton>
-                                    </Link>
-                                     <DatePicker
-                                          selected={this.state.date}
-                                            onChange={(Date)=>{
-                                                               this.setState({
-                                                              date: Date
-                                                              })
-                                                             localStorage.setItem('DATE',Date.format('YYYY-MM-DD'))
-                                                               }}
-                                                                />
                                     </Toolbar>
                                     </Grid>
                                     <Grid item xs={1}>
@@ -171,6 +167,12 @@ class HomeBar extends React.Component {
                             </Grid>
                         </Toolbar>
                     </AppBar>
+                    {
+                    this.state.fireSearch && (
+                        <Redirect to = {`/searchEvent/${this.state.query}`} params={{query: this.state.query}} />
+                    )
+                    }
+
                 </div>
             );
         }
@@ -182,8 +184,6 @@ HomeBar.propTypes = {
 
 function mapStateToProps(state){
     return {
-
-
     }
 }
 export default connect(mapStateToProps)(withStyles(styles)(HomeBar))

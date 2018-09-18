@@ -145,13 +145,13 @@ class EventForm extends React.Component{
                     let tempo3 = []
                     let tempo4 = []
                     let tempo6 = []
-                    info.perDayInfoList.map((slot) => {
+                    info.perDayInfoList.forEach((slot) => {
                         tempo1.push(moment(slot.date))
                         tempo2.push(slot.timeSlotList[0].startingTime)
                         tempo3.push(slot.timeSlotList[0].endingTime)
                         let tempo5 = []
                         let tempo7 = []
-                        slot.timeSlotList[0].rooms.map((room)=>{
+                        slot.timeSlotList[0].rooms.forEach((room)=>{
                             tempo5.push(room)
                             tempo7.push(room.roomId)
                         })

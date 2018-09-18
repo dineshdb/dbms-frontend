@@ -1,18 +1,14 @@
 import React from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import Route from 'react-router-dom/Route'
-import Home from './views/home'
 import PublicHome from './views/public/home'
 import Login from './views/login'
-import SignUp from './views/signup'
 import { Redirect } from 'react-router-dom'
 import NewEvent from './views/newEvent'
 import PageNotFound from './views/404'
 import { USER_TOKEN } from './definitions/index'
 import AdminHome from './views/admin/index'
 import Events from './views/admin/events'
-import UserEvent from './views/events'
-import Organizers from './views/admin/users'
 import theme from './theme'
 import { MuiThemeProvider } from '@material-ui/core/styles'
 import UpdateEvent from './views/updateEvent'
@@ -20,10 +16,6 @@ import Search from './views/admin/search'
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 class App extends React.Component {
-    constructor(props) {
-        super(props)
-    }
-
     render() {
         return (
             <MuiThemeProvider theme={theme}>
@@ -65,13 +57,11 @@ class App extends React.Component {
                             }
 
                         }} />
-                        <Route path="/searchEvent" render={() => {
+                        <Route path="/searchEvent/:query" render={() => {
                             let userToken = JSON.parse(localStorage.getItem(USER_TOKEN))
                             if (!userToken) {
                                 return <PublicHome />
-                            }
-
-                            else {
+                            } else {
                                 return <Search />
                             }
 

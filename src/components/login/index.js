@@ -143,7 +143,7 @@ class LoginForm extends React.Component{
             ,(postingData),
             {crossDomain: true})
             .then(response => {
-                if(response.data.responseCode != "404"){
+                if(response.data.responseCode !== "404"){
                    
                     localStorage.setItem(USER_TOKEN,JSON.stringify({
                     isOnline: true,

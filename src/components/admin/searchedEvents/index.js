@@ -9,7 +9,6 @@ import TableRow from '@material-ui/core/TableRow';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
-import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -18,9 +17,7 @@ import { lighten } from '@material-ui/core/styles/colorManipulator';
 import {connect} from 'react-redux'
 import axios from 'axios'
 import classNames from 'classnames';
-import {Redirect ,Link} from 'react-router-dom'
-
-
+import {Redirect} from 'react-router-dom'
 
 
 const columnData = [
@@ -126,35 +123,35 @@ class EventTable extends React.Component {
             events: [],
             key: 0,
             id:0,
-            fireUpdate: false
-            ,
+            fireUpdate: false,
         };
+
+        window.addEventListener('update-search', e =>{
+            let query = e.detail
+            this.setState({query})
+            this.search(query)
+        })
+
     }
-    componentDidMount(){
-        let x = localStorage.getItem('DATE')
-        console.log("DATE CHOSEN",x)
-        axios.post(`/api/findEventsHappeningAtDate`,{date: x},{crossDomain: true})
-            .then(response =>{
-                console.log("response",response)
-                this.setState({
-                    events: response.data
-                })
+    search(query){
+        query = query || this.state.query
+        console.log("Searching:", query)
+        axios.post(`/api/findEventsHappeningAtDate`,{date: query},{crossDomain: true})
+        .then(({data}) =>{
+            this.setState({
+                events: data
             })
+        })
     }
     handleClick(id){
         localStorage.setItem('ID',id)
         console.log("get",localStorage.getItem('ID'))
-        this.setState({
-            id: id,
-            fireUpdate: true
-        })
-
-
+        this.setState({ id  })
     }
     render() {
         const {classes} = this.props;
         const {events} = this.state
-
+        
         return (
             <Paper className={classes.root} elevation={2} style={{marginLeft:"20px"}}>
                 <div className={classes.tableWrapper}>
