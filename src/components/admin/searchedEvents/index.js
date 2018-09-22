@@ -19,6 +19,8 @@ import {connect} from 'react-redux'
 import axios from 'axios'
 import classNames from 'classnames';
 import {Redirect ,Link} from 'react-router-dom'
+import NavigationIcon from '@material-ui/icons/Navigation';
+import Button from '@material-ui/core/Button';
 
 
 
@@ -114,8 +116,16 @@ const styles = theme => ({
     },
     typo: {
         fontWeight: "lighter",
-        marginLeft: "10px"
-    }
+        marginLeft: "10px",
+    },
+     button: {
+    margin: 3*theme.spacing.unit,
+    borderRadius: "0px",
+
+  },
+  extendedIcon: {
+    marginRight: theme.spacing.unit,
+  },
 });
 
 class EventTable extends React.Component {
@@ -126,12 +136,16 @@ class EventTable extends React.Component {
             events: [],
             key: 0,
             id:0,
-            fireUpdate: false
+            fireUpdate: false,
+            date: ""
             ,
         };
     }
     componentDidMount(){
         let x = localStorage.getItem('DATE')
+        this.setState({
+            date: x
+        })
         console.log("DATE CHOSEN",x)
         axios.post(`http://localhost:8080/findEventsHappeningAtDate`,{date: x},{crossDomain: true})
             .then(response =>{
@@ -156,6 +170,9 @@ class EventTable extends React.Component {
         const {events} = this.state
 
         return (
+
+        <div>
+            <Typography align= "center" style={{fontWeight: "lighter",fontSize: "40px",marginTop: "4px"}}>Events</Typography>
             <Paper className={classes.root} elevation={2} style={{marginLeft:"20px"}}>
                 <div className={classes.tableWrapper}>
                     <Table className={classes.table} aria-labelledby="tableTitle">
@@ -258,6 +275,26 @@ class EventTable extends React.Component {
                     }
                 </div>
             </Paper>
+             <Button 
+                size = "large" 
+                align="center" 
+                color = "primary" 
+                variant="contained" 
+                aria-label="Delete" 
+                className={classes.button}
+                onClick={()=>{
+                     axios.post(`http://localhost:8080/findFreeSlotsAtTime`,{date: this.state.date},{crossDomain: true})
+                     .then(response =>{
+                    console.log("response",response)
+                    
+            })
+                }
+            }
+                >
+
+            See available rooms
+      </Button>
+            </div>
         );
     }
 }

@@ -13,11 +13,17 @@ import Typography from '@material-ui/core/Typography'
 import DatePicker from 'react-datepicker'
 import Search from '@material-ui/icons/Search'
 import IconButton from '@material-ui/core/IconButton';
+import {DatetimePicker} from 'rc-datetime-picker'
+import TextField from '@material-ui/core/TextField'
+import moment from 'moment';
 
-const styles = {
+const styles = (theme) => ({
     root: {
         flexGrow: 1,
-       
+    },
+    button: {
+        borderRadius: "0px",
+        marginTop: theme.spacing.unit
     },
     flex: {
         flex: 1,
@@ -33,10 +39,16 @@ const styles = {
         fontSize: "25px",
         fontWeight: "lighter",
     },
+    typo: {
+        margin: theme.spacing.unit
+    },
     search: {
     
-    }
-};
+    },
+    textField: {
+    width: 200,
+  },
+});
 
 
 class HomeBar extends React.Component {
@@ -48,8 +60,9 @@ class HomeBar extends React.Component {
             userId: "",
             fireHome: false,
             userName: "",
-            date: "",
-            fireSearch: false
+            date: moment().format('YYYY-MM-DD HH:MM'),
+            fireSearch: false,
+            moment: moment()
         }
     }
     componentDidMount(){
@@ -124,53 +137,52 @@ class HomeBar extends React.Component {
                     <AppBar position="static" className={classes.root}>
                         <Toolbar>
                             <Grid container spacing = {24} >
-                                <Grid item xs={1}>
-                                <Link to="/" className={classes.pad}>
-                                    <Button color="inherit" style={{margin: "5px"}}>
-                                        <Typography
-                                            className={classes.typography}
-                                        > ICT
-                                        </Typography>
-                                    </Button>
-                                </Link>
-
-                                </Grid>
-                                <Grid item xs={7}>
+                            
+                                <Grid item xs={8}>
                                 <Toolbar>
                                     <Link to="/showEvents" className={classes.pad}>
-                                        <Button color="inherit">
-                                            <Typography className={classes.typography}>Events</Typography>
+                                        <Button color="inherit" className={classes.button} size= "large" >
+                                           <Typography className={classes.typo} style={{fontSize: "20px",color: "white"}}>Events</Typography>
                                         </Button>
                                     </Link>
                                 
                                      <Link to="/searchEvent" className={classes.pad}>
-                                        <IconButton color="inherit" aria-label="Search">
+                                        <IconButton onClick = {()=>{
+                                            console.log("date",this.state.date)
+                                              localStorage.setItem('DATE',this.state.date)
+                                        }}color="inherit" aria-label="Search">
                                             <Search/>
                                         </IconButton>
                                     </Link>
 
                                          
-                                    
-                                     <DatePicker
-                                          selected={this.state.date}
-                                            onChange={(Date)=>{
-                                                               this.setState({
-                                                              date: Date
-                                                              })
-                                                             localStorage.setItem('DATE',Date.format('YYYY-MM-DD'))
-                                                               }}
-                                                                />
+                                     <TextField
+                                        id="datetime-local"
+                                        type="datetime-local"
+                                        defaultValue={new moment().format('YYYY-MM-DD HH:MM')}
+                                        className={classes.textField}
+                                        onChange={
+                                            (event)=>{
+                                                console.log("D",event.target.value)
+                                                this.setState({
+                                                    date: event.target.value
+                                                })
+                                               
+                                            }
+                                        }
+                                        InputLabelProps={{
+                                          shrink: true,
+                                        }}
+                                      />
+                                 
                                     </Toolbar>
                                     </Grid>
                                     <Grid item xs={1}>
                                 </Grid>
                                 <Grid item xs={1}>
                                 
-                                    <Button style={{margin: "5px"}} variant="outlined" color="inherit" onClick={this.handleLogOut.bind(this)}>
-                                        <Typography
-                                            className={classes.typography}
-                                        >Logout
-                                        </Typography>
+                                    <Button size = "large" className={classes.button} variant="outlined" color="inherit" onClick={this.handleLogOut.bind(this)}>
+                                       Logout
                                     </Button>
                                 </Grid>
                             </Grid>  

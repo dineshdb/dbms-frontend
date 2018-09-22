@@ -152,9 +152,11 @@ class LoginForm extends React.Component{
                     userPassword: response.data.userPassword,
                     userRole: response.data.userRole
                 }))
+                     this.handleRedirect()
                 
                 this.setState({
-                    loginFailed: false
+                    loginFailed: false,
+
                 })
              }
              else{
@@ -279,10 +281,8 @@ class LoginForm extends React.Component{
                         </Grid>
                        <Grid item xs = {4}>
                         <Button 
-
-                        disabled = {!this.validateSubmit.bind(this)}
                         variant = "contained" 
-                        type="submit" 
+                        onClick = {this.handleSubmit.bind(this)}
                         color="primary"
                         style = {{marginBottom: 15,marginTop: 5}}
         
