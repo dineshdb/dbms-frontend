@@ -19,6 +19,7 @@ import 'react-datepicker/dist/react-datepicker-cssmodules.css'
 import Collapse from '@material-ui/core/Collapse'
 import RoomTable from '../rooms/index'
 import {UpdateRooms,UpdateSelectedRooms} from "../rooms/action";
+import Cancel from '@material-ui/icons/Cancel'
 
 const styles = theme => ({
     root: {
@@ -100,6 +101,10 @@ const styles = theme => ({
     marginRight: theme.spacing.unit*50,
     width: "60%"
   },
+  button: {
+    borderRadius: "0px",
+
+  }
   });
 
 class EventForm extends React.Component{
@@ -255,6 +260,14 @@ class EventForm extends React.Component{
                             elevation={4}
                             className={classes.innerPaper}
                         >
+                           <Link to = "/">
+                                    <Button
+                                        variant="fav"
+                                    >
+                                    <Cancel/>
+
+                                    </Button>
+                                </Link>
                         <Typography
                             className={classes.title}
                             align="center"
@@ -403,7 +416,8 @@ class EventForm extends React.Component{
                                                                 </Grid>
                                                                 <Grid item xs={3}>
                                                                     <Button
-                                                                        className={classes.typoButton}
+                                                                        className={classes.button}
+                                                                        style={{marginTop: "15px"}}
                                                                         variant="contained"
                                                                         color="primary"
                                                                         onClick = {
@@ -434,11 +448,7 @@ class EventForm extends React.Component{
 
                                                                         }}
                                                                     >
-                                                                        <Typography
-                                                                            className={classes.typo}
-                                                                        >
-                                                                            Find Rooms
-                                                                        </Typography>
+                                                                      Find Rooms
                                                                     </Button>
 
                                                                 </Grid>
@@ -471,32 +481,16 @@ class EventForm extends React.Component{
                             <ToolBar>
                                 <Link to = "/">
                                     <Button
-                                        color="secondary"
-                                    
-
-
-                                    >
-                                        <Typography
-                                            className={classes.typoButton}
-                                        >
-                                            Cancel
-                                        </Typography>
-
-
-                                    </Button>
-                            
-                                    <Button
                                         variant = "contained"
+                                        size="large"
                                         color="primary"
                                         type="submit"
+                                        className={classes.button}
+
                                         onClick={this.handleSubmit.bind(this)}
 
                                     >
-                                        <Typography
-                                            className={classes.typoButton}
-                                        >
-                                            Submit
-                                        </Typography>
+                                    Submit
 
                                     </Button>
                                 </Link>

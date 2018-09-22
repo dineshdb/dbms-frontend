@@ -8,7 +8,7 @@ class Login extends React.Component
         return (
             <div>
                
-            <HomeBar/>
+            
             <LoginBar/>
             </div>
             )
