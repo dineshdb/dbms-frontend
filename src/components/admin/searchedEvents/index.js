@@ -21,7 +21,13 @@ import classNames from 'classnames';
 import {Redirect ,Link} from 'react-router-dom'
 import NavigationIcon from '@material-ui/icons/Navigation';
 import Button from '@material-ui/core/Button';
-
+import Collapse from '@material-ui/core/Collapse';
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemText from '@material-ui/core/ListItemText'
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
+import MenuItem from '@material-ui/core/MenuItem'
+import Menu from '@material-ui/core/Menu'
 
 
 
@@ -103,6 +109,9 @@ EnhancedTableToolbar.propTypes = {
 EnhancedTableToolbar = withStyles(toolbarStyles)(EnhancedTableToolbar);
 
 const styles = theme => ({
+    rootNew: { 
+        margin: theme.spacing.unit*3
+    },
     root: {
 
         marginTop: theme.spacing.unit * 3,
@@ -126,6 +135,12 @@ const styles = theme => ({
   extendedIcon: {
     marginRight: theme.spacing.unit,
   },
+   table: {
+    minWidth: 700,
+  },
+   fullList: {
+    width: 'auto',
+  },
 });
 
 class EventTable extends React.Component {
@@ -137,10 +152,14 @@ class EventTable extends React.Component {
             key: 0,
             id:0,
             fireUpdate: false,
-            date: ""
+            date: "",
+            expand: false,
+            availableRooms: []
             ,
         };
     }
+
+   
     componentDidMount(){
         let x = localStorage.getItem('DATE')
         this.setState({
@@ -155,6 +174,9 @@ class EventTable extends React.Component {
                 })
             })
     }
+
+   
+
     handleClick(id){
         localStorage.setItem('ID',id)
         console.log("get",localStorage.getItem('ID'))
@@ -165,9 +187,15 @@ class EventTable extends React.Component {
 
 
     }
+     toggleDrawer = (side, open) => () => {
+            this.setState({
+              [side]: open,
+    });
+}
     render() {
         const {classes} = this.props;
         const {events} = this.state
+        let count = 0
 
         return (
 
@@ -275,6 +303,7 @@ class EventTable extends React.Component {
                     }
                 </div>
             </Paper>
+          
              <Button 
                 size = "large" 
                 align="center" 
@@ -286,6 +315,10 @@ class EventTable extends React.Component {
                      axios.post(`http://localhost:8080/findFreeSlotsAtTime`,{date: this.state.date},{crossDomain: true})
                      .then(response =>{
                     console.log("response",response)
+                    this.setState({
+                        expand: !this.state.expand,
+                        availableRooms: response.data[0].rooms
+                    })
                     
             })
                 }
@@ -294,6 +327,30 @@ class EventTable extends React.Component {
 
             See available rooms
       </Button>
+
+        <Collapse in={this.state.expand} timeout="auto" unmountOnExit>
+        <Paper className={classes.rootNew}>
+        <Menu anchorOrigin = "horizontal:{left}" onClose={()=>{
+            this.setState({
+                expand: false
+            })
+        }} open ={this.state.expand} autoWidth={false} width="100%" listStyle={{width: '10%'}} style={{width:'100%'}}>
+        {
+            
+                this.state.availableRooms.map(room=>(
+
+                    <MenuItem onClick={()=>{
+                        this.setState({
+                            expand: false
+                        })
+                    }}>{room.roomName}</MenuItem>)
+                    )
+        
+        }
+        </Menu>
+        </Paper>
+       
+        </Collapse>
             </div>
         );
     }
