@@ -19,12 +19,21 @@ import Collapse from '@material-ui/core/Collapse'
 import RoomTable from '../rooms/index'
 import {UpdateRooms, UpdateSelectedRooms} from "../rooms/action";
 import ToolBar from '@material-ui/core/Toolbar'
+import DeleteIcon from '@material-ui/icons/Delete';
 import Remove from '@material-ui/icons/Delete'
 const styles = theme => ({
     root: {
         ...theme.mixins.gutters(),
         paddingTop: theme.spacing.unit * 2,
         paddingBottom: theme.spacing.unit * 2,
+    },
+    button: {
+        borderRadius: '0px',
+        marginLeft: theme.spacing.unit*4
+    },
+    nButton: {
+        borderRadius: '0px',
+        marginTop: theme.spacing.unit
     },
     innerPaper:{
         marginLeft: "20px",
@@ -308,58 +317,38 @@ class EventForm extends React.Component{
         const {classes} = this.props
         return(
             <div style={{marginTop: 40, marginBottom: 40}}>
-                <Paper>
+            
                     <Grid container spacing={24}>
                         <Grid item xs="9">
-                            <IconButton onClick = {this.handleDelete.bind(this)}
-                            color="secondary" 
-                            variant = "outlined"
-                            style={{margin: "25px"}}
-                            >
-                               <Remove/>
-                            
-                            </IconButton>
+                        <Button onClick = {this.handleDelete.bind(this)} variant="contained" color="primary" className={classes.button}>
+                         Delete
+                         <DeleteIcon className={classes.rightIcon} />
+                        </Button>
+                           
                         </Grid>
                         <Grid container xs="3">
-                            <ToolBar>
+                            
                                 <Link to = "/">
-                                    <Button
-                                    variant="outlined"
-                                    style={{borderRadius: 0}}
-
-                                    >
-                                        <Typography
-                                            className={classes.typoButton}
-                                        >
-                                            Cancel
-                                        </Typography>
-
-
-                                    </Button>
-                                </Link>
-
-                                <Button
+                                  <Button size="large" variant="contained" color="primary" className={classes.nButton}>
+                                    Cancel
+                        </Button>
+                         <Button
                                     variant = "contained"
                                     color="primary"
                                     type="submit"
-                                     style={{borderRadius: 0}}
-                                    onClick={this.handleSubmit.bind(this)}
+                                    size="large"
+                                    className={classes.nButton}
 
+                                    onClick={this.handleSubmit.bind(this)}
                                 >
-                                    <Typography
-                                        className={classes.typoButton}
-                                    >
-                                        Update
-                                    </Typography>
+                                  Update
 
                                 </Button>
-
-
-                            </ToolBar>
+                                </Link>                   
                         </Grid>
                     </Grid>
 
-                </Paper>
+               
 
                 <form  onSubmit={this.handleSubmit.bind(this)}>
                     <Paper
@@ -723,7 +712,8 @@ class EventForm extends React.Component{
                                                             </Grid>
                                                             <Grid item xs={3}>
                                                                 <Button
-                                                                    className={classes.typoButton}
+                                                                    className={classes.button}
+                                                                    size="large"
                                                                     variant="contained"
                                                                     color="primary"
                                                                     onClick = {
@@ -761,11 +751,7 @@ class EventForm extends React.Component{
 
                                                                         }}
                                                                 >
-                                                                    <Typography
-                                                                        className={classes.typo}
-                                                                    >
-                                                                        Find Rooms
-                                                                    </Typography>
+                                                                   Find Rooms
                                                                 </Button>
                                                             </Grid>
                                                         </Grid>
@@ -793,12 +779,7 @@ class EventForm extends React.Component{
                         </Paper>
                     </Paper>
 
-                    <Grid container spacing={24} style={{marginTop: 10}}>
-                        <Grid item xs={9}>
-                        </Grid>
-                        <Grid item xs={3}>
-                        </Grid>
-                    </Grid>
+                    
                 </form>
 
                 {this.state.fireRedirect && (

@@ -12,11 +12,17 @@ import {Redirect} from 'react-router-dom'
 import Typography from '@material-ui/core/Typography'
 import Search from '@material-ui/icons/Search'
 import IconButton from '@material-ui/core/IconButton';
+//import {DatetimePicker} from 'rc-datetime-picker'
+import TextField from '@material-ui/core/TextField'
+import moment from 'moment';
 
-const styles = {
+const styles = (theme) => ({
     root: {
         flexGrow: 1,
-
+    },
+    button: {
+        borderRadius: "0px",
+        marginTop: theme.spacing.unit
     },
     flex: {
         flex: 1,
@@ -32,10 +38,16 @@ const styles = {
         fontSize: "25px",
         fontWeight: "lighter",
     },
+    typo: {
+        margin: theme.spacing.unit
+    },
     search: {
-
-    }
-};
+   
+    },
+    textField: {
+    width: 200,
+  },
+});
 
 
 class HomeBar extends React.Component {
@@ -46,8 +58,9 @@ class HomeBar extends React.Component {
             userId: "",
             fireHome: false,
             userName: "",
-            date: "",
-            fireSearch: false
+            date: moment().format('YYYY-MM-DD HH:MM'),
+            fireSearch: false,
+            moment: moment()
         }
     }
     componentDidMount(){
@@ -62,9 +75,6 @@ class HomeBar extends React.Component {
         }
     }
     handleSearch(){
-        this.setState({
-            fireSearch: true
-        })
         let event = new CustomEvent('update-search',{detail: this.state.query})
         window.dispatchEvent(event)
     }
@@ -126,25 +136,14 @@ class HomeBar extends React.Component {
                     <AppBar position="static" className={classes.root}>
                         <Toolbar>
                             <Grid container spacing = {24} >
-                                <Grid item xs={1}>
-                                <Link to="/" className={classes.pad}>
-                                    <Button color="inherit" style={{margin: "5px"}}>
-                                        <Typography
-                                            className={classes.typography}
-                                        > ICT
-                                        </Typography>
-                                    </Button>
-                                </Link>
-
-                                </Grid>
-                                <Grid item xs={7}>
+                            
+                                <Grid item xs={8}>
                                 <Toolbar>
                                     <Link to="/showEvents" className={classes.pad}>
-                                        <Button color="inherit">
-                                            <Typography className={classes.typography}>Events</Typography>
+                                        <Button color="inherit" className={classes.button} size= "large" >
+                                           <Typography className={classes.typo} style={{fontSize: "20px",color: "white"}}>Events</Typography>
                                         </Button>
                                     </Link>
-
                                     <input type="text" onChange={event => {
                                         let query = event.target.value
                                         this.setState({query})
@@ -162,7 +161,7 @@ class HomeBar extends React.Component {
                                             className={classes.typography}
                                         >Logout
                                         </Typography>
-                                    </Button>
+                                        </Button>
                                 </Grid>
                             </Grid>
                         </Toolbar>
