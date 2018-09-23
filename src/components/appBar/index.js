@@ -77,6 +77,7 @@ class HomeBar extends React.Component {
     handleSearch(){
         let event = new CustomEvent('update-search',{detail: this.state.query})
         window.dispatchEvent(event)
+        this.setState({fireSearch: true})
     }
     handleLogOut(){
         var userToken = JSON.parse(localStorage.getItem(USER_TOKEN))
