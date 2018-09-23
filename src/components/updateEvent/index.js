@@ -338,16 +338,13 @@ class EventForm extends React.Component{
                                     type="submit"
                                     size="large"
                                     className={classes.nButton}
+
                                     onClick={this.handleSubmit.bind(this)}
                                 >
                                   Update
 
                                 </Button>
-                                </Link>
-                               
-
-
-                            
+                                </Link>                   
                         </Grid>
                     </Grid>
 
