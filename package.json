@@ -23,6 +23,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "live": "react-scripts start & npm run proxy",
     "proxy": "node index.js",
     "buildnproxy": "npm run build && node index.js",
     "build": "react-scripts build",
